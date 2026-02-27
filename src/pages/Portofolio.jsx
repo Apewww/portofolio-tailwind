@@ -62,6 +62,18 @@ export default function Portofolio() {
                 </div>
                 <div className="absolute flex justify-between items-center transform -translate-y-1/2 left-5 right-5 top-1/2">
                   <a href="#slide1" className="btn btn-circle">❮</a> 
+                  <a href="#slide3" className="btn btn-circle">❯</a>
+                </div>
+              </div> 
+              <div id="slide3" className="carousel-item relative w-full">
+                <div className="mockup-browser border bg-base-300">
+                  <div className="mockup-browser-toolbar">
+                    <div className="input">https://referenceproject.example.com</div>
+                  </div>
+                  <img src="/assets/img/reference_project.png" alt="project_1" className="w-full" />
+                </div>
+                <div className="absolute flex justify-between items-center transform -translate-y-1/2 left-5 right-5 top-1/2">
+                  <a href="#slide1" className="btn btn-circle">❮</a> 
                   <a href="#slide1" className="btn btn-circle">❯</a>
                 </div>
               </div> 
