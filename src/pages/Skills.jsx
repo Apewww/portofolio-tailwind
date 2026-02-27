@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from 'framer-motion';
 
 export default function Skills() {
@@ -10,22 +10,22 @@ export default function Skills() {
     const isInView2 = useInView(ref2, { triggerOnce: false });
     const isInView3 = useInView(ref3, { triggerOnce: false });
     
-    const [inView, setInView] = useState({ section1: false, section2: false, section3: false });
+    // const [inView, setInView] = useState({ section1: false, section2: false, section3: false });
 
-    useEffect(() => {
-        if (isInView1) setInView((prev) => ({ ...prev, section1: true }));
-        else setInView((prev) => ({ ...prev, section1: false }));
-    }, [isInView1]);
+    // useEffect(() => {
+    //     if (isInView1) setInView((prev) => ({ ...prev, section1: true }));
+    //     else setInView((prev) => ({ ...prev, section1: false }));
+    // }, [isInView1]);
 
-    useEffect(() => {
-        if (isInView2) setInView((prev) => ({ ...prev, section2: true }));
-        else setInView((prev) => ({ ...prev, section2: false }));
-    }, [isInView2]);
+    // useEffect(() => {
+    //     if (isInView2) setInView((prev) => ({ ...prev, section2: true }));
+    //     else setInView((prev) => ({ ...prev, section2: false }));
+    // }, [isInView2]);
 
-    useEffect(() => {
-        if (isInView3) setInView((prev) => ({ ...prev, section3: true }));
-        else setInView((prev) => ({ ...prev, section3: false }));
-    }, [isInView3]);
+    // useEffect(() => {
+    //     if (isInView3) setInView((prev) => ({ ...prev, section3: true }));
+    //     else setInView((prev) => ({ ...prev, section3: false }));
+    // }, [isInView3]);
 
     return (
         <section id="skills">

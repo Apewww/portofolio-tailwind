@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { motion, useInView } from 'framer-motion';
 
 export default function Portofolio() {
@@ -8,17 +8,17 @@ export default function Portofolio() {
   const isInView1 = useInView(ref1, { triggerOnce: false });
   const isInView2 = useInView(ref2, { triggerOnce: false });
 
-  const [inView, setInView] = useState({ section1: false, section2: false });
+  // const [inView, setInView] = useState({ section1: false, section2: false });
 
-  useEffect(() => {
-      if (isInView1) setInView((prev) => ({ ...prev, section1: true }));
-      else setInView((prev) => ({ ...prev, section1: false }));
-  }, [isInView1]);
+  // useEffect(() => {
+  //     if (isInView1) setInView((prev) => ({ ...prev, section1: true }));
+  //     else setInView((prev) => ({ ...prev, section1: false }));
+  // }, [isInView1]);
 
-  useEffect(() => {
-      if (isInView2) setInView((prev) => ({ ...prev, section2: true }));
-      else setInView((prev) => ({ ...prev, section2: false }));
-  }, [isInView2]);
+  // useEffect(() => {
+  //     if (isInView2) setInView((prev) => ({ ...prev, section2: true }));
+  //     else setInView((prev) => ({ ...prev, section2: false }));
+  // }, [isInView2]);
 
   return (
     <section id="portofolio">

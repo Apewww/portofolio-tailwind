@@ -9,8 +9,6 @@ export default function Hero() {
     const isInView1 = useInView(ref1, { triggerOnce: false });
     const isInView2 = useInView(ref2, { triggerOnce: false });
     const isInView3 = useInView(ref3, { triggerOnce: false });
-    const [open, setOpen] = useState(false);
-    const [hovered, setHovered] = useState(false);
     
     const [inView, setInView] = useState({ section1: false, section2: false, section3: false });
 
@@ -69,7 +67,7 @@ export default function Hero() {
                             Feel free to get to know me more.
                         </p>
                         <button className="btn btn-primary">
-                            <a href="#" onClick={(e) => handleClick(e, 'skills')}>Next Slide</a>
+                            <span onClick={(e) => handleClick(e, 'skills')}>Next Slide</span>
                         </button>   
                     </motion.div>
                 </div>

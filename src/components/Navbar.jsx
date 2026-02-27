@@ -33,15 +33,14 @@ export default function Navbar() {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 relative z-2">
-                {/* eslint-disable-next-line */}
-                <li><a href="#" onClick={(e) => handleClick(e, 'skills')}>Skills</a></li>
-                {/* eslint-disable-next-line */}
-                <li><a href="#" onClick={(e) => handleClick(e, 'portofolio')} >Portofolio</a></li>
+                <li><button onClick={(e) => handleClick(e, 'skills')}>Skills</button></li>
+                <li><button onClick={(e) => handleClick(e, 'portofolio')} >Portofolio</button></li>
                 <li>
                   <summary>Contact</summary>
                   <ul className="p-2">
-                    <li><a href="https://wa.me/+62085710789216">Whatsapp</a></li>
-                    <li><a href="https://www.linkedin.com/in/rafly-anggara-putra/">LinkedIn</a></li>
+                    <li><a href="https://wa.me/+62085710789216" target="_blank" rel="noreferrer">Whatsapp</a></li>
+                    <li><a href="https://www.linkedin.com/in/rafly-anggara-putra/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/Apewww" target="_blank" rel="noreferrer">Github</a></li>
                   </ul>
                 </li>
               </ul>
@@ -52,15 +51,16 @@ export default function Navbar() {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               {/* eslint-disable-next-line */}
-              <li><a href="#" onClick={(e) => handleClick(e, 'skills')}>Skills</a></li>
+              <li><button href="#" onClick={(e) => handleClick(e, 'skills')}>Skills</button></li>
               {/* eslint-disable-next-line */}
-              <li><a href="#" onClick={(e) => handleClick(e, 'portofolio')}>Portofolio</a></li>
+              <li><button href="#" onClick={(e) => handleClick(e, 'portofolio')}>Portofolio</button></li>
               <li>
                 <details>
                   <summary>Contact</summary>
                   <ul className="p-2 rounded-none rounded-b-lg border-t border-t-base-content">
-                    <li><a href="https://wa.me/+62085710789216">Whatsapp</a></li>
-                    <li><a href="https://www.linkedin.com/in/rafly-anggara-putra/">LinkedIn</a></li>
+                    <li><a href="https://wa.me/+62085710789216" target="_blank" rel="noreferrer">Whatsapp</a></li>
+                    <li><a href="https://www.linkedin.com/in/rafly-anggara-putra/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/Apewww" target="_blank" rel="noreferrer">Github</a></li>
                   </ul>
                 </details>
               </li>
