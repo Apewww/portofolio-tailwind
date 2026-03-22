@@ -3,6 +3,8 @@ import Navbar from './components/Navbar';
 import Hero from './pages/Hero';
 import Skills from './pages/Skills';
 import Portofolio from './pages/Portofolio';
+import Education from './pages/Education';
+import Certificates from './pages/Certificates';
 import Footer from './components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -41,7 +43,9 @@ function App() {
     <main>
       <Hero />
       <Skills />
+      <Education />
       <Portofolio />
+      <Certificates />
     </main>
     <footer>
       <Footer />
