@@ -3,38 +3,38 @@ import { motion } from "framer-motion";
 
 const certificates = [
   {
-    title: "HTML and CSS",
+    title: "HTML and CSS in Depth",
     issuer: "Progate / Coursera",
     image: "/assets/img/Certif_HTML and CSS.png",
-    pdf: "/assets/pdf/Coursera PI22FH6PPXS7.pdf",
+    pdf: "/assets/pdf/Coursera UTJ9Y0Q04F0E.pdf",
     category: "Web Development"
   },
   {
-    title: "Intro Frontend Development",
+    title: "Introduction Frontend Development",
     issuer: "Progate / Coursera",
     image: "/assets/img/Certif_Intro Frontend Development.png",
-    pdf: "/assets/pdf/Coursera UTJ9Y0Q04F0E.pdf",
+    pdf: "/assets/pdf/Coursera R3HXJABQVHH2.pdf",
     category: "Web Development"
   },
   {
     title: "Programming Javascript",
     issuer: "Progate / Coursera",
     image: "/assets/img/Certif_Programming Javascript.png",
-    pdf: "/assets/pdf/Coursera R3HXJABQVHH2.pdf",
+    pdf: "/assets/pdf/Coursera Z654TDKKZJK2.pdf",
     category: "Web Development"
   },
   {
     title: "Programming Python",
     issuer: "Progate / Coursera",
     image: "/assets/img/Certif_Programming Python.png",
-    pdf: "/assets/pdf/Coursera Z654TDKKZJK2.pdf",
+    pdf: "/assets/pdf/Coursera 6IIWE8U7861R.pdf",
     category: "Programming"
   },
   {
     title: "Version Control",
     issuer: "Progate / Coursera",
     image: "/assets/img/Certif_Version Control.png",
-    pdf: "/assets/pdf/Coursera 6IIWE8U7861R.pdf",
+    pdf: "/assets/pdf/Coursera PI22FH6PPXS7.pdf",
     category: "DevOps"
   }
 ];
@@ -105,7 +105,7 @@ export default function Certificates() {
                   </div>
                 </div>
               </div>
-              
+
               {/* PDF Overlay Hint */}
               <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="bg-primary text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
