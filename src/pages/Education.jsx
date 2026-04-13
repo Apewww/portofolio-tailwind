@@ -8,7 +8,7 @@ const Education = () => {
       major: "Teknik Informatika",
       period: "2023 - Sekarang",
       status: "Terakhir",
-      description: "Berfokus pada pengembangan perangkat lunak dan arsitektur sistem modern.",
+      description: "Berfokus pada pengembangan perangkat lunak, arsitektur sistem modern dan kecerdasan buatan.",
       color: "bg-blue-600",
     },
     {
@@ -16,7 +16,7 @@ const Education = () => {
       major: "Sistem Informasi Jaringan dan Aplikasi",
       period: "2019 - 2023",
       status: "Berawal dari",
-      description: "Mendalami infrastruktur jaringan dan administrasi sistem aplikasi.",
+      description: "Mendalami infrastruktur jaringan dan sistem aplikasi.",
       color: "bg-emerald-600",
     },
   ];
@@ -49,17 +49,17 @@ const Education = () => {
             >
               {/* Timeline Dot */}
               <div className={`absolute left-[-9px] top-1.5 w-4 h-4 rounded-full border-4 border-base-100 shadow-sm ${school.color}`} />
-              
-              <div className="bg-base-200/50 hover:bg-base-200 p-6 md:p-8 rounded-3xl border border-base-content/5 transition-all duration-300">
+
+              <div className="bg-base-200/50 hover:bg-base-200 p-2 md:p-4 rounded-3xl border border-base-content/5 transition-all duration-300">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
                   <span className="text-sm font-bold text-primary uppercase tracking-tighter">
                     {school.status} • {school.period}
                   </span>
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold mb-1">
+                <h3 className="text-xl md:text-2xl font-bold mb-1">
                   {school.name}
                 </h3>
-                <p className="text-lg font-medium text-base-content/70 mb-4">
+                <p className="text-md font-medium text-base-content/70 mb-4">
                   {school.major}
                 </p>
                 <p className="text-base-content/50 leading-relaxed max-w-2xl">

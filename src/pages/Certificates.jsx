@@ -4,35 +4,35 @@ import { motion } from "framer-motion";
 const certificates = [
   {
     title: "HTML and CSS in Depth",
-    issuer: "Progate / Coursera",
+    issuer: "Meta / Coursera",
     image: "/assets/img/Certif_HTML and CSS.png",
     pdf: "/assets/pdf/Coursera UTJ9Y0Q04F0E.pdf",
     category: "Web Development"
   },
   {
     title: "Introduction Frontend Development",
-    issuer: "Progate / Coursera",
+    issuer: "Meta / Coursera",
     image: "/assets/img/Certif_Intro Frontend Development.png",
     pdf: "/assets/pdf/Coursera R3HXJABQVHH2.pdf",
     category: "Web Development"
   },
   {
     title: "Programming Javascript",
-    issuer: "Progate / Coursera",
+    issuer: "Meta / Coursera",
     image: "/assets/img/Certif_Programming Javascript.png",
     pdf: "/assets/pdf/Coursera Z654TDKKZJK2.pdf",
     category: "Web Development"
   },
   {
     title: "Programming Python",
-    issuer: "Progate / Coursera",
+    issuer: "Meta / Coursera",
     image: "/assets/img/Certif_Programming Python.png",
     pdf: "/assets/pdf/Coursera 6IIWE8U7861R.pdf",
     category: "Programming"
   },
   {
     title: "Version Control",
-    issuer: "Progate / Coursera",
+    issuer: "Meta / Coursera",
     image: "/assets/img/Certif_Version Control.png",
     pdf: "/assets/pdf/Coursera PI22FH6PPXS7.pdf",
     category: "DevOps"
@@ -54,7 +54,7 @@ export default function Certificates() {
             Sertifikasi
           </motion.h2>
           <p className="text-xl text-base-content/60 max-w-2xl mx-auto">
-            Koleksi sertifikat yang memvalidasi kompetensi teknis saya di berbagai bidang teknologi. Tekan untuk melihat PDF.
+            Koleksi sertifikat yang memvalidasi kompetensi teknis saya di berbagai bidang teknologi.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function Certificates() {
                 <img
                   src={cert.image}
                   alt={cert.title}
-                  className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-base-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
                   <span className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">
@@ -87,7 +87,7 @@ export default function Certificates() {
                 </div>
               </div>
 
-              <div className="p-6 bg-base-200 group-hover:bg-base-300 transition-colors duration-300">
+              <div className="p-6 min-h-32 bg-base-200 group-hover:bg-base-300 transition-colors duration-300">
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="font-bold text-lg leading-tight mb-1 group-hover:text-primary transition-colors">

@@ -4,15 +4,23 @@ import { motion } from "framer-motion";
 const projects = [
   {
     title: "MyFinance Note",
-    description: "A comprehensive personal finance tracker with interactive dashboards.",
+    description: "Aplikasi pencatat keuangan pribadi yang komprehensif dengan dasbor interaktif.",
     image: "/assets/img/myfinance_note.png",
     url: "https://myfinance-note.vercel.app/",
     tags: ["React", "Live Demo"],
     demo: true,
   },
   {
+    title: "CuacaKita",
+    description: "Aplikasi cuaca yang menampilkan informasi cuaca real-time untuk berbagai lokasi di seluruh dunia.",
+    image: "/assets/img/cuacakita.png",
+    url: "https://cuacakita.raflylabs.com/",
+    tags: ["Flask", "Live Demo"],
+    demo: true,
+  },
+  {
     title: "Asset Management",
-    description: "Internal corporate tool for asset tracking and inventory management.",
+    description: "Aplikasi internal perusahaan untuk manajemen aset dan inventaris.",
     image: "/assets/img/asset_management.png",
     url: "https://assetmanagement.example.com",
     tags: ["React", "Node.js"],
@@ -20,7 +28,7 @@ const projects = [
   },
   {
     title: "Saw Calculation",
-    description: "Decision support system using technical SAW algorithms.",
+    description: "Sistem pendukung keputusan menggunakan algoritma SAW teknis.",
     image: "/assets/img/project_1.png",
     url: "https://sawcalculation.example.com",
     tags: ["Algorithm", "React"],
@@ -28,7 +36,7 @@ const projects = [
   },
   {
     title: "Reference Project",
-    description: "Documentation and technical reference for enterprise standards.",
+    description: "Tools Dragon Nest",
     image: "/assets/img/reference_project.png",
     url: "https://referenceproject.example.com",
     tags: ["Documentation", "Standards"],
@@ -69,14 +77,14 @@ export default function Portofolio() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-base-300 mb-8 border border-base-content/5 shadow-lg group-hover:shadow-2xl transition-all duration-500">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
+                <img
+                  src={project.image}
+                  alt={project.title}
                   className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-base-900/10 group-hover:bg-transparent transition-colors duration-500" />
               </div>
-              
+
               <div className="flex justify-between items-start gap-4">
                 <div className="max-w-md">
                   <div className="flex flex-wrap gap-2 mb-3">
@@ -92,10 +100,10 @@ export default function Portofolio() {
                   <p className="text-base-content/50 leading-relaxed text-sm mb-6">
                     {project.description}
                   </p>
-                  
+
                   <div className="flex items-center gap-6">
                     {project.demo ? (
-                      <a 
+                      <a
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -107,7 +115,7 @@ export default function Portofolio() {
                         </svg>
                       </a>
                     ) : (
-                      <a 
+                      <a
                         href={project.url}
                         target="_blank"
                         rel="noopener noreferrer"
