@@ -3,118 +3,114 @@ import { motion } from "framer-motion";
 
 const certificates = [
   {
-    title: "HTML and CSS in Depth",
+    title: "HTML / CSS in Depth",
     issuer: "Meta / Coursera",
-    image: "/assets/img/Certif_HTML and CSS.png",
-    pdf: "/assets/pdf/Coursera UTJ9Y0Q04F0E.pdf",
-    category: "Web Development"
+    link: "https://coursera.org/verify/UTJ9Y0Q04F0E",
+    category: "Development",
+    image: "/assets/img/Certif_HTML and CSS.png"
   },
   {
-    title: "Introduction Frontend Development",
+    title: "Introduction Frontend Systems",
     issuer: "Meta / Coursera",
-    image: "/assets/img/Certif_Intro Frontend Development.png",
-    pdf: "/assets/pdf/Coursera R3HXJABQVHH2.pdf",
-    category: "Web Development"
+    link: "https://coursera.org/verify/R3HXJABQVHH2",
+    category: "Development",
+    image: "/assets/img/Certif_Intro Frontend Development.png"
   },
   {
-    title: "Programming Javascript",
+    title: "Javascript Core Logic",
     issuer: "Meta / Coursera",
-    image: "/assets/img/Certif_Programming Javascript.png",
-    pdf: "/assets/pdf/Coursera Z654TDKKZJK2.pdf",
-    category: "Web Development"
+    link: "https://coursera.org/verify/Z654TDKKZJK2",
+    category: "Programming",
+    image: "/assets/img/Certif_Programming Javascript.png"
   },
   {
-    title: "Programming Python",
+    title: "Python Engineering",
     issuer: "Meta / Coursera",
-    image: "/assets/img/Certif_Programming Python.png",
-    pdf: "/assets/pdf/Coursera 6IIWE8U7861R.pdf",
-    category: "Programming"
+    link: "https://coursera.org/verify/6IIWE8U7861R",
+    category: "Programming",
+    image: "/assets/img/Certif_Programming Python.png"
   },
   {
-    title: "Version Control",
+    title: "Version Control Workflow",
     issuer: "Meta / Coursera",
-    image: "/assets/img/Certif_Version Control.png",
-    pdf: "/assets/pdf/Coursera PI22FH6PPXS7.pdf",
-    category: "DevOps"
+    link: "https://coursera.org/verify/PI22FH6PPXS7",
+    category: "Operations",
+    image: "/assets/img/Certif_Version Control.png"
   }
 ];
 
+const CertificateItem = ({ cert, index }) => (
+  <motion.div
+    className="py-12 border-b border-dev-border flex flex-col lg:flex-row items-center gap-12 group last:border-0"
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.6, delay: index * 0.1 }}
+  >
+    {/* Certificate Thumbnail */}
+    <div className="lg:w-1/3 relative overflow-hidden bg-dev-navy border-2 border-dev-border group-hover:border-primary transition-all duration-500 shadow-[8px_8px_0px_#0F172A]">
+      <img
+        src={cert.image}
+        alt={cert.title}
+        className="w-full aspect-[16/10] object-cover grayscale group-hover:grayscale-0 transition-all duration-700 opacity-60 group-hover:opacity-100 scale-105 group-hover:scale-100"
+        onError={(e) => {
+          e.target.style.display = 'none';
+          e.target.parentNode.classList.add('flex', 'items-center', 'justify-center');
+          e.target.parentNode.innerHTML += `<span class="font-black text-primary/20 text-4xl italic">${cert.issuer.split(' ')[0]}</span>`;
+        }}
+      />
+      <div className="absolute inset-0 bg-primary/10 mix-blend-overlay group-hover:opacity-0 transition-opacity" />
+    </div>
+
+    {/* Info */}
+    <div className="lg:w-1/3 text-center lg:text-left">
+      <div className="text-[10px] font-black uppercase tracking-[0.4em] text-primary mb-3 block">
+        {cert.category}
+      </div>
+      <h3 className="text-3xl font-black uppercase tracking-tight mb-4 group-hover:text-primary transition-colors leading-tight">
+        {cert.title}
+      </h3>
+      <div className="flex items-center justify-center lg:justify-start gap-3 opacity-40 group-hover:opacity-100 transition-opacity">
+        <div className="w-4 h-px bg-white" />
+        <span className="font-bold text-xs uppercase tracking-widest">{cert.issuer}</span>
+      </div>
+    </div>
+
+    {/* Action */}
+    <div className="lg:w-1/3 flex lg:justify-end w-full">
+      <a
+        href={cert.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-full lg:w-auto bg-transparent border-2 border-dev-border text-white hover:bg-primary hover:border-primary px-8 py-4 font-black uppercase tracking-[0.2em] text-[10px] transition-all text-center shadow-[4px_4px_0px_rgba(255,255,255,0.05)] hover:shadow-none hover:translate-x-1 hover:translate-y-1"
+      >
+        Verify Credential
+      </a>
+    </div>
+  </motion.div>
+);
+
 export default function Certificates() {
   return (
-    <section id="certificates" className="py-24 bg-base-100">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-20">
-          <motion.h2
-            className="text-5xl md:text-6xl font-black mb-6 tracking-tight"
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.5 }}
-          >
-            Sertifikasi
-          </motion.h2>
-          <p className="text-xl text-base-content/60 max-w-2xl mx-auto">
-            Koleksi sertifikat yang memvalidasi kompetensi teknis saya di berbagai bidang teknologi.
-          </p>
+    <section id="certificates" className="py-32 bg-base-200/20 relative overflow-hidden">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+        <div className="mb-24">
+          <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Proven Expertise</span>
+          <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter">
+            Professional <span className="text-primary">Validation</span>.
+          </h2>
         </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+        <div className="border-t border-dev-border">
           {certificates.map((cert, index) => (
-            <motion.a
-              key={index}
-              href={cert.pdf}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="break-inside-avoid relative block group overflow-hidden rounded-[2rem] bg-base-200 border border-base-content/5 hover:border-primary/30 transition-all duration-500 shadow-lg hover:shadow-2xl"
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <div className="relative overflow-hidden aspect-[4/3] md:aspect-auto">
-                <img
-                  src={cert.image}
-                  alt={cert.title}
-                  className="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-base-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-8">
-                  <span className="text-white/60 text-xs font-bold uppercase tracking-[0.2em] mb-2">
-                    {cert.issuer}
-                  </span>
-                  <h3 className="text-white text-xl font-bold leading-tight">
-                    {cert.title}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="p-6 min-h-32 bg-base-200 group-hover:bg-base-300 transition-colors duration-300">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h4 className="font-bold text-lg leading-tight mb-1 group-hover:text-primary transition-colors">
-                      {cert.title}
-                    </h4>
-                    <p className="text-sm text-base-content/50 font-medium tracking-wide">
-                      {cert.issuer} • {cert.category}
-                    </p>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary transform translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-                      <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 100-2H5z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* PDF Overlay Hint */}
-              <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="bg-primary text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
-                  View PDF
-                </div>
-              </div>
-            </motion.a>
+            <CertificateItem key={index} cert={cert} index={index} />
           ))}
         </div>
+      </div>
+
+      {/* Decorative Background Text */}
+      <div className="absolute -bottom-20 -right-20 text-[15rem] font-black opacity-[0.02] pointer-events-none select-none italic uppercase">
+        Cert
       </div>
     </section>
   );
