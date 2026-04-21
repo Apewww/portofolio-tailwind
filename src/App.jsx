@@ -1,4 +1,4 @@
-import {React, useState, useEffect} from 'react';
+import { React, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './pages/Hero';
 import Skills from './pages/Skills';
@@ -37,26 +37,30 @@ function App() {
 
   return (
     <>
-    <nav>
-      <Navbar />
-    </nav>
-    <main>
-      <Hero />
-      <Skills />
-      <Education />
-      <Portofolio />
-      <Certificates />
-    </main>
-    <footer>
-      <Footer />
-    </footer>
-    {showButton && (
-    <div className="fixed bottom-[20px] right-[20px] z-index-[51]">
-      <button className="btn btn-primary" onClick={scrollToTop}>
-        <FontAwesomeIcon icon={faCaretUp} />
-      </button>
-    </div>
-    )}
+      <nav>
+        <Navbar />
+      </nav>
+      <main>
+        <Hero />
+        <Skills />
+        <Education />
+        <Portofolio />
+        <Certificates />
+      </main>
+      <footer>
+        <Footer />
+      </footer>
+      {showButton && (
+        <div className="fixed bottom-6 right-6 z-[9999]">
+          <button 
+            className="btn btn-primary shadow-lg hover:scale-110 active:scale-95 transition-all" 
+            onClick={scrollToTop}
+            aria-label="Scroll to top"
+          >
+            <FontAwesomeIcon icon={faCaretUp} />
+          </button>
+        </div>
+      )}
     </>
   );
 }

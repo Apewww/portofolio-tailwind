@@ -56,7 +56,7 @@ export default function Skills() {
                 { name: "PHP", icon: "php" },
                 { name: "CodeIgniter", icon: "codeigniter" },
                 { name: "Node.js", icon: "nodedotjs" },
-                { name: "OpenClaw", icon: "openai" } // Placeholder icon if exact not found
+                { name: "OpenClaw", icon: "-" }
             ]
         },
         {
@@ -75,9 +75,9 @@ export default function Skills() {
             title: "AI & Specialized",
             description: "Local large language model implementations and intelligent technical solutions.",
             skills: [
-                { name: "Llama", icon: "meta" },
-                { name: "Ollama", icon: "ollama" },
-                { name: "Prompting", icon: "openai" },
+                { name: "GPT", icon: "openaigym" },
+                { name: "Gemini", icon: "googlegemini" },
+                { name: "Claude", icon: "claude" },
             ]
         },
         {

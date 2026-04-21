@@ -107,11 +107,6 @@ export default function Certificates() {
           ))}
         </div>
       </div>
-
-      {/* Decorative Background Text */}
-      <div className="absolute -bottom-20 -right-20 text-[15rem] font-black opacity-[0.02] pointer-events-none select-none italic uppercase">
-        Cert
-      </div>
     </section>
   );
 }

@@ -13,8 +13,8 @@ const Logo = () => {
       </div>
 
       <div className="flex flex-col leading-none font-extrabold uppercase tracking-tighter">
-        <span className="text-white text-lg">Rafly Anggara</span>
-        <span className="text-primary text-[10px] tracking-[0.3em] font-black italic">Fullstack Engineer</span>
+        <span className="text-white text-sm md:text-lg">Rafly Anggara P.</span>
+        <span className="text-primary text-[8px] md:text-[10px] tracking-[0.3em] font-black italic">Fullstack Engineer</span>
       </div>
     </div>
   );
