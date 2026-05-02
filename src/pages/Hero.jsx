@@ -45,7 +45,7 @@ export default function Hero() {
             >
                 <div className="relative w-full max-w-lg">
                     {/* Status Bubble / Tweet */}
-                    <div className="absolute top-[40%] -right-12 z-40 animate-bounce delay-700">
+                    <div className="absolute top-[70%] -right-12 z-40 animate-bounce delay-700">
                         <div className="bg-white nb-border nb-shadow px-6 py-3 rotate-6">
                             <p className="font-black text-lg italic">
                                 "Always Learning, always building" 🚀

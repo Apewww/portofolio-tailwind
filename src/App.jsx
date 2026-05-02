@@ -45,11 +45,6 @@ function App() {
       <main className="relative pt-20 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto z-10">
         <Hero />
 
-        {/* Tech Marquee */}
-        <div className="w-full mt-32 mb-20 -mx-6 md:-mx-12">
-           <TechMarquee />
-        </div>
-
         <div id="skills" className="mt-48">
           <div className="flex items-center justify-center gap-4 mb-20">
             <h2 className="text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
@@ -58,6 +53,11 @@ function App() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <Skills />
+          </div>
+
+          {/* Tech Marquee below skills */}
+          <div className="w-full mt-32 -mx-6 md:-mx-12">
+            <TechMarquee />
           </div>
         </div>
 
