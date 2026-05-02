@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './pages/Hero';
 import Skills from './pages/Skills';
 import TechMarquee from './components/TechMarquee';
+import SocialSidebar from './components/SocialSidebar';
 import Portofolio from './pages/Portofolio';
 import Education from './pages/Education';
 import Certificates from './pages/Certificates';
@@ -38,10 +39,14 @@ function App() {
   };
 
   return (
-    <div className="bg-nb-cream selection:bg-nb-pink selection:text-white min-h-screen">
+    <div className="bg-nb-cream selection:bg-nb-pink selection:text-white min-h-screen overflow-x-hidden">
       <nav>
         <Navbar />
       </nav>
+      
+      {/* Vertical Social Sidebar */}
+      <SocialSidebar />
+
       <main className="relative pt-20 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto z-10">
         <Hero />
 
@@ -55,8 +60,8 @@ function App() {
             <Skills />
           </div>
 
-          {/* Tech Marquee below skills */}
-          <div className="w-full mt-32 -mx-6 md:-mx-12">
+          {/* Tech Marquee below skills - Full Width Breakout */}
+          <div className="relative mt-32" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw' }}>
             <TechMarquee />
           </div>
         </div>
