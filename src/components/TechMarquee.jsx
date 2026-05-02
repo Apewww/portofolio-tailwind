@@ -3,17 +3,16 @@ import { motion } from 'framer-motion';
 
 const TechMarquee = () => {
   const techs = [
-    { name: 'Python',      color: 'bg-nb-yellow', icon: '/assets/img/python.png' },
-    { name: 'JavaScript',  color: 'bg-nb-cyan',   icon: '/assets/img/js.png' },
-    { name: 'Java',        color: 'bg-nb-white',   icon: '/assets/img/java.png' },
-    { name: 'C#',          color: 'bg-nb-pink',    icon: '/assets/img/c-.png' },
-    { name: 'Physics',     color: 'bg-nb-yellow', icon: '/assets/img/physics.png' },
-    { name: 'Flask',       color: 'bg-nb-cyan',   icon: '/assets/img/python.png' },
-    { name: 'React',       color: 'bg-nb-white',  icon: '/assets/img/js.png' },
-    { name: 'Next.js',     color: 'bg-nb-pink',   icon: '/assets/img/js.png' },
-    { name: 'Laravel',     color: 'bg-nb-yellow', icon: '/assets/img/php.png' },
-    { name: 'MySQL',       color: 'bg-nb-cyan',   icon: '/assets/img/python.png' },
-    { name: 'Supabase',    color: 'bg-nb-white',  icon: '/assets/img/java.png' },
+    { name: 'Python', color: 'bg-nb-yellow', icon: '/assets/img/python.png' },
+    { name: 'JavaScript', color: 'bg-nb-cyan', icon: '/assets/img/js.png' },
+    { name: 'Java', color: 'bg-nb-white', icon: '/assets/img/java.png' },
+    { name: 'C#', color: 'bg-nb-pink', icon: '/assets/img/c-.png' },
+    { name: 'Flask', color: 'bg-nb-cyan', icon: '/assets/img/python.png' },
+    { name: 'React', color: 'bg-nb-white', icon: '/assets/img/js.png' },
+    { name: 'Next.js', color: 'bg-nb-pink', icon: '/assets/img/js.png' },
+    { name: 'Laravel', color: 'bg-nb-yellow', icon: '/assets/img/php.png' },
+    { name: 'MySQL', color: 'bg-nb-cyan', icon: '' },
+    { name: 'Supabase', color: 'bg-nb-white', icon: '' },
   ];
 
   // Triple to guarantee seamless infinite loop
