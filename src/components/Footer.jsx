@@ -8,10 +8,13 @@ export default function Footer() {
 
     return (
         <>
-        <footer className="footer footer-center p-4 bg-base-300 text-base-content">
+        <footer className="footer footer-center p-12 bg-nb-black text-white border-t-8 border-black">
           <aside className="items-center grid-flow-col">
-            {/* eslint-disable-next-line */}
-            <p><a href="#" onClick={(e) => handleClick(e, 'home')}>© Rafly Anggara Putra. All right reserved.</a></p>
+            <p className="font-black uppercase tracking-widest text-lg">
+                <a href="#" onClick={(e) => handleClick(e, 'home')} className="hover:text-nb-yellow transition-colors">
+                    © Rafly Anggara Putra. Built with <span className="text-nb-pink">Logic</span>.
+                </a>
+            </p>
           </aside> 
         </footer>
         </>

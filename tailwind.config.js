@@ -15,8 +15,23 @@ module.exports = {
           slate: '#64748B',
           dark: '#1E293B',
           border: '#334155',
+        },
+        nb: {
+          yellow: '#E8FF8E',
+          pink: '#FF90E8',
+          cyan: '#23A094',
+          lime: '#00FF00',
+          orange: '#FF8A00',
+          black: '#000000',
+          white: '#FFFFFF',
+          cream: '#F4F1EA',
         }
       },
+      boxShadow: {
+        'nb': '4px 4px 0px 0px rgba(0,0,0,1)',
+        'nb-hover': '2px 2px 0px 0px rgba(0,0,0,1)',
+        'nb-large': '8px 8px 0px 0px rgba(0,0,0,1)',
+      }
     },
   },
   darkMode: 'class',
@@ -25,21 +40,31 @@ module.exports = {
   ],
   daisyui: {
     themes: [
-      "light",
       {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          "primary": "#FFFF00",
+          "secondary": "#FF00FF",
+          "accent": "#00FFFF",
+          "neutral": "#000000",
+          "base-100": "#FFFFFF",
+          "base-200": "#F3F4F6",
+          "--rounded-box": "0px",
+          "--rounded-btn": "0px",
+          "--rounded-badge": "0px",
+        },
         dark: {
           ...require("daisyui/src/theming/themes")["dark"],
-          "primary": "#3B82F6",   // Electric Blue
-          "secondary": "#64748B", // Slate
-          "accent": "#F43F5E",    // Bold Pink/Red for highlights
-          "neutral": "#1E293B",
-          "base-100": "#0F172A",
-          "base-200": "#1E293B",
-          "base-300": "#334155",
-          "base-content": "#F8FAFC",
-          "--rounded-box": "0.375rem", // Standard md rounding, firm
-          "--rounded-btn": "0.375rem",
-          "--rounded-badge": "0.25rem",
+          "primary": "#FFFF00",
+          "secondary": "#FF00FF",
+          "accent": "#00FFFF",
+          "neutral": "#FFFFFF",
+          "base-100": "#000000",
+          "base-200": "#111111",
+          "base-content": "#FFFFFF",
+          "--rounded-box": "0px",
+          "--rounded-btn": "0px",
+          "--rounded-badge": "0px",
         },
       },
     ],

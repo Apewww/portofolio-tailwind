@@ -1,73 +1,54 @@
 import React from "react";
 import { motion } from 'framer-motion';
 
-const EducationItem = ({ school, degree, period, description }) => (
-    <motion.div
-        className="flex flex-col md:flex-row gap-8 md:gap-16 mb-20 last:mb-0 group"
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-    >
-        <div className="md:w-1/4">
-            <div className="bg-dev-navy border border-dev-border p-4 text-center group-hover:border-primary transition-all shadow-lg">
-                <span className="font-sans font-black text-xs uppercase tracking-widest text-primary">
-                    {period}
-                </span>
-            </div>
-        </div>
-
-        <div className="md:w-3/4">
-            <h3 className="text-3xl font-black uppercase tracking-tight text-white mb-2 group-hover:text-primary transition-colors">
-                {school}
-            </h3>
-            <p className="text-lg font-bold text-secondary mb-4 underline decoration-primary decoration-2 underline-offset-8">
-                {degree}
-            </p>
-            <div className="p-6 bg-dev-navy border border-dev-border mt-6">
-                <p className="opacity-60 text-sm leading-relaxed font-medium italic">
-                    {description}
-                </p>
-            </div>
-        </div>
-    </motion.div>
-);
-
 export default function Education() {
     const educationData = [
         {
             school: "Unjani University",
             degree: "Teknik Informatika",
             period: "2023 - Present",
-            description: "Mendalami arsitektur perangkat lunak, algoritma, dan sistem backend. Berfokus pada pembangunan solusi pengembangan yang scalable dan sesuai standar industri."
+            color: "nb-cyan",
+            description: "Deepening software architecture, algorithms, and backend systems."
         },
         {
             school: "SMK Negeri 1 Cimahi",
-            degree: "Sistem Informasi Jaringan dan Aplikasi",
+            degree: "SIJA",
             period: "2019 - 2023",
-            description: "Fondasi dalam administrasi jaringan, sistem operasi, dan pengembangan perangkat lunak dasar."
+            color: "nb-pink",
+            description: "Foundation in network administration and software development."
         }
     ];
 
     return (
-        <section id="education" className="py-32 bg-base-100 relative">
-            <div className="container mx-auto px-6 max-w-7xl relative z-10">
-                <div className="mb-24 flex items-center justify-between">
-                    <div className="max-w-2xl">
-                        <span className="text-primary font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">-</span>
-                        <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter">
-                            Acedemic <span className="text-primary">Journey</span>.
-                        </h2>
-                    </div>
-                    <div className="hidden lg:block w-32 h-px bg-base-300" />
-                </div>
-
-                <div className="max-w-6xl mx-auto">
-                    {educationData.map((item, index) => (
-                        <EducationItem key={index} {...item} />
-                    ))}
-                </div>
+        <div id="education" className="mt-48">
+            <div className="flex flex-col items-center justify-center gap-4 mb-20">
+                <h2 className="text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
+                    Education <span className="text-4xl text-nb-pink">✴?</span>
+                </h2>
+                <div className="w-8 h-2 bg-black rounded-full" />
             </div>
-        </section>
+
+            <div className="space-y-8 relative before:absolute before:left-4 before:top-2 before:bottom-2 before:w-1 before:bg-black">
+                {educationData.map((item, index) => (
+                    <motion.div
+                        key={index}
+                        className="pl-10 relative"
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                    >
+                        <div className={`absolute left-0 top-1 w-8 h-8 rounded-none border-2 border-black bg-${item.color} shadow-nb z-10`} />
+                        <div className="nb-card p-4 bg-white border-2">
+                            <span className="text-[10px] font-black uppercase bg-black text-white px-2 py-0.5 mb-2 inline-block">
+                                {item.period}
+                            </span>
+                            <h3 className="text-xl font-black uppercase leading-none mb-1">{item.school}</h3>
+                            <p className="text-xs font-bold text-nb-pink uppercase mb-2">{item.degree}</p>
+                            <p className="text-[11px] font-bold italic leading-tight">{item.description}</p>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        </div>
     );
 }
