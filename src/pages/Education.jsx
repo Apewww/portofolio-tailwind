@@ -21,8 +21,8 @@ export default function Education() {
 
     return (
         <div id="education" className="mt-48">
-            <div className="flex flex-col items-center justify-center gap-4 mb-20">
-                <h2 className="text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
                     Education <span className="text-4xl text-nb-pink">✴?</span>
                 </h2>
                 <div className="w-8 h-2 bg-black rounded-full" />

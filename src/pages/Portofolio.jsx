@@ -85,8 +85,8 @@ const ProjectItem = ({ project, index }) => (
 export default function Portofolio() {
     return (
         <div id="portofolio" className="mt-48">
-            <div className="flex flex-col items-center justify-center gap-4 mb-20">
-                <h2 className="text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
                     Selected Works <span className="text-4xl text-nb-cyan">✴?</span>
                 </h2>
                 <p className="text-sm font-black uppercase tracking-[0.3em] text-nb-pink">Industrial Standards • Scalable Systems</p>

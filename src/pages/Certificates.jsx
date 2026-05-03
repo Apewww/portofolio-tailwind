@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 
 const certificates = [
@@ -69,8 +69,8 @@ const CertBadge = ({ cert, index }) => (
 export default function Certificates() {
     return (
         <div id="certificates" className="mt-48">
-            <div className="flex flex-col items-center justify-center gap-4 mb-20">
-                <h2 className="text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
+            <div className="flex flex-col items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
+                <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
                     Certifications <span className="text-4xl text-nb-yellow">✴?</span>
                 </h2>
                 <div className="flex gap-4">
