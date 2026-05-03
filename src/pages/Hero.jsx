@@ -67,15 +67,15 @@ export default function Hero() {
                         />
                     </div>
 
-                    {/* Floating Icons — hidden on mobile to prevent overflow */}
-                    <div className="hidden sm:flex absolute top-6 right-6 md:top-10 md:right-10 w-12 h-12 md:w-16 md:h-16 bg-nb-yellow nb-border nb-shadow -rotate-12 items-center justify-center z-30">
-                        <img src="https://cdn.simpleicons.org/python/000000" className="w-6 h-6 md:w-8 md:h-8" alt="Python" />
+                    {/* Floating Icons */}
+                    <div className="absolute flex top-4 right-16 sm:top-10 sm:right-10 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-nb-yellow nb-border nb-shadow -rotate-12 items-center justify-center z-30">
+                        <img src="https://cdn.simpleicons.org/python/000000" className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" alt="Python" />
                     </div>
-                    <div className="hidden sm:flex absolute bottom-16 left-2 md:bottom-20 md:left-0 w-12 h-12 md:w-16 md:h-16 bg-nb-pink nb-border nb-shadow rotate-12 items-center justify-center z-30">
-                        <img src="https://cdn.simpleicons.org/docker/000000" className="w-6 h-6 md:w-8 md:h-8" alt="Docker" />
+                    <div className="absolute flex bottom-16 left-16 sm:bottom-10 sm:left-16 md:bottom-20 md:left-0 w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 bg-nb-pink nb-border nb-shadow rotate-12 items-center justify-center z-30">
+                        <img src="https://cdn.simpleicons.org/docker/000000" className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" alt="Docker" />
                     </div>
-                    <div className="hidden md:flex absolute top-1/4 -left-6 lg:-left-10 w-10 h-10 md:w-12 md:h-12 bg-nb-white nb-border nb-shadow -rotate-6 items-center justify-center z-30">
-                        <img src="https://cdn.simpleicons.org/postgresql/000000" className="w-5 h-5 md:w-6 md:h-6" alt="PostgreSQL" />
+                    <div className="absolute flex top-1/3 left-8 sm:top-1/4 sm:left-6 lg:-left-10 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-nb-white nb-border nb-shadow -rotate-6 items-center justify-center z-30">
+                        <img src="https://cdn.simpleicons.org/postgresql/000000" className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" alt="PostgreSQL" />
                     </div>
                 </div>
             </motion.div>

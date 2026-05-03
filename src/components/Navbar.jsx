@@ -47,7 +47,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md py-3 shadow-sm border-b-2 border-black' : 'bg-transparent py-6 sm:py-8'}`}>
+      <div className={`fixed top-0 w-full z-[50] transition-all duration-300 ${isScrolled ? 'bg-white/90 backdrop-blur-md py-3 shadow-sm border-b-2 border-black' : 'bg-transparent py-6 sm:py-8'}`}>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
           <a
             className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tighter"
@@ -98,7 +98,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-40 transition-all duration-300 lg:hidden ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`fixed inset-0 z-[51] transition-all duration-300 lg:hidden ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
       >
         {/* Backdrop */}
         <div
@@ -107,8 +107,19 @@ export default function Navbar() {
         />
 
         {/* Drawer */}
-        <div className={`absolute right-0 top-0 h-full w-72 bg-nb-cream border-l-4 border-black shadow-[-8px_0_0_rgba(0,0,0,1)] transition-transform duration-300 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="pt-24 px-8 flex flex-col gap-2">
+        <div className={`absolute right-0 top-0 h-full w-72 bg-nb-cream border-l-4 border-black shadow-[-8px_0_0_rgba(0,0,0,1)] transition-transform duration-300 relative ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          {/* Close Button inside drawer */}
+          <button
+            className="absolute right-4 top-4 p-2 border-2 border-black rounded-lg bg-white shadow-[3px_3px_0_rgba(0,0,0,1)] transition-all active:shadow-none active:translate-x-[2px] active:translate-y-[2px]"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
+          <div className="pt-20 px-8 flex flex-col gap-2">
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-nb-pink mb-4">Navigation</p>
             {navLinks.map((link) => (
               <button
