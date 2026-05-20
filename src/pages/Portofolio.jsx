@@ -3,13 +3,22 @@ import { motion } from "framer-motion";
 
 const projects = [
     {
+        title: "Syncra",
+        description: "Web Audio stream.",
+        image: "/assets/img/syncra.png",
+        url: "https://syncra.raflylabs.com/",
+        github: "https://github.com/Apewww/-",
+        tags: ["React", "FastAPI", "YT-DLP"],
+        demo: true,
+    },
+    {
         title: "Natahost",
         description: "Web Penjualan Hosting dan Domain dengan Payment Gateway Terintegrasi.",
         image: "/assets/img/natahost.png",
         url: "https://natahost.raflylabs.com/",
         github: "https://github.com/Apewww/natahosts",
         tags: ["React", "Laravel", "Payment Gateway"],
-        demo: true,
+        demo: false,
     },
     {
         title: "MyFinance Note",
