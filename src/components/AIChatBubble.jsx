@@ -238,8 +238,8 @@ export default function AIChatBubble() {
                 <FontAwesomeIcon icon={faRobot} className="text-sm text-nb-yellow" />
               </div>
               <div>
-                <h3 className="font-black text-sm sm:text-base uppercase tracking-tight text-black leading-none">AI Assistant</h3>
-                <span className="text-[10px] uppercase font-bold text-gray-600 bg-white border border-black px-1.5 py-0.5 rounded">Stellochron</span>
+                <h3 className="font-black text-sm sm:text-base uppercase tracking-tight text-black leading-none">Stellochron</h3>
+                <span className="text-[10px] uppercase font-bold text-gray-600 bg-white border border-black px-1.5 py-0.5 rounded">AI Assistant</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
