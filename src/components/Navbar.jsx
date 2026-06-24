@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import CVModal from './CVModal';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cvOpen, setCvOpen] = useState(false);
 
   const handleClick = (e, id) => {
     e.preventDefault();
@@ -68,13 +70,12 @@ export default function Navbar() {
                 {link.label}
               </button>
             ))}
-            <a
-              href="/assets/cv.pdf"
-              download
+            <button
+              onClick={() => setCvOpen(true)}
               className="nb-button bg-nb-pink py-2 px-6 text-[10px] rounded-lg"
             >
-              Download CV
-            </a>
+              View CV
+            </button>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -130,17 +131,16 @@ export default function Navbar() {
                 {link.label}
               </button>
             ))}
-            <a
-              href="/assets/cv.pdf"
-              download
-              className="nb-button bg-nb-pink text-black mt-8 text-center"
-              onClick={() => setMenuOpen(false)}
+            <button
+              className="nb-button bg-nb-pink text-black mt-8 text-center w-full"
+              onClick={() => { setMenuOpen(false); setCvOpen(true); }}
             >
-              Download CV
-            </a>
+              View CV
+            </button>
           </div>
         </div>
       </div>
+      <CVModal isOpen={cvOpen} onClose={() => setCvOpen(false)} />
     </>
   );
 }
