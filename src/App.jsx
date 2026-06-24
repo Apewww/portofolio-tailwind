@@ -11,58 +11,12 @@ import Footer from './components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import Marquee from './components/Marquee';
+import AIChatBubble from './components/AIChatBubble';
 
 function App() {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
-    // 1. Disable Right Click
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-    };
-
-    // 2. Disable Keyboard Shortcuts
-    const handleKeyDown = (e) => {
-      // Disable F12
-      if (e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-      }
-      // Disable Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
-      if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-        e.preventDefault();
-        return false;
-      }
-      // Disable Ctrl+U (View Source)
-      if (e.ctrlKey && e.keyCode === 85) {
-        e.preventDefault();
-        return false;
-      }
-    };
-
-    // 3. Debugger Loop (Anti-DevTools)
-    const debuggerLoop = setInterval(() => {
-      (function () {
-        (function a() {
-          try {
-            (function b(i) {
-              if (("" + i / i).length !== 1 || i % 20 === 0) {
-                (function () { }).constructor("debugger")();
-              } else {
-                debugger;
-              }
-              b(++i);
-            })(0);
-          } catch (e) {
-            setTimeout(a, 5);
-          }
-        })();
-      })();
-    }, 1000);
-
-    document.addEventListener('contextmenu', handleContextMenu);
-    document.addEventListener('keydown', handleKeyDown);
-
     const handleScroll = () => {
       if (window.pageYOffset > 300) {
         setShowButton(true);
@@ -139,8 +93,8 @@ function App() {
           </button>
         </div>
       )}
+      <AIChatBubble />
     </div>
-
   );
 }
 
