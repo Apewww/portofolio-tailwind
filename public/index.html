@@ -23,7 +23,21 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
+          // Cache busting: ?v=2 harus di-bump setiap kali sw.js diubah
+          // agar browser tidak memakai sw.js lama dari HTTP cache
+          navigator.serviceWorker.register('/sw.js?v=2')
+            .then(registration => {
+              // Deteksi SW baru yang sedang menunggu dan langsung aktifkan
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'activated') {
+                    console.log('[SW] Service Worker baru telah aktif.');
+                  }
+                });
+              });
+            })
+            .catch(err => console.error('[SW] Registrasi gagal:', err));
         });
       }
     </script>
