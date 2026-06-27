@@ -3,6 +3,15 @@ import { motion } from "framer-motion";
 
 const projects = [
     {
+        title: "AI Gateway",
+        description: "Web AI Gateway.",
+        image: "/assets/img/aigateway.png",
+        url: "https://chat.raflylabs.com/",
+        github: "https://github.com/Apewww/AI-Assistant-Gateway",
+        tags: ["NextJS", "FastAPI", "Uvicorn", "LLM", "Openrouter"],
+        demo: true,
+    },
+    {
         title: "Syncra",
         description: "Web Audio stream.",
         image: "/assets/img/syncra.png",

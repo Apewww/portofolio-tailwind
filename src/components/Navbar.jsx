@@ -41,8 +41,8 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const navLinks = [
-    { label: 'Education', id: 'education' },
     { label: 'Skills', id: 'skills' },
+    { label: 'Education', id: 'education' },
     { label: 'My Work', id: 'portofolio' },
     { label: 'Certifications', id: 'certificates' },
   ];
