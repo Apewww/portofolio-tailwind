@@ -34,9 +34,11 @@ Di masing-masing proyek klien, tambahkan variabel berikut pada file `.env` masin
 
 ```env
 # URL Gateway Chatbot
-NEXT_PUBLIC_CHATBOT_GATEWAY_URL=ai.raflylabs.com/api/v1/chat/message/api/v1/chat/message
-# Atau untuk project non-Next.js
-VITE_CHATBOT_GATEWAY_URL=ai.raflylabs.com/api/v1/chat/message/api/v1/chat/message
+REACT_APP_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ai/v1/chat/message
+# Untuk project Next.js
+NEXT_PUBLIC_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ai/v1/chat/message
+# Untuk project Vite
+VITE_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ai/v1/chat/message
 ```
 
 ---
@@ -59,7 +61,7 @@ function getOrCreateSessionId(platformName) {
 
 // Fungsi utama pengiriman pesan ke Gateway
 async function sendMessageToGateway(messageText, platformName) {
-  const gatewayUrl = window.env?.CHATBOT_GATEWAY_URL || "ai.raflylabs.com/api/v1/chat/message/api/v1/chat/message";
+  const gatewayUrl = window.env?.CHATBOT_GATEWAY_URL || "https://api.raflylabs.com/api/ai/v1/chat/message";
   const sessionId = getOrCreateSessionId(platformName);
 
   try {
@@ -67,6 +69,7 @@ async function sendMessageToGateway(messageText, platformName) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer sk-assistant-kaylafayrousaflah"
       },
       body: JSON.stringify({
         session_id: sessionId,

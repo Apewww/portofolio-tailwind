@@ -185,7 +185,7 @@ export default function AIChatBubble() {
   };
 
   const sendMessageToGateway = async (messageText, platformName) => {
-    let gatewayUrl = process.env.REACT_APP_CHATBOT_GATEWAY_URL || "https://ai.raflylabs.com/api/v1/chat/message";
+    let gatewayUrl = process.env.REACT_APP_CHATBOT_GATEWAY_URL || "https://api.raflylabs.com/api/ai/v1/chat/message";
     if (!gatewayUrl.startsWith('http://') && !gatewayUrl.startsWith('https://')) {
       gatewayUrl = 'https://' + gatewayUrl;
     }
@@ -194,7 +194,10 @@ export default function AIChatBubble() {
     try {
       const response = await fetch(gatewayUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer sk-assistant-kaylafayrousaflah"
+        },
         body: JSON.stringify({
           session_id: sessionId,
           source_platform: platformName,
