@@ -1,5 +1,5 @@
 // ─── Cache Versioning (bump versi ini setiap deploy baru) ───────────────────
-const CACHE_VERSION = 'v3';
+const CACHE_VERSION = 'v4';
 const CACHE_NAME = `portofolio-cache-${CACHE_VERSION}`;
 
 const urlsToCache = [
