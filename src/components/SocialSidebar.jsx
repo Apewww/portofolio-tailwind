@@ -19,7 +19,7 @@ const SocialSidebar = () => {
     {
       name: 'Discord',
       iconUrl: '/assets/img/discord.png',
-      url: 'https://discord.com',
+      url: 'https://discord.com/users/695513585639620629',
       color: 'bg-white',
       hoverColor: 'hover:bg-nb-pink'
     },

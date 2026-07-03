@@ -22,7 +22,7 @@ export default function Hero() {
 
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
                     <a
-                        href="#portofolio"
+                        href="mailto:apewinaja@gmail.com"
                         className="nb-button bg-black text-white hover:bg-nb-pink hover:text-black"
                     >
                         Hire Me

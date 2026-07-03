@@ -10,7 +10,6 @@ import Certificates from './pages/Certificates';
 import Footer from './components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
-import Marquee from './components/Marquee';
 import AIChatBubble from './components/AIChatBubble';
 
 function App() {

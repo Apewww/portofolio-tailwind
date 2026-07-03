@@ -8,14 +8,14 @@ export default function Education() {
             degree: "Teknik Informatika",
             period: "2023 - Present",
             color: "nb-cyan",
-            description: "Deepening software architecture, algorithms, and backend systems."
+            description: "Focusing on algorithms, database systems, software engineering, and backend architecture."
         },
         {
             school: "SMK Negeri 1 Cimahi",
-            degree: "SIJA",
+            degree: "SIJA - Sistem Informatika Jaringan dan Aplikasi",
             period: "2019 - 2023",
             color: "nb-pink",
-            description: "Foundation in network administration and software development."
+            description: "Vocational training in network administration, web development, and software engineering."
         }
     ];
 
