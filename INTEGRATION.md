@@ -1,10 +1,10 @@
-# Panduan Integrasi Klien - Centralized AI Chatbot Gateway
+# Panduan Integrasi Klien - AI Assistant Gateway / Local LLM
 
-Dokumen ini menjelaskan cara mengintegrasikan client platform (**Web Portofolio**, **Web CuacaKita**, dan **Audio Stream (Syncra)**) dengan **Centralized AI Chatbot Gateway**.
+Dokumen ini menjelaskan cara mengintegrasikan client platform (**Web Portofolio**, **Web CuacaKita**, dan **Audio Stream (Syncra)**) dengan **Centralized AI Chatbot Gateway** atau **Local LLM langsung**.
 
 ---
 
-## 🛠️ Alur Kerja Integrasi
+## Opsi A: Centralized AI Chatbot Gateway (Lama)
 
 ```mermaid
 sequenceDiagram
@@ -12,94 +12,90 @@ sequenceDiagram
     participant Client as Aplikasi Klien (Frontend)
     participant Gateway as FastAPI Chatbot Gateway
     participant Redis as Redis Session DB
-    participant OpenRouter as LLM (OpenRouter)
+    participant LLM as LLM (OpenRouter)
 
-    User->>Client: Input Pesan Chat / Perintah Suara
-    Client->>Gateway: POST /api/v1/chat/message { session_id, source_platform, message }
-    Gateway->>Redis: Ambil History Chat (session_id)
+    User->>Client: Input Pesan Chat
+    Client->>Gateway: POST /api/v1/chat/message
+    Gateway->>Redis: Ambil History Chat
     Redis-->>Gateway: Riwayat Chat
-    Gateway->>OpenRouter: Kirim System Prompt + History + Pesan Baru
-    OpenRouter-->>Gateway: Hasil teks / Function Call (Tool)
-    Note over Gateway: Jika Function Call terpicu,<br/>jalankan fungsi lokal & perbarui context
-    Gateway->>Redis: Simpan Riwayat Baru (TTL 1 Jam)
-    Gateway-->>Client: Response JSON { response_type, content, action_triggered }
-    Client->>User: Render pesan teks / Jalankan Aksi di UI (Play Musik, dll.)
+    Gateway->>LLM: Kirim Prompt + History
+    LLM-->>Gateway: Respons Teks
+    Gateway->>Redis: Simpan Riwayat Baru
+    Gateway-->>Client: Response JSON
+    Client->>User: Render pesan
 ```
-
----
-
-## ⚙️ 1. Konfigurasi Environment Klien
-
-Di masing-masing proyek klien, tambahkan variabel berikut pada file `.env` masing-masing:
 
 ```env
-# URL Gateway Chatbot
 REACT_APP_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ai/v1/chat/message
-# Untuk project Next.js
-NEXT_PUBLIC_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ai/v1/chat/message
-# Untuk project Vite
-VITE_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ai/v1/chat/message
 ```
 
----
+## Opsi B: Local LLM Langsung (Baru)
 
-## 💻 2. Contoh Kode Implementasi (JavaScript / TypeScript)
+Memanggil OpenAI-compatible API local LLM (`unsloth/gemma-3-1b-it-GGUF:Q4_0`) tanpa gateway.
 
-Berikut adalah contoh fungsi umum (*universal helper*) untuk mengirim pesan ke Gateway dan mengelola sesi obrolan di Frontend:
+```env
+REACT_APP_CHATBOT_GATEWAY_URL=https://api.raflylabs.com/api/ailocal/v1/chat/completions
+```
+
+### Format Request
+
+```json
+{
+  "model": "unsloth/gemma-3-1b-it-GGUF:Q4_0",
+  "messages": [
+    { "role": "system", "content": "System prompt..." },
+    { "role": "user", "content": "Pesan pengguna" }
+  ],
+  "stream": false,
+  "temperature": 0.8,
+  "max_tokens": 1024
+}
+```
+
+### Format Response
+
+```json
+{
+  "choices": [
+    { "message": { "role": "assistant", "content": "Jawaban AI" } }
+  ]
+}
+```
+
+### Contoh Implementasi
 
 ```javascript
-// Mengambil atau membuat session_id unik untuk disimpan di localStorage klien
-function getOrCreateSessionId(platformName) {
-  const key = `chatbot_session_${platformName}`;
-  let sessionId = localStorage.getItem(key);
-  if (!sessionId) {
-    sessionId = `${platformName}_${Math.random().toString(36).substring(2, 15)}`;
-    localStorage.setItem(key, sessionId);
-  }
-  return sessionId;
-}
+const LOCAL_LLM_URL = "https://api.raflylabs.com/api/ailocal/v1/chat/completions";
+const LOCAL_MODEL = "unsloth/gemma-3-1b-it-GGUF:Q4_0";
 
-// Fungsi utama pengiriman pesan ke Gateway
-async function sendMessageToGateway(messageText, platformName) {
-  const gatewayUrl = window.env?.CHATBOT_GATEWAY_URL || "https://api.raflylabs.com/api/ai/v1/chat/message";
-  const sessionId = getOrCreateSessionId(platformName);
-
+async function sendToLocalLLM(messageText, historyMessages = []) {
   try {
-    const response = await fetch(gatewayUrl, {
+    const response = await fetch(LOCAL_LLM_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer sk-assistant-kaylafayrousaflah"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        session_id: sessionId,
-        source_platform: platformName,
-        message: messageText,
+        model: LOCAL_MODEL,
+        messages: [
+          { role: "system", content: "Anda adalah asisten AI portofolio Rafly." },
+          ...historyMessages.slice(-10),
+          { role: "user", content: messageText }
+        ],
+        stream: false,
+        temperature: 0.8,
+        max_tokens: 1024
       }),
     });
 
-    if (response.status === 429) {
-      return {
-        success: false,
-        error: "Rate limit terlampaui. Silakan tunggu 1 menit sebelum mencoba lagi.",
-      };
-    }
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
     const data = await response.json();
     return {
       success: true,
-      data: data // { session_id, response_type, content, action_triggered }
+      content: data.choices?.[0]?.message?.content || ""
     };
   } catch (error) {
-    console.error("Gagal terhubung ke AI Gateway:", error);
-    return {
-      success: false,
-      error: "Gagal terhubung ke asisten AI. Pastikan server gateway aktif.",
-    };
+    console.error("Gagal terhubung ke Local LLM:", error);
+    return { success: false, error: "Gagal terhubung ke asisten AI." };
   }
 }
 ```

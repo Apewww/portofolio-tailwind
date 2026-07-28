@@ -11,17 +11,15 @@ import {
   faRobot,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
+import { retrieveRelevantDocs } from '../lib/rag';
 
-// Universal helper to get or create session_id
-function getOrCreateSessionId(platformName) {
-  const key = `chatbot_session_${platformName}`;
-  let sessionId = localStorage.getItem(key);
-  if (!sessionId) {
-    sessionId = `${platformName}_${Math.random().toString(36).substring(2, 15)}`;
-    localStorage.setItem(key, sessionId);
-  }
-  return sessionId;
-}
+const LOCAL_LLM_URL = "https://api.raflylabs.com/api/ailocal/v1/chat/completions";
+const LOCAL_MODEL = "unsloth/gemma-3-1b-it-GGUF:Q4_0";
+
+const BASE_SYSTEM_PROMPT = `Anda adalah asisten AI untuk website portofolio Rafly Anggara Putra (raflylabs.com).
+Tugas Anda menjawab pertanyaan pengunjung tentang profil, skill, proyek, dan pengalaman Rafly.
+Jawab singkat, padat, langsung ke inti. Maksimal 2-3 kalimat jika memungkinkan.
+Gunakan bahasa Indonesia. Jika tidak tahu, jangan mengarang. Arahkan ke kontak yang sesuai.`;
 
 // Markdown renderer components with Neubrutalism styling
 const MarkdownComponents = {
@@ -167,7 +165,7 @@ export default function AIChatBubble() {
     saveMessages(updatedMessages);
     setIsLoading(true);
 
-    const result = await sendMessageToGateway(userMessageText, "web_porto");
+    const result = await sendMessageToGateway(userMessageText, updatedMessages);
 
     if (result.success) {
       const { content } = result.data;
@@ -184,37 +182,56 @@ export default function AIChatBubble() {
     setIsLoading(false);
   };
 
-  const sendMessageToGateway = async (messageText, platformName) => {
-    let gatewayUrl = process.env.REACT_APP_CHATBOT_GATEWAY_URL || "https://api.raflylabs.com/api/ai/v1/chat/message";
-    if (!gatewayUrl.startsWith('http://') && !gatewayUrl.startsWith('https://')) {
-      gatewayUrl = 'https://' + gatewayUrl;
+  const sendMessageToGateway = async (messageText, allMessages) => {
+    let url = process.env.REACT_APP_CHATBOT_GATEWAY_URL || LOCAL_LLM_URL;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = 'https://' + url;
     }
-    const sessionId = getOrCreateSessionId(platformName);
+
+    const chatMessages = allMessages
+      .filter(m => m.sender === 'user' || m.sender === 'assistant');
+
+    const firstUserIdx = chatMessages.findIndex(m => m.sender === 'user');
+    if (firstUserIdx === -1) return { success: false, error: "Tidak ada riwayat pesan." };
+
+    const historyMessages = chatMessages.slice(firstUserIdx, -1).slice(-10)
+      .map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
+
+    const ragResult = retrieveRelevantDocs(messageText);
+    let systemPrompt = BASE_SYSTEM_PROMPT;
+    if (ragResult) {
+      systemPrompt = `${BASE_SYSTEM_PROMPT}
+
+Gunakan informasi berikut untuk menjawab pertanyaan:
+
+${ragResult.content}`;
+    }
 
     try {
-      const response = await fetch(gatewayUrl, {
+      const response = await fetch(url, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer sk-assistant-kaylafayrousaflah"
-        },
+        headers: { "Content-Type": "application/json", "Authorization": "Bearer kaylafayrousaflah" },
         body: JSON.stringify({
-          session_id: sessionId,
-          source_platform: platformName,
-          message: messageText,
+          model: LOCAL_MODEL,
+          messages: [
+            { role: "system", content: systemPrompt },
+            ...historyMessages,
+            { role: "user", content: messageText }
+          ],
+          stream: false,
+          temperature: 0.3,
+          max_tokens: 256
         }),
       });
 
-      if (response.status === 429) {
-        return { success: false, error: "Rate limit terlampaui. Silakan tunggu 1 menit sebelum mencoba lagi." };
-      }
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
       const data = await response.json();
-      return { success: true, data };
+      const content = data.choices?.[0]?.message?.content || "";
+      return { success: true, data: { content } };
     } catch (error) {
-      console.error("Gagal terhubung ke AI Gateway:", error);
-      return { success: false, error: "Gagal terhubung ke asisten AI. Pastikan server gateway aktif." };
+      console.error("Gagal terhubung ke Local LLM:", error);
+      return { success: false, error: "Gagal terhubung ke asisten AI. Pastikan server lokal aktif." };
     }
   };
 
