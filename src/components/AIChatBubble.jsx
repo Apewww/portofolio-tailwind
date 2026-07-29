@@ -12,6 +12,7 @@ import {
   faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { retrieveRelevantDocs } from '../lib/rag';
+import { vectorStore } from '../lib/vectorStore';
 
 const LOCAL_LLM_URL = "https://api.raflylabs.com/api/ailocal/v1/chat/completions";
 const LOCAL_MODEL = "unsloth/gemma-3-1b-it-GGUF:Q4_0";
@@ -130,6 +131,11 @@ export default function AIChatBubble() {
     }
   }, []);
 
+  // Pre-load vector store for RAG
+  useEffect(() => {
+    vectorStore.init().catch(() => {});
+  }, []);
+
   // Auto scroll to bottom when messages update
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -197,7 +203,7 @@ export default function AIChatBubble() {
     const historyMessages = chatMessages.slice(firstUserIdx, -1).slice(-10)
       .map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
 
-    const ragResult = retrieveRelevantDocs(messageText);
+    const ragResult = await retrieveRelevantDocs(messageText);
     let systemPrompt = BASE_SYSTEM_PROMPT;
     if (ragResult) {
       systemPrompt = `${BASE_SYSTEM_PROMPT}
