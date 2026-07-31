@@ -11,18 +11,8 @@ import {
   faRobot,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
-import { retrieveRelevantDocs } from '../lib/rag';
-import { vectorStore } from '../lib/vectorStore';
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
 
-const LOCAL_LLM_URL = "https://api.raflylabs.com/api/ailocal/v1/chat/completions";
-const LOCAL_MODEL = "unsloth/gemma-3-1b-it-GGUF:Q4_0";
-
-const BASE_SYSTEM_PROMPT = `Anda adalah asisten AI untuk website portofolio Rafly Anggara Putra (raflylabs.com).
-Tugas Anda menjawab pertanyaan pengunjung tentang profil, skill, proyek, dan pengalaman Rafly.
-Jawab singkat, padat, langsung ke inti. Maksimal 2-3 kalimat jika memungkinkan.
-Gunakan bahasa Indonesia. Jika tidak tahu, jangan mengarang. Arahkan ke kontak yang sesuai.`;
-
-// Markdown renderer components with Neubrutalism styling
 const MarkdownComponents = {
   // Paragraf
   p: ({ children }) => (
@@ -131,11 +121,6 @@ export default function AIChatBubble() {
     }
   }, []);
 
-  // Pre-load vector store for RAG
-  useEffect(() => {
-    vectorStore.init().catch(() => {});
-  }, []);
-
   // Auto scroll to bottom when messages update
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -189,55 +174,27 @@ export default function AIChatBubble() {
   };
 
   const sendMessageToGateway = async (messageText, allMessages) => {
-    let url = process.env.REACT_APP_CHATBOT_GATEWAY_URL || LOCAL_LLM_URL;
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-      url = 'https://' + url;
-    }
-
-    const chatMessages = allMessages
-      .filter(m => m.sender === 'user' || m.sender === 'assistant');
-
-    const firstUserIdx = chatMessages.findIndex(m => m.sender === 'user');
-    if (firstUserIdx === -1) return { success: false, error: "Tidak ada riwayat pesan." };
-
-    const historyMessages = chatMessages.slice(firstUserIdx, -1).slice(-10)
+    const history = allMessages
+      .filter(m => m.sender === 'user' || m.sender === 'assistant')
+      .slice(0, -1)
+      .slice(-10)
       .map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
 
-    const ragResult = await retrieveRelevantDocs(messageText);
-    let systemPrompt = BASE_SYSTEM_PROMPT;
-    if (ragResult) {
-      systemPrompt = `${BASE_SYSTEM_PROMPT}
-
-Gunakan informasi berikut untuk menjawab pertanyaan:
-
-${ragResult.content}`;
-    }
-
     try {
-      const response = await fetch(url, {
+      const response = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": "Bearer kaylafayrousaflah" },
-        body: JSON.stringify({
-          model: LOCAL_MODEL,
-          messages: [
-            { role: "system", content: systemPrompt },
-            ...historyMessages,
-            { role: "user", content: messageText }
-          ],
-          stream: false,
-          temperature: 0.3,
-          max_tokens: 256
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: messageText, history }),
       });
 
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
       const data = await response.json();
-      const content = data.choices?.[0]?.message?.content || "";
+      const content = data.reply || "";
       return { success: true, data: { content } };
     } catch (error) {
-      console.error("Gagal terhubung ke Local LLM:", error);
-      return { success: false, error: "Gagal terhubung ke asisten AI. Pastikan server lokal aktif." };
+      console.error("Gagal terhubung ke backend AI:", error);
+      return { success: false, error: "Gagal terhubung ke asisten AI. Pastikan backend aktif." };
     }
   };
 

@@ -1,5 +1,7 @@
-export const DOCS = {
-  identity: `# Identity & Profile
+import re
+
+KB = {
+    "identity": """# Identity & Profile
 
 ## Personal Data
 
@@ -22,9 +24,9 @@ Backend Engineer with a focus on Scalability and Automation. Building scalable s
 
 - Answer questions professionally and concisely in Indonesian.
 - Do not fabricate information not present in the knowledge base.
-- Redirect sensitive or personal questions to the appropriate contact channels.`,
+- Redirect sensitive or personal questions to the appropriate contact channels.""",
 
-  skills: `# Technical Skills
+    "skills": """# Technical Skills
 
 ## Core Competencies
 
@@ -50,9 +52,9 @@ Building robust, secure, and fast APIs.
 | **Database** | PostgreSQL, MySQL, Supabase |
 | **Frontend** | React, Next.js, JavaScript, Java |
 | **DevOps** | Docker, CI/CD |
-| **Languages** | Python, JavaScript, Java, C# |`,
+| **Languages** | Python, JavaScript, Java, C# |""",
 
-  projects: `# Portfolio Projects
+    "projects": """# Portfolio Projects
 
 ## 1. AI Gateway
 **URL:** https://chat.raflylabs.com
@@ -98,43 +100,43 @@ Enterprise project management system emphasizing efficiency and structural integ
 **GitHub:** https://github.com/Apewww/saw-calculation
 
 Optimized decision support implementation using Simple Additive Weighting (SAW) method with structural mathematical logic.
-- **Tags:** Python, Logic`,
+- **Tags:** Python, Logic""",
 
-  academicProjects: `# Academic Projects
+    "academicProjects": """# Academic Projects
 
-## Tribite — Tugas Besar Pemrograman Website Semester 2
+## Tribite - Tugas Besar Pemrograman Website Semester 2
 **GitHub:** https://github.com/Apewww/tribite
 
 Aplikasi web profil dengan sistem rating dan riwayat. Dibangun sebagai tugas besar mata kuliah pemrograman website.
 - **Teknologi:** HTML, CSS, JavaScript
 - **Tahun:** 2025
 
-## EndlessDrive — Game 2D Endless Runner
+## EndlessDrive - Game 2D Endless Runner
 **GitHub:** https://github.com/Apewww/EndlessDrive
 
 Game endless runner 2D retro-futuristik dengan procedurally generated obstacles, skin system 4 karakter (Royal Phoenix, Neon Pulse, Desert Nomad, Classic), high score tracker, coin collection, sound synthesis, dan persistence preferences menggunakan Java Swing/AWT.
 - **Teknologi:** Java 17+, Java Swing, AWT
 - **Fitur:** 4 skin mobile, procedurally generated obstacles, coin & particle system, high score, fullscreen mode, procedural audio
 
-## Startup Simulator — Game Simulasi Manajemen Startup
+## Startup Simulator - Game Simulasi Manajemen Startup
 **GitHub:** https://github.com/Apewww/startup-simulator
 
 Game simulasi manajemen startup teknologi berbasis desktop. Pemain membangun perusahaan teknologi dari awal, mengelola R&D, marketing, hiring, server infrastructure, compliance, dan investor relations. Terinspirasi dari Startup Company (Hovgaard Games).
 - **Teknologi:** React 19, TypeScript, Tauri 2, Tailwind CSS 4, Zustand 5, Dexie.js (IndexedDB)
-- **Versi:** v1.0 – v2.3 (multi-product, global expansion, endgame victory screen)
+- **Versi:** v1.0 - v2.3 (multi-product, global expansion, endgame victory screen)
 
-## Bot PDDikti Discord — Verifikasi Data Mahasiswa Otomatis
+## Bot PDDikti Discord - Verifikasi Data Mahasiswa Otomatis
 **GitHub:** https://github.com/Apewww/bot-pddikti-dc
 
 Bot Discord untuk verifikasi data mahasiswa Indonesia secara otomatis melalui PDDikti. Menggunakan Chrome headless automation via CDP untuk bypass Cloudflare, dengan sistem role otomatis dan database SQLite.
 - **Teknologi:** Node.js, Discord.js, SQLite, Chrome DevTools Protocol
-- **Fitur:** Auto-verifikasi NIM, bypass Cloudflare, role otomatis, log channel, multi-server support`,
+- **Fitur:** Auto-verifikasi NIM, bypass Cloudflare, role otomatis, log channel, multi-server support""",
 
-  experience: `# Professional Experience & Education
+    "experience": """# Professional Experience & Education
 
 ## Work Experience
 
-### Backend Engineer — RaflyLabs (2023 – Present)
+### Backend Engineer - RaflyLabs (2023 - Present)
 - Developing and maintaining AI chatbot gateway with FastAPI and Python
 - Building RAG system for personal portfolio documentation
 - Integrating with various external APIs (OpenRouter, weather, audio streaming)
@@ -142,11 +144,11 @@ Bot Discord untuk verifikasi data mahasiswa Indonesia secara otomatis melalui PD
 
 ## Education
 
-### Unjani University (2023 – Present)
+### Unjani University (2023 - Present)
 - **Major:** Teknik Informatika
 - **Focus:** Algorithms, database systems, software engineering, and backend architecture
 
-### SMK Negeri 1 Cimahi (2019 – 2023)
+### SMK Negeri 1 Cimahi (2019 - 2023)
 - **Major:** SIJA - Sistem Informatika Jaringan dan Aplikasi
 - **Focus:** Vocational training in network administration, web development, and software engineering
 
@@ -158,5 +160,24 @@ Bot Discord untuk verifikasi data mahasiswa Indonesia secara otomatis melalui PD
 | Introduction Frontend Systems | Meta / Coursera | https://coursera.org/verify/R3HXJABQVHH2 |
 | Javascript Core Logic | Meta / Coursera | https://coursera.org/verify/Z654TDKKZJK2 |
 | Python Engineering | Meta / Coursera | https://coursera.org/verify/6IIWE8U7861R |
-| Version Control Workflow | Meta / Coursera | https://coursera.org/verify/PI22FH6PPXS7 |`
-};
+| Version Control Workflow | Meta / Coursera | https://coursera.org/verify/PI22FH6PPXS7 |""",
+}
+
+
+def chunk_kb():
+    chunks = []
+    for key, text in KB.items():
+        lines = text.split("\n")
+        cur = []
+        for line in lines:
+            if re.match(r"^#{2,3} ", line) and cur:
+                t = "\n".join(cur).strip()
+                if len(t) > 30:
+                    chunks.append({"key": key, "text": t})
+                cur = [line]
+            else:
+                cur.append(line)
+        t = "\n".join(cur).strip()
+        if len(t) > 30:
+            chunks.append({"key": key, "text": t})
+    return chunks

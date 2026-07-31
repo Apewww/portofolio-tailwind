@@ -92,7 +92,7 @@ function App() {
           </button>
         </div>
       )}
-      {/* <AIChatBubble /> AI assistant temporarily disabled */}
+      <AIChatBubble />
     </div>
   );
 }
