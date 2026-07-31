@@ -12,12 +12,12 @@ export default function Hero() {
                 transition={{ duration: 0.6 }}
             >
                 <h1 className="text-4xl sm:text-5xl md:text-5xl font-black mb-6 sm:mb-8 leading-[1.1] tracking-tighter text-black relative">
-                    I'm a <span className="relative">Backend Engineer <span className="absolute -top-6 -right-12 text-4xl">✴?</span></span> <br />
-                    with a focus on <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Scalability</span> and <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Automation</span>
+                    Saya seorang <span className="relative">Backend Engineer <span className="absolute -top-6 -right-12 text-4xl">✴?</span></span> <br />
+                    berfokus pada <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Skalabilitas</span> dan <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Otomasi</span>
                 </h1>
 
                 <p className="text-base sm:text-lg md:text-xl font-bold mb-8 sm:mb-12 max-w-xl leading-snug text-black opacity-80">
-                    Building scalable systems and automated DevOps environments that power the next generation of web applications.
+                    Membangun sistem berskala besar dan lingkungan DevOps otomatis yang mendukung generasi aplikasi web berikutnya.
                 </p>
 
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6">
@@ -25,13 +25,13 @@ export default function Hero() {
                         href="mailto:apewinaja@gmail.com"
                         className="nb-button bg-black text-white hover:bg-nb-pink hover:text-black"
                     >
-                        Hire Me
+                        Hubungi Saya
                     </a>
                     <a
                         href="#skills"
                         className="nb-button-primary"
                     >
-                        Learn more
+                        Selengkapnya
                     </a>
                 </div>
             </motion.div>
@@ -48,7 +48,7 @@ export default function Hero() {
                     <div className="hidden sm:block absolute top-[65%] sm:-right-4 md:-right-8 lg:-right-12 z-40 animate-bounce delay-700">
                         <div className="bg-white nb-border nb-shadow px-3 sm:px-6 py-2 sm:py-3 rotate-6">
                             <p className="font-black text-sm sm:text-lg italic">
-                                "Always Learning, always building" 🚀
+                                "Always learning, always building" 🚀
                             </p>
                             {/* Speech Bubble Tail */}
                             <div className="absolute -bottom-4 left-6 w-8 h-8 bg-white border-b-4 border-r-4 border-black rotate-45 z-[-1]"></div>

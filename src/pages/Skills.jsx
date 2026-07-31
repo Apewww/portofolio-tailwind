@@ -4,20 +4,20 @@ import { motion } from 'framer-motion';
 export default function Skills() {
     const services = [
         {
-            title: "Backend Architecture",
-            description: "Designing high-performance server-side logic and scalable database structures.",
+            title: "Backend Development",
+            description: "Merancang alur sistem, logika server, dan struktur database yang rapi serta efisien.",
             icon: "python",
             color: "nb-yellow"
         },
         {
-            title: "DevOps & Infrastructure",
-            description: "Automating deployment pipelines and managing cloud-native environments.",
+            title: "DevOps & Infrastruktur",
+            description: "Membantu proses alur deployment, setup server, dan mengelola lingkungan aplikasi agar berjalan lancar.",
             icon: "docker",
             color: "nb-pink"
         },
         {
-            title: "API Development",
-            description: "Building robust, secure, and fast APIs using modern frameworks like FastAPI & Node.js.",
+            title: "Pengembangan API",
+            description: "Membuat REST API yang stabil, aman, dan mudah diintegrasikan menggunakan FastAPI atau Node.js.",
             icon: "fastapi",
             color: "nb-cyan"
         }

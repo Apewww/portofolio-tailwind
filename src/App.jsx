@@ -53,7 +53,7 @@ function App() {
         <div id="skills" className="mt-24 sm:mt-32 md:mt-48">
           <div className="flex items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
-              Core Skills <span className="text-4xl text-nb-pink">✴?</span>
+              Experience & Skills <span className="text-4xl text-nb-pink">✴?</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -92,7 +92,7 @@ function App() {
           </button>
         </div>
       )}
-      <AIChatBubble />
+      {/* <AIChatBubble /> AI assistant temporarily disabled */}
     </div>
   );
 }

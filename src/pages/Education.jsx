@@ -6,16 +6,16 @@ export default function Education() {
         {
             school: "Unjani University",
             degree: "Teknik Informatika",
-            period: "2023 - Present",
+            period: "2023 - Sekarang",
             color: "nb-cyan",
-            description: "Focusing on algorithms, database systems, software engineering, and backend architecture."
+            description: "Fokus pada algoritma, pendalaman basis data, rekayasa perangkat lunak, arsitektur backend dan kecerdasan buatan."
         },
         {
             school: "SMK Negeri 1 Cimahi",
             degree: "SIJA - Sistem Informatika Jaringan dan Aplikasi",
             period: "2019 - 2023",
             color: "nb-pink",
-            description: "Vocational training in network administration, web development, and software engineering."
+            description: "Pelatihan kejuruan dalam jaringan, internet of things, dan rekayasa perangkat lunak."
         }
     ];
 
@@ -23,7 +23,7 @@ export default function Education() {
         <div id="education" className="mt-48">
             <div className="flex flex-col items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
-                    Education <span className="text-4xl text-nb-pink">✴?</span>
+                    Pendidikan <span className="text-4xl text-nb-pink">✴?</span>
                 </h2>
                 <div className="w-8 h-2 bg-black rounded-full" />
             </div>

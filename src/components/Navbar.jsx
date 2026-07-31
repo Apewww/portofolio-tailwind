@@ -41,10 +41,10 @@ export default function Navbar() {
   }, [menuOpen]);
 
   const navLinks = [
-    { label: 'Skills', id: 'skills' },
-    { label: 'Education', id: 'education' },
-    { label: 'My Work', id: 'portofolio' },
-    { label: 'Certifications', id: 'certificates' },
+    { label: 'Keahlian', id: 'skills' },
+    { label: 'Pendidikan', id: 'education' },
+    { label: 'Proyek', id: 'portofolio' },
+    { label: 'Sertifikat', id: 'certificates' },
   ];
 
   return (
@@ -74,7 +74,7 @@ export default function Navbar() {
               onClick={() => setCvOpen(true)}
               className="nb-button bg-nb-pink py-2 px-6 text-[10px] rounded-lg"
             >
-              View CV
+              VIEW CV
             </button>
           </div>
 
@@ -121,7 +121,7 @@ export default function Navbar() {
           </button>
 
           <div className="pt-20 px-8 flex flex-col gap-2">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-nb-pink mb-4">Navigation</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-nb-pink mb-4">Navigasi</p>
             {navLinks.map((link) => (
               <button
                 key={link.id}
@@ -135,7 +135,7 @@ export default function Navbar() {
               className="nb-button bg-nb-pink text-black mt-8 text-center w-full"
               onClick={() => { setMenuOpen(false); setCvOpen(true); }}
             >
-              View CV
+              VIEW CV
             </button>
           </div>
         </div>

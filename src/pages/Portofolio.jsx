@@ -3,8 +3,17 @@ import { motion } from "framer-motion";
 
 const projects = [
     {
+        title: "Natacell Portal",
+        description: "Portal etalase online toko ATK, pulsa/PPOB, jasa fotocopy & service komputer, dilengkapi bank soal SD-SMA untuk menarik trafik organik dari Google.",
+        image: "/assets/img/natacellportal.png",
+        url: "https://natacell.my.id",
+        github: "https://github.com/Apewww/natacell-portal",
+        tags: ["Laravel", "Filament", "TailwindCSS", "SEO"],
+        demo: true,
+    },
+    {
         title: "AI Gateway",
-        description: "Web AI Gateway.",
+        description: "Gateway AI berbasis web.",
         image: "/assets/img/aigateway.png",
         url: "https://chat.raflylabs.com/",
         github: "https://github.com/Apewww/AI-Assistant-Gateway",
@@ -13,7 +22,7 @@ const projects = [
     },
     {
         title: "Syncra",
-        description: "Web Audio stream.",
+        description: "Web streaming audio.",
         image: "/assets/img/syncra.png",
         url: "https://syncra.raflylabs.com/",
         github: "https://github.com/Apewww/-",
@@ -31,7 +40,7 @@ const projects = [
     },
     {
         title: "MyFinance Note",
-        description: "Personal finance system focused on reliable high-concurrency data tracking.",
+        description: "Sistem keuangan pribadi yang fokus pada pencatatan data andal dengan konkurensi tinggi.",
         image: "/assets/img/myfinance_note.png",
         url: "https://myfinance-note.vercel.app/",
         github: "https://github.com/Apewww/myfinance-note",
@@ -40,7 +49,7 @@ const projects = [
     },
     {
         title: "CuacaKita",
-        description: "Meteorological implementation using modern API integrations and Flask framework.",
+        description: "Implementasi meteorologi menggunakan integrasi API modern dan framework Flask.",
         image: "/assets/img/cuacakita.png",
         url: "https://cuacakita.raflylabs.com/",
         github: "https://github.com/Apewww/cuacakita",
@@ -49,7 +58,7 @@ const projects = [
     },
     {
         title: "Asset Management",
-        description: "Enterprise project management system emphasizing efficiency and structural integrity.",
+        description: "Sistem manajemen aset perusahaan yang menekankan efisiensi dan integritas struktural.",
         image: "/assets/img/asset_management.png",
         url: "https://github.com/Apewww/asset-management",
         github: "https://github.com/Apewww/asset-management",
@@ -58,7 +67,7 @@ const projects = [
     },
     {
         title: "Algorithm SAW",
-        description: "Optimized decision support implementation using structural mathematical logic.",
+        description: "Implementasi pendukung keputusan yang dioptimalkan menggunakan logika matematika terstruktur.",
         image: "/assets/img/project_1.png",
         url: "https://github.com/Apewww/saw-calculation",
         github: "https://github.com/Apewww/saw-calculation",
@@ -105,9 +114,9 @@ export default function Portofolio() {
         <div id="portofolio" className="mt-48">
             <div className="flex flex-col items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
-                    Selected Works <span className="text-4xl text-nb-cyan">✴?</span>
+                    Karya Terpilih <span className="text-4xl text-nb-cyan">✴?</span>
                 </h2>
-                <p className="text-sm font-black uppercase tracking-[0.3em] text-nb-pink">Industrial Standards • Scalable Systems</p>
+                <p className="text-sm font-black uppercase tracking-[0.3em] text-nb-pink">Standar Industri • Sistem Skalabel</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

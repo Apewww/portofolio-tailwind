@@ -94,12 +94,12 @@ export default function CVModal({ isOpen, onClose }) {
                 <a
                   href={CV_PATH}
                   download="CV_RaflyAnggaraPutra.pdf"
-                  title="Download CV"
+                  title="Unduh CV"
                   className="h-8 flex items-center gap-1.5 px-3 border-2 border-black rounded-lg bg-nb-pink font-black text-xs uppercase tracking-tight shadow-[2px_2px_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] transition-all"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <IconDownload />
-                  <span className="hidden sm:inline">Download</span>
+                  <span className="hidden sm:inline">Unduh</span>
                 </a>
 
                 {/* Divider */}
