@@ -3,25 +3,52 @@ from pathlib import Path
 
 import httpx
 from dotenv import load_dotenv
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Header, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
-load_dotenv(Path(__file__).parent / ".env")
+# Load backend/.env first, fallback to root .env
+env_path = Path(__file__).parent / ".env"
+root_env_path = Path(__file__).parent.parent / ".env"
+if env_path.exists():
+    load_dotenv(env_path)
+if root_env_path.exists():
+    load_dotenv(root_env_path)
 
 from vectorstore import ingest, search  # noqa: E402
 
 GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
 GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+CHAT_API_KEY = os.environ.get("CHAT_API_KEY") or os.environ.get("PORTFOLIO_API_KEY", "")
+RATE_LIMIT_SETTING = os.environ.get("RATE_LIMIT_PER_MINUTE", "10/minute")
+
 _ingested = False
 
-BASE_SYSTEM_PROMPT = """Anda adalah asisten AI untuk website portofolio Rafly Anggara Putra (raflylabs.com).
-Tugas Anda menjawab pertanyaan pengunjung tentang profil, skill, proyek, dan pengalaman Rafly.
-Jawab singkat, padat, langsung ke inti. Maksimal 2-3 kalimat jika memungkinkan.
-Gunakan bahasa Indonesia. Jika tidak tahu, jangan mengarang. Arahkan ke kontak yang sesuai."""
+BASE_SYSTEM_PROMPT = """Anda adalah Stellochron, asisten AI resmi untuk website portofolio Rafly Anggara Putra (raflylabs.com).
 
+PRINSIP UTAMA & BATASAN SKOP (GUARDRAILS):
+1. Tugas Anda HANYA memberikan informasi seputar profil, keahlian/skills, pengalaman kerja, pendidikan, dan proyek-proyek milik Rafly Anggara Putra.
+2. JANGAN PERNAH membuatkan kode program (coding/scripting), menulis fungsi/skrip baru, atau menyelesaikan tugas koding orang lain atas permintaan pengguna dalam bentuk apa pun.
+3. JANGAN PERNAH menjawab pertanyaan umum di luar konteks portofolio Rafly (seperti soal matematika, sains, berita, pengetahuan umum luar, dsb).
+
+PENANGANAN REQUEST DI LUAR KONTEKS / REQUEST KODE:
+Jika pengguna meminta dibuatkan kode program, fungsi/script, atau menanyakan topik yang tidak berhubungan dengan portofolio Rafly, JANGAN penuhi permintaan tersebut. Tolak secara ramah dan singkat (1-2 kalimat).
+Contoh penolakan: "Maaf, sebagai asisten AI portofolio Rafly, saya hanya dapat memberikan informasi seputar profil, skill, dan proyek-proyek Rafly. Saya tidak dapat membuatkan kode program atau menjawab pertanyaan di luar konteks portofolio."
+
+GAYA BAHASA & ATURAN RESPONS:
+- Jawab singkat, padat, ramah, dan profesional dalam Bahasa Indonesia (maksimal 2-3 kalimat per respon, kecuali jika diminta merinci daftar proyek/skill Rafly).
+- Gunakan fakta faktual dari konteks informasi portofolio Rafly yang disediakan. Jangan mengarang data.
+- Jika tidak menemukan informasi faktual di konteks, ingatkan dengan sopan dan sarankan pengguna untuk menghubungi kontak resmi Rafly."""
+
+limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="Portfolio AI Assistant")
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
@@ -46,6 +73,24 @@ def _ensure_ingested():
         _ingested = True
 
 
+def verify_api_key(x_api_key: str | None = None, authorization: str | None = None) -> bool:
+    # Jika CHAT_API_KEY tidak diset di env backend, ijinkan akses (mode dev / open backend)
+    if not CHAT_API_KEY:
+        return True
+    
+    # Cek X-API-Key header
+    if x_api_key and x_api_key.strip() == CHAT_API_KEY.strip():
+        return True
+    
+    # Cek Authorization: Bearer <key>
+    if authorization and authorization.startswith("Bearer "):
+        token = authorization.split("Bearer ")[1].strip()
+        if token == CHAT_API_KEY.strip():
+            return True
+
+    return False
+
+
 class ChatRequest(BaseModel):
     message: str
     history: list[dict] | None = None
@@ -56,25 +101,48 @@ router = APIRouter()
 
 @router.get("/health")
 def health():
-    return {"status": "ok", "model": GROQ_MODEL}
+    return {
+        "status": "ok",
+        "model": GROQ_MODEL,
+        "api_key_protected": bool(CHAT_API_KEY),
+        "rate_limit": RATE_LIMIT_SETTING
+    }
 
 
 @router.post("/chat")
-async def chat(req: ChatRequest):
+@limiter.limit(RATE_LIMIT_SETTING)
+async def chat(
+    req: ChatRequest,
+    request: Request,
+    x_api_key: str | None = Header(None, alias="X-API-Key"),
+    authorization: str | None = Header(None)
+):
+    if not verify_api_key(x_api_key, authorization):
+        return JSONResponse(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            content={"error": "Akses ditolak: API Key tidak valid atau tidak ditemukan."}
+        )
+
     if not GROQ_API_KEY:
-        return {"error": "GROQ_API_KEY tidak diset. Tambahkan ke file .env."}
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"error": "GROQ_API_KEY tidak diset. Tambahkan ke file .env."}
+        )
 
     try:
         _ensure_ingested()
     except Exception as e:
-        return {"error": f"Vector store belum siap: {e}"}
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            content={"error": f"Vector store belum siap: {e}"}
+        )
 
-    retrieved = search(req.message, 3)
+    retrieved = search(req.message, k=3, max_distance=0.95)
     docs = retrieved.get("documents", [[]])[0] or []
     context = "\n\n---\n\n".join(docs)
 
     system_prompt = (
-        f"{BASE_SYSTEM_PROMPT}\n\nGunakan informasi berikut untuk menjawab pertanyaan:\n\n{context}"
+        f"{BASE_SYSTEM_PROMPT}\n\nKONTEKS DATA PORTOFOLIO RAFLY:\n{context}"
         if context
         else BASE_SYSTEM_PROMPT
     )
@@ -91,13 +159,17 @@ async def chat(req: ChatRequest):
                 "model": GROQ_MODEL,
                 "messages": messages,
                 "stream": False,
-                "temperature": 0.3,
+                "temperature": 0.2,
                 "max_tokens": 512,
             },
         )
     if resp.status_code != 200:
         detail = resp.json().get("error", {}).get("message", resp.text[:300])
-        return {"error": f"Groq ({resp.status_code}): {detail}"}
+        return JSONResponse(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            content={"error": f"Groq Gateway ({resp.status_code}): {detail}"}
+        )
+
     reply = resp.json()["choices"][0]["message"]["content"]
     return {"reply": reply}
 

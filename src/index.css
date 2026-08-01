@@ -59,6 +59,30 @@ html {
   @apply bg-primary border-2 border-black hover:bg-secondary;
 }
 
+/* Ultra-slim & sleek semi-transparent scrollbar for chat assistant */
+.chat-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+.chat-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  border-left: none;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border: none;
+  border-radius: 9999px;
+  transition: background-color 0.2s ease;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+
 /* Animations */
 .fade-up {
   @apply opacity-0 translate-y-4;

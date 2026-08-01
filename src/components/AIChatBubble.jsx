@@ -9,8 +9,12 @@ import {
   faSpinner,
   faTrash,
   faRobot,
-  faUser
+  faUser,
+  faExpand,
+  faCompress,
+  faUpRightAndDownLeftFromCenter
 } from '@fortawesome/free-solid-svg-icons';
+
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
 
 const MarkdownComponents = {
@@ -33,7 +37,7 @@ const MarkdownComponents = {
         {children}
       </code>
     ) : (
-      <pre className="bg-gray-900 text-green-400 p-2 rounded-lg text-[11px] font-mono overflow-x-auto my-2 border-2 border-black">
+      <pre className="bg-gray-900 text-green-400 p-2 rounded-lg text-[11px] font-mono overflow-x-auto chat-scrollbar my-2 border-2 border-black">
         <code>{children}</code>
       </pre>
     ),
@@ -72,7 +76,7 @@ const MarkdownComponents = {
   ),
   // TABLE: full GFM support dengan scroll horizontal
   table: ({ children }) => (
-    <div className="overflow-x-auto my-2 rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+    <div className="overflow-x-auto chat-scrollbar my-2 rounded-xl border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
       <table className="w-full text-xs border-collapse">{children}</table>
     </div>
   ),
@@ -102,6 +106,22 @@ export default function AIChatBubble() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Resize State & Preference
+  const [size, setSize] = useState(() => {
+    try {
+      const saved = localStorage.getItem('chatbot_size_web_porto');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.width && parsed.height) return parsed;
+      }
+    } catch (e) {}
+    return { width: 360, height: 480 };
+  });
+
+  const [isMaximized, setIsMaximized] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const prevSizeRef = useRef(size);
   const messagesEndRef = useRef(null);
 
   // Initialize chat with welcome message if empty
@@ -142,6 +162,72 @@ export default function AIChatBubble() {
     saveMessages([initialMessage]);
   };
 
+  const toggleMaximize = () => {
+    if (isMaximized) {
+      setSize(prevSizeRef.current);
+      setIsMaximized(false);
+    } else {
+      prevSizeRef.current = size;
+      const maxWidth = Math.min(560, window.innerWidth - 32);
+      const maxHeight = Math.min(660, window.innerHeight - 70);
+      setSize({ width: maxWidth, height: maxHeight });
+      setIsMaximized(true);
+    }
+  };
+
+  const startResize = (e, direction) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsResizing(true);
+
+    const startX = e.touches ? e.touches[0].clientX : e.clientX;
+    const startY = e.touches ? e.touches[0].clientY : e.clientY;
+    const startWidth = size.width;
+    const startHeight = size.height;
+
+    const handleMove = (moveEvent) => {
+      const currentX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX;
+      const currentY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY;
+
+      let newWidth = startWidth;
+      let newHeight = startHeight;
+
+      if (direction === 'top-right' || direction === 'right') {
+        const deltaX = currentX - startX;
+        const maxW = Math.min(700, window.innerWidth - 32);
+        newWidth = Math.max(300, Math.min(maxW, startWidth + deltaX));
+      }
+
+      if (direction === 'top-right' || direction === 'top') {
+        const deltaY = startY - currentY; // upward drag increases height
+        const maxH = Math.min(800, window.innerHeight - 60);
+        newHeight = Math.max(360, Math.min(maxH, startHeight + deltaY));
+      }
+
+      setSize({ width: newWidth, height: newHeight });
+    };
+
+    const handleEnd = () => {
+      setIsResizing(false);
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleEnd);
+      window.removeEventListener('touchmove', handleMove);
+      window.removeEventListener('touchend', handleEnd);
+
+      setSize((currentSize) => {
+        try {
+          localStorage.setItem('chatbot_size_web_porto', JSON.stringify(currentSize));
+        } catch (err) {}
+        return currentSize;
+      });
+    };
+
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+    window.addEventListener('touchmove', handleMove, { passive: false });
+    window.addEventListener('touchend', handleEnd);
+  };
+
   const handleSend = async (e) => {
     if (e) e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -180,21 +266,48 @@ export default function AIChatBubble() {
       .slice(-10)
       .map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
 
+    const apiKey = process.env.REACT_APP_CHAT_API_KEY || process.env.REACT_APP_API_KEY || '';
+
     try {
+      const headers = { "Content-Type": "application/json" };
+      if (apiKey) {
+        headers["X-API-Key"] = apiKey;
+      }
+
       const response = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ message: messageText, history }),
       });
 
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (response.status === 429) {
+        return {
+          success: false,
+          error: "Batas penggunaan tercapai (Rate Limit Exceeded). Silakan tunggu beberapa saat sebelum mengirim pesan lagi."
+        };
+      }
+
+      if (response.status === 401) {
+        return {
+          success: false,
+          error: "Akses ditolak (401 Unauthorized). Kunci API tidak sesuai atau tidak dikonfigurasi."
+        };
+      }
 
       const data = await response.json();
+
+      if (!response.ok || data.error) {
+        throw new Error(data.error || `HTTP error! Status: ${response.status}`);
+      }
+
       const content = data.reply || "";
       return { success: true, data: { content } };
     } catch (error) {
       console.error("Gagal terhubung ke backend AI:", error);
-      return { success: false, error: "Gagal terhubung ke asisten AI. Pastikan backend aktif." };
+      return {
+        success: false,
+        error: error.message || "Gagal terhubung ke asisten AI. Pastikan backend aktif."
+      };
     }
   };
 
@@ -213,9 +326,45 @@ export default function AIChatBubble() {
 
       {/* Chat Window Panel */}
       {isOpen && (
-        <div className="w-[300px] sm:w-[360px] h-[400px] sm:h-[460px] bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl flex flex-col overflow-hidden">
+        <div
+          style={{
+            width: `${size.width}px`,
+            height: `${size.height}px`,
+            maxWidth: 'calc(100vw - 24px)',
+            maxHeight: 'calc(100vh - 40px)'
+          }}
+          className={`relative bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl flex flex-col overflow-hidden transition-all duration-75 ${
+            isResizing ? 'select-none border-nb-pink' : ''
+          }`}
+        >
+          {/* Top-Right Corner Drag Handle */}
+          <div
+            onMouseDown={(e) => startResize(e, 'top-right')}
+            onTouchStart={(e) => startResize(e, 'top-right')}
+            title="Tarik untuk melebarkan ukuran"
+            className="absolute top-0 right-0 z-20 w-7 h-7 cursor-ne-resize flex items-center justify-center bg-black/10 hover:bg-nb-pink/80 rounded-bl-xl transition-colors text-black group"
+          >
+            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} className="text-[10px] group-hover:scale-125 transition-transform" />
+          </div>
+
+          {/* Right Edge Drag Handle */}
+          <div
+            onMouseDown={(e) => startResize(e, 'right')}
+            onTouchStart={(e) => startResize(e, 'right')}
+            title="Tarik melebarkan ke kanan"
+            className="absolute top-8 right-0 bottom-8 z-20 w-2 cursor-ew-resize hover:bg-nb-pink/50 transition-colors"
+          />
+
+          {/* Top Edge Drag Handle */}
+          <div
+            onMouseDown={(e) => startResize(e, 'top')}
+            onTouchStart={(e) => startResize(e, 'top')}
+            title="Tarik melebarkan ke atas"
+            className="absolute top-0 left-8 right-8 z-20 h-2 cursor-ns-resize hover:bg-nb-pink/50 transition-colors"
+          />
+
           {/* Header */}
-          <div className="bg-nb-yellow border-b-[3px] border-black p-3 sm:p-4 flex items-center justify-between flex-shrink-0">
+          <div className="bg-nb-yellow border-b-[3px] border-black p-3 sm:p-4 flex items-center justify-between flex-shrink-0 pr-9">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center border border-black">
                 <FontAwesomeIcon icon={faRobot} className="text-sm text-nb-yellow" />
@@ -225,17 +374,24 @@ export default function AIChatBubble() {
                 <span className="text-[10px] uppercase font-bold text-gray-600 bg-white border border-black px-1.5 py-0.5 rounded">AI Assistant</span>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={toggleMaximize}
+                title={isMaximized ? "Kecilkan ukuran" : "Perbesar ukuran"}
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white border-2 border-black flex items-center justify-center text-black hover:bg-nb-cyan transition-colors"
+              >
+                <FontAwesomeIcon icon={isMaximized ? faCompress : faExpand} className="text-xs" />
+              </button>
               <button
                 onClick={clearChat}
-                title="Clear Chat History"
-                className="w-8 h-8 rounded-lg bg-white border-2 border-black flex items-center justify-center text-black hover:bg-red-200 transition-colors"
+                title="Hapus riwayat chat"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white border-2 border-black flex items-center justify-center text-black hover:bg-red-200 transition-colors"
               >
                 <FontAwesomeIcon icon={faTrash} className="text-xs" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-lg bg-white border-2 border-black flex items-center justify-center text-black hover:bg-nb-pink transition-colors"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white border-2 border-black flex items-center justify-center text-black hover:bg-nb-pink transition-colors"
                 aria-label="Close Chat"
               >
                 <FontAwesomeIcon icon={faXmark} className="text-sm" />
@@ -243,8 +399,8 @@ export default function AIChatBubble() {
             </div>
           </div>
 
-          {/* Messages list */}
-          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 bg-nb-cream min-h-0">
+          {/* Messages list with custom slim scrollbar */}
+          <div className="flex-1 overflow-y-auto chat-scrollbar p-3 sm:p-4 space-y-3 bg-nb-cream min-h-0">
             {messages.map((msg, index) => {
               const isAssistant = msg.sender === 'assistant';
               const isSystem = msg.sender === 'system';
@@ -261,7 +417,7 @@ export default function AIChatBubble() {
 
               return (
                 <div key={index} className={`flex ${isAssistant ? 'justify-start' : 'justify-end'}`}>
-                  <div className={`flex gap-2 ${isAssistant ? 'max-w-full flex-row' : 'max-w-[80%] flex-row-reverse'}`}>
+                  <div className={`flex gap-2 ${isAssistant ? 'max-w-full flex-row' : 'max-w-[85%] flex-row-reverse'}`}>
                     {/* Avatar */}
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] border border-black flex-shrink-0 mt-1 ${isAssistant ? 'bg-nb-yellow' : 'bg-nb-pink'}`}>
                       <FontAwesomeIcon icon={isAssistant ? faRobot : faUser} />
@@ -314,7 +470,7 @@ export default function AIChatBubble() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Tanyakan sesuatu..."
+              placeholder="Tanyakan sesuatu seputar profil/proyek..."
               disabled={isLoading}
               className="flex-1 px-3 py-2 border-2 border-black rounded-xl text-xs sm:text-sm focus:outline-none focus:bg-nb-cream bg-white text-black font-semibold placeholder-gray-400 transition-colors"
             />

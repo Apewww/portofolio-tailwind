@@ -61,6 +61,17 @@ def ingest():
     )
 
 
-def search(query, k=3):
+def search(query, k=3, max_distance=0.95):
     collection = get_collection()
-    return collection.query(query_texts=[query], n_results=k)
+    res = collection.query(query_texts=[query], n_results=k)
+    docs = res.get("documents", [[]])[0] or []
+    distances = res.get("distances", [[]])[0] or []
+
+    if distances and max_distance is not None:
+        filtered_docs = []
+        for doc, dist in zip(docs, distances):
+            if dist <= max_distance:
+                filtered_docs.append(doc)
+        res["documents"] = [filtered_docs]
+    return res
+
