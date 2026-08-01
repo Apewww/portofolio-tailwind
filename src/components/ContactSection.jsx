@@ -54,7 +54,7 @@ export default function ContactSection() {
   };
 
   return (
-    <div id="contact" className="mt-40 mb-24 max-w-3xl mx-auto px-4 sm:px-6">
+    <div id="contact" className="mt-40 mb-24 w-full">
       {/* Section Header */}
       <div className="flex flex-col items-center justify-center gap-3 mb-10 text-center">
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-3">
@@ -65,9 +65,9 @@ export default function ContactSection() {
         </p>
       </div>
 
-      {/* Main Single Form Card */}
+      {/* Main Stretched Form Card */}
       <motion.div
-        className="bg-white border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] rounded-3xl p-6 sm:p-10 relative overflow-hidden"
+        className="w-full bg-white border-4 border-black shadow-[10px_10px_0px_0px_rgba(0,0,0,1)] rounded-3xl p-6 sm:p-10 md:p-12 relative overflow-hidden"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -75,12 +75,12 @@ export default function ContactSection() {
         {/* Form Card Header Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black pb-4 mb-8">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-nb-pink border border-black inline-block"></span>
+            <span className="w-3.5 h-3.5 rounded-full bg-nb-pink border border-black inline-block"></span>
             <h3 className="font-black text-lg sm:text-xl uppercase tracking-tight text-black flex items-center gap-2">
               Formulir Pesan <span className="text-nb-pink font-mono text-xs sm:text-sm">[DISCORD API]</span>
             </h3>
           </div>
-          <span className="text-[10px] font-black uppercase bg-nb-yellow text-black border-2 border-black px-2.5 py-1 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+          <span className="text-[10px] sm:text-xs font-black uppercase bg-nb-yellow text-black border-2 border-black px-3 py-1 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
             ⚡ FAST RESPONSE
           </span>
         </div>
@@ -101,7 +101,7 @@ export default function ContactSection() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-xs font-black uppercase mb-1.5 text-black tracking-wider">
                 Nama Lengkap <span className="text-nb-pink">*</span>
@@ -130,20 +130,19 @@ export default function ContactSection() {
                 className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold"
               />
             </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-black uppercase mb-1.5 text-black tracking-wider">
-              Subjek Pesan
-            </label>
-            <input
-              type="text"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              placeholder="Tawaran Proyek / Inquiry"
-              className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold"
-            />
+            <div>
+              <label className="block text-xs font-black uppercase mb-1.5 text-black tracking-wider">
+                Subjek Pesan
+              </label>
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Tawaran Proyek / Inquiry"
+                className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold"
+              />
+            </div>
           </div>
 
           <div>
@@ -152,12 +151,12 @@ export default function ContactSection() {
             </label>
             <textarea
               name="message"
-              rows={5}
+              rows={6}
               value={formData.message}
               onChange={handleChange}
               placeholder="Tuliskan detail pesan atau penawaran Anda di sini..."
               required
-              className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold resize-y min-h-[120px]"
+              className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold resize-y min-h-[140px]"
             />
           </div>
 
