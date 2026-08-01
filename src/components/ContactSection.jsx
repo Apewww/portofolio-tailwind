@@ -44,7 +44,7 @@ function CustomDropdown({ options, selected, onSelect }) {
 
       {/* Custom Dropdown Options Menu */}
       {isOpen && (
-        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl overflow-hidden py-1 transition-all">
+        <div className="absolute left-3 right-3 top-[calc(100%+6px)] z-50 bg-white border-[3px] border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-2xl overflow-hidden py-1 transition-all">
           {options.map((option, idx) => {
             const isSelected = option === selected;
             return (
