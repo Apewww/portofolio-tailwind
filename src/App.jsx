@@ -8,7 +8,6 @@ import Portofolio from './pages/Portofolio';
 import Education from './pages/Education';
 import Certificates from './pages/Certificates';
 import ContactSection from './components/ContactSection';
-import SystemStatusWidget from './components/SystemStatusWidget';
 import Footer from './components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -83,9 +82,6 @@ function App() {
         {/* Contact Section connected to Discord Webhook */}
         <ContactSection />
       </main>
-
-      {/* Live System Health Status Bar */}
-      <SystemStatusWidget />
 
       <footer>
         <Footer />
