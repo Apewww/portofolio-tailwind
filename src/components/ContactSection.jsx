@@ -17,7 +17,7 @@ export default function ContactSection() {
     subject: '💼 Tawaran Proyek',
     message: ''
   });
-  const [status, setStatus] = useState({ loading: false, success: null, message: '' });
+  const [status, setStatus] = useState({ loading: false, success: null, message: '', step: 0 });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,13 +26,18 @@ export default function ContactSection() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) {
-      setStatus({ loading: false, success: false, message: 'Mohon lengkapi Nama Lengkap, Email Kontak, dan Isi Pesan Anda!' });
+      setStatus({ loading: false, success: false, message: 'Mohon lengkapi Nama Lengkap, Email Kontak, dan Isi Pesan Anda!', step: 0 });
       return;
     }
 
-    setStatus({ loading: true, success: null, message: 'Mengirim pesan instan ke Discord Rafly...' });
+    // Step 1: Initiating connection
+    setStatus({ loading: true, success: null, message: 'Menghubungkan ke API Gateway...', step: 1 });
 
     try {
+      // Step 2: Formatting payload after short delay for feedback
+      await new Promise((resolve) => setTimeout(resolve, 400));
+      setStatus({ loading: true, success: null, message: 'Memproses Notifikasi Discord Webhook...', step: 2 });
+
       const response = await fetch(`${BACKEND_URL}/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,20 +50,25 @@ export default function ContactSection() {
         throw new Error(data.error || 'Gagal mengirim pesan ke server');
       }
 
+      // Step 3: Success
       setStatus({
         loading: false,
         success: true,
-        message: '🎉 Terima kasih! Pesan Anda telah berhasil terkirim secara instan ke channel Discord Rafly.'
+        message: '🎉 Terima kasih! Pesan Anda telah berhasil terkirim secara instan ke channel Discord Rafly.',
+        step: 3
       });
       setFormData({ name: '', email: '', subject: '💼 Tawaran Proyek', message: '' });
     } catch (err) {
       setStatus({
         loading: false,
         success: false,
-        message: err.message || 'Gagal terhubung ke server backend. Pastikan server aktif.'
+        message: err.message || 'Gagal terhubung ke server backend. Pastikan server aktif.',
+        step: 0
       });
     }
   };
+
+  const inputStyle = "w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:bg-white focus:border-nb-pink focus:translate-x-[3px] focus:translate-y-[3px] focus:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] focus:outline-none transition-all duration-200 placeholder:text-gray-400 placeholder:font-medium";
 
   return (
     <div id="contact" className="mt-40 mb-24 w-full">
@@ -90,15 +100,31 @@ export default function ContactSection() {
           </span>
         </div>
 
-        {/* Status Notification Banner */}
-        {status.message && (
+        {/* Processing / Status Feedback Banner */}
+        {status.loading && (
+          <div className="mb-8 p-5 bg-nb-yellow border-3 border-black rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col gap-3 animate-pulse">
+            <div className="flex items-center justify-between font-black text-xs uppercase tracking-wider text-black">
+              <span className="flex items-center gap-2">
+                <span className="animate-spin inline-block border-2 border-black border-t-transparent rounded-full w-4 h-4"></span>
+                {status.message}
+              </span>
+              <span>Langkah {status.step}/3</span>
+            </div>
+            <div className="w-full bg-white border-2 border-black h-3 rounded-full overflow-hidden p-0.5">
+              <div
+                className="bg-nb-pink h-full rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${(status.step / 3) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {!status.loading && status.message && (
           <div
             className={`mb-8 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
               status.success === true
                 ? 'bg-green-300 text-black border-black'
-                : status.success === false
-                ? 'bg-red-300 text-black border-black'
-                : 'bg-nb-cyan text-black'
+                : 'bg-red-300 text-black border-black'
             }`}
           >
             {status.message}
@@ -122,7 +148,7 @@ export default function ContactSection() {
                 onChange={handleChange}
                 placeholder="Nama Anda / Perusahaan"
                 required
-                className="w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black focus:bg-white focus:outline-none focus:border-nb-pink transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-medium"
+                className={inputStyle}
               />
             </div>
 
@@ -141,7 +167,7 @@ export default function ContactSection() {
                 onChange={handleChange}
                 placeholder="nama@domain.com"
                 required
-                className="w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black focus:bg-white focus:outline-none focus:border-nb-pink transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-medium"
+                className={inputStyle}
               />
             </div>
 
@@ -158,7 +184,7 @@ export default function ContactSection() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className="w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black focus:bg-white focus:outline-none focus:border-nb-pink transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] cursor-pointer appearance-none pr-10"
+                  className={`${inputStyle} cursor-pointer appearance-none pr-10`}
                 >
                   {categories.map((cat, idx) => (
                     <option key={idx} value={cat} className="bg-white text-black font-bold py-2">
@@ -188,7 +214,7 @@ export default function ContactSection() {
               onChange={handleChange}
               placeholder="Tuliskan detail pesan, kebutuhan proyek, atau pertanyaan Anda di sini..."
               required
-              className="w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black focus:bg-white focus:outline-none focus:border-nb-pink transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-medium resize-y min-h-[140px]"
+              className={`${inputStyle} resize-y min-h-[140px]`}
             />
           </div>
 
@@ -201,7 +227,7 @@ export default function ContactSection() {
             {status.loading ? (
               <>
                 <span className="animate-spin inline-block border-2 border-black border-t-transparent rounded-full w-4 h-4"></span>
-                <span>Mengirim Ke Discord...</span>
+                <span>Memproses Pesan...</span>
               </>
             ) : (
               <>
