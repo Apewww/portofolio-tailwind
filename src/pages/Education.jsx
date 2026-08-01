@@ -35,6 +35,7 @@ export default function Education() {
                         className="pl-10 relative"
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
                         transition={{ delay: index * 0.1 }}
                     >
                         <div className={`absolute left-0 top-1 w-8 h-8 rounded-none border-2 border-black bg-${item.color} shadow-nb z-10`} />

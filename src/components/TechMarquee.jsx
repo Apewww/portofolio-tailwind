@@ -38,7 +38,7 @@ const TechMarquee = () => {
       <motion.div
         className="flex items-center gap-6"
         style={{ width: 'max-content' }}
-        animate={{ x: [0, '-50%'] }}
+        animate={{ x: ['0%', '-50%'] }}
         transition={{
           repeat: Infinity,
           repeatType: 'loop',

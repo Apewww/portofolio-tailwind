@@ -31,6 +31,7 @@ export default function Skills() {
                     className="nb-card group"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
                 >
                     <div className={`w-16 h-16 bg-${service.color} border-2 border-black rounded-xl mb-6 flex items-center justify-center shadow-nb group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all`}>

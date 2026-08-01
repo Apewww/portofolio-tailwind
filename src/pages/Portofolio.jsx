@@ -87,6 +87,7 @@ const ProjectItem = ({ project, index }) => {
             className="nb-card p-0 overflow-hidden bg-white group hover:border-nb-pink transition-colors"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             transition={{ delay: index * 0.05 }}
         >
             <div className="relative aspect-video overflow-hidden border-b-2 border-black bg-black">

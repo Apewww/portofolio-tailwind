@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { motion } from "framer-motion";
 
 const certificates = [
@@ -44,6 +44,7 @@ const CertBadge = ({ cert, index }) => (
         className="nb-card p-6 bg-white flex flex-col md:flex-row gap-8 items-center group"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
         transition={{ delay: index * 0.05 }}
     >
         <div className="relative w-full md:w-1/3 aspect-[16/10] overflow-hidden border-2 border-black bg-nb-yellow flex-shrink-0">
