@@ -44,7 +44,7 @@ function CustomDropdown({ options, selected, onSelect }) {
 
       {/* Custom Dropdown Options Menu */}
       {isOpen && (
-        <div className="absolute left-3 right-3 top-[calc(100%+6px)] z-50 bg-white border-[3px] border-black shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rounded-2xl overflow-hidden py-1 transition-all">
+        <div className="absolute left-2 right-2 top-full mt-1.5 z-50 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl overflow-hidden py-0.5 transition-all">
           {options.map((option, idx) => {
             const isSelected = option === selected;
             return (
@@ -54,7 +54,7 @@ function CustomDropdown({ options, selected, onSelect }) {
                   onSelect(option);
                   setIsOpen(false);
                 }}
-                className={`px-4 py-3 text-xs sm:text-sm font-black cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${
+                className={`px-3.5 py-2 text-xs font-black cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${
                   isSelected
                     ? 'bg-nb-pink text-black'
                     : 'bg-white text-black hover:bg-nb-yellow'
@@ -62,7 +62,7 @@ function CustomDropdown({ options, selected, onSelect }) {
               >
                 <span>{option}</span>
                 {isSelected && (
-                  <span className="text-[10px] font-black uppercase bg-black text-white px-1.5 py-0.5 rounded">
+                  <span className="text-[9px] font-black uppercase bg-black text-white px-1.5 py-0.5 rounded">
                     AKTIF
                   </span>
                 )}
