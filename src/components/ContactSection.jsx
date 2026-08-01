@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
@@ -9,6 +9,71 @@ const categories = [
   "🐛 Report Bug / Feedback",
   "☕ Tanya-tanya"
 ];
+
+function CustomDropdown({ options, selected, onSelect }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative w-full" ref={dropdownRef}>
+      {/* Trigger Button */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black flex items-center justify-between transition-all duration-200 cursor-pointer ${
+          isOpen
+            ? 'bg-white border-nb-pink translate-x-[3px] translate-y-[3px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
+            : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+        }`}
+      >
+        <span className="truncate">{selected}</span>
+        <span className={`transition-transform duration-200 text-xs font-black ml-2 ${isOpen ? 'rotate-180 text-nb-pink' : 'text-black'}`}>
+          ▼
+        </span>
+      </button>
+
+      {/* Custom Dropdown Options Menu */}
+      {isOpen && (
+        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-2xl overflow-hidden py-1 transition-all">
+          {options.map((option, idx) => {
+            const isSelected = option === selected;
+            return (
+              <div
+                key={idx}
+                onClick={() => {
+                  onSelect(option);
+                  setIsOpen(false);
+                }}
+                className={`px-4 py-3 text-xs sm:text-sm font-black cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${
+                  isSelected
+                    ? 'bg-nb-pink text-black'
+                    : 'bg-white text-black hover:bg-nb-yellow'
+                }`}
+              >
+                <span>{option}</span>
+                {isSelected && (
+                  <span className="text-[10px] font-black uppercase bg-black text-white px-1.5 py-0.5 rounded">
+                    AKTIF
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -171,7 +236,7 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Input 3: Kategori Pesan Dropdown */}
+            {/* Input 3: Custom Neubrutalism Dropdown */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-black uppercase tracking-wider text-black flex items-center gap-1.5">
@@ -179,23 +244,11 @@ export default function ContactSection() {
                 </label>
                 <span className="text-[9px] font-black uppercase bg-nb-yellow/40 text-black border border-black/30 px-1.5 py-0.5 rounded">Pilih</span>
               </div>
-              <div className="relative">
-                <select
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`${inputStyle} cursor-pointer appearance-none pr-10`}
-                >
-                  {categories.map((cat, idx) => (
-                    <option key={idx} value={cat} className="bg-white text-black font-bold py-2">
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-black font-black text-xs">
-                  ▼
-                </div>
-              </div>
+              <CustomDropdown
+                options={categories}
+                selected={formData.subject}
+                onSelect={(val) => setFormData({ ...formData, subject: val })}
+              />
             </div>
           </div>
 
