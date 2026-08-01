@@ -60,9 +60,6 @@ export default function ContactSection() {
         <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-3">
           Hubungi Rafly Langsung <span className="text-3xl sm:text-4xl text-nb-pink">✴</span>
         </h2>
-        <p className="text-xs sm:text-sm font-black uppercase tracking-[0.3em] text-nb-pink">
-          ⚡ NOTIFIKASI INSTAN • TERINTEGRASI DISCORD BOT
-        </p>
       </div>
 
       {/* Main Stretched Form Card */}
@@ -81,20 +78,19 @@ export default function ContactSection() {
             </h3>
           </div>
           <span className="text-[10px] sm:text-xs font-black uppercase bg-nb-yellow text-black border-2 border-black px-3 py-1 rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            ⚡ FAST RESPONSE
+            Webhook Discord
           </span>
         </div>
 
         {/* Status Notification Banner */}
         {status.message && (
           <div
-            className={`mb-6 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
-              status.success === true
-                ? 'bg-green-300 text-black border-black'
-                : status.success === false
+            className={`mb-6 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${status.success === true
+              ? 'bg-green-300 text-black border-black'
+              : status.success === false
                 ? 'bg-red-300 text-black border-black'
                 : 'bg-nb-cyan text-black'
-            }`}
+              }`}
           >
             {status.message}
           </div>
@@ -172,8 +168,7 @@ export default function ContactSection() {
               </>
             ) : (
               <>
-                <span>Kirim Pesan Ke Discord Rafly</span>
-                <span className="text-base">🚀</span>
+                <span>Kirim Pesan</span>
               </>
             )}
           </button>
