@@ -7,6 +7,8 @@ import SocialSidebar from './components/SocialSidebar';
 import Portofolio from './pages/Portofolio';
 import Education from './pages/Education';
 import Certificates from './pages/Certificates';
+import ContactSection from './components/ContactSection';
+import SystemStatusWidget from './components/SystemStatusWidget';
 import Footer from './components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons';
@@ -47,13 +49,13 @@ function App() {
       {/* Vertical Social Sidebar */}
       <SocialSidebar />
 
-      <main className="relative pt-20 sm:pt-24 pb-24 px-4 sm:px-6 md:px-12 max-w-[1400px] mx-auto z-10">
+      <main className="relative pt-20 sm:pt-24 pb-12 px-4 sm:px-6 md:px-12 max-w-[1400px] mx-auto z-10">
         <Hero />
 
         <div id="skills" className="mt-24 sm:mt-32 md:mt-48">
           <div className="flex items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
-              Experience & Skills <span className="text-4xl text-nb-pink">✴?</span>
+              Experience & Skills <span className="text-4xl text-nb-pink">✴</span>
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
@@ -77,10 +79,18 @@ function App() {
         <div id="certificates" className="mt-24 sm:mt-32 md:mt-48">
           <Certificates />
         </div>
+
+        {/* Contact Section connected to Discord Webhook */}
+        <ContactSection />
       </main>
+
+      {/* Live System Health Status Bar */}
+      <SystemStatusWidget />
+
       <footer>
         <Footer />
       </footer>
+
       {showButton && (
         <div className="fixed bottom-6 right-4 sm:bottom-10 sm:right-16 md:right-20 z-[9999]">
           <button

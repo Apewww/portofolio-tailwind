@@ -42,6 +42,12 @@ export default function Footer() {
                     <a href="mailto:apewinaja@gmail.com" className="font-bold text-xs uppercase tracking-wider hover:text-nb-yellow transition-colors">
                         📧 apewinaja@gmail.com
                     </a>
+                    <a href="https://www.instagram.com/stellochron/" target="_blank" rel="noopener noreferrer" className="font-bold text-xs uppercase tracking-wider hover:text-nb-pink transition-colors">
+                        📷 Instagram (@stellochron)
+                    </a>
+                    <a href="https://discord.com/users/695513585639620629" target="_blank" rel="noopener noreferrer" className="font-bold text-xs uppercase tracking-wider hover:text-nb-cyan transition-colors">
+                        💬 Discord User
+                    </a>
                     <p className="font-bold text-xs uppercase tracking-wider">📍 Cimahi, Indonesia</p>
                 </div>
             </div>

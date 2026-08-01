@@ -464,6 +464,30 @@ export default function AIChatBubble() {
             <div ref={messagesEndRef} />
           </div>
 
+          {/* Quick Suggestion Chips */}
+          <div className="px-3 py-1.5 bg-nb-cream/80 border-t border-black/20 flex gap-1.5 overflow-x-auto chat-scrollbar flex-shrink-0">
+            {[
+              { label: '💻 Proyek AI Gateway', query: 'Apa itu proyek AI Gateway dan teknologinya?' },
+              { label: '⚡ Skill Backend', query: 'Apa saja skill backend dan tech stack Rafly?' },
+              { label: '📩 Hubungi Rafly', query: 'Bagaimana cara menghubungi atau berkontak dengan Rafly?' },
+              { label: '🎓 Pendidikan', query: 'Di mana latar belakang pendidikan dan jurusan Rafly?' },
+            ].map((chip, idx) => (
+              <button
+                key={idx}
+                type="button"
+                disabled={isLoading}
+                onClick={() => {
+                  if (!isLoading) {
+                    setInput(chip.query);
+                  }
+                }}
+                className="whitespace-nowrap px-2 py-1 bg-white hover:bg-nb-yellow border border-black rounded-lg text-[10px] font-bold shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px] transition-all flex-shrink-0 cursor-pointer disabled:opacity-50"
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+
           {/* Input form */}
           <form onSubmit={handleSend} className="p-3 border-t-[3px] border-black bg-white flex gap-2 flex-shrink-0">
             <input

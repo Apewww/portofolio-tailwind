@@ -1,3 +1,4 @@
+import datetime
 import os
 from pathlib import Path
 
@@ -26,6 +27,7 @@ GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 CHAT_API_KEY = os.environ.get("CHAT_API_KEY") or os.environ.get("PORTFOLIO_API_KEY", "")
 RATE_LIMIT_SETTING = os.environ.get("RATE_LIMIT_PER_MINUTE", "10/minute")
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
 
 _ingested = False
 
@@ -46,7 +48,7 @@ GAYA BAHASA & ATURAN RESPONS:
 - Jika tidak menemukan informasi faktual di konteks, ingatkan dengan sopan dan sarankan pengguna untuk menghubungi kontak resmi Rafly."""
 
 limiter = Limiter(key_func=get_remote_address)
-app = FastAPI(title="Portfolio AI Assistant")
+app = FastAPI(title="Portfolio AI Assistant & Gateway")
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
@@ -63,7 +65,7 @@ def _startup():
     try:
         _ensure_ingested()
     except Exception as e:
-        print(f"WARN: ingest gagal saat startup (llama-cli tersedia?): {e}")
+        print(f"WARN: ingest gagal saat startup: {e}")
 
 
 def _ensure_ingested():
@@ -74,15 +76,12 @@ def _ensure_ingested():
 
 
 def verify_api_key(x_api_key: str | None = None, authorization: str | None = None) -> bool:
-    # Jika CHAT_API_KEY tidak diset di env backend, ijinkan akses (mode dev / open backend)
     if not CHAT_API_KEY:
         return True
     
-    # Cek X-API-Key header
     if x_api_key and x_api_key.strip() == CHAT_API_KEY.strip():
         return True
     
-    # Cek Authorization: Bearer <key>
     if authorization and authorization.startswith("Bearer "):
         token = authorization.split("Bearer ")[1].strip()
         if token == CHAT_API_KEY.strip():
@@ -96,16 +95,28 @@ class ChatRequest(BaseModel):
     history: list[dict] | None = None
 
 
+class ContactRequest(BaseModel):
+    name: str
+    email: str
+    subject: str | None = "Portofolio Inquiry"
+    message: str
+
+
 router = APIRouter()
 
 
 @router.get("/health")
-def health():
+@router.get("/status")
+def status_info():
     return {
-        "status": "ok",
+        "status": "online",
+        "service": "Portfolio AI Gateway & Vector RAG",
         "model": GROQ_MODEL,
+        "vector_store": "ChromaDB Ready",
         "api_key_protected": bool(CHAT_API_KEY),
-        "rate_limit": RATE_LIMIT_SETTING
+        "rate_limit": RATE_LIMIT_SETTING,
+        "discord_webhook_configured": bool(DISCORD_WEBHOOK_URL),
+        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
     }
 
 
@@ -172,6 +183,57 @@ async def chat(
 
     reply = resp.json()["choices"][0]["message"]["content"]
     return {"reply": reply}
+
+
+@router.post("/contact")
+@limiter.limit("5/minute")
+async def contact(req: ContactRequest, request: Request):
+    if not req.name or not req.email or not req.message:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={"error": "Nama, email, dan pesan wajib diisi."}
+        )
+
+    if not DISCORD_WEBHOOK_URL:
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"error": "DISCORD_WEBHOOK_URL tidak dikonfigurasi."}
+        )
+
+    embed = {
+        "title": f"📩 Pesan Baru Portofolio: {req.subject or 'Inquiry'}",
+        "color": 16711807,  # #ff007f Neubrutalism pink
+        "fields": [
+            {"name": "👤 Nama Pengirim", "value": req.name, "inline": True},
+            {"name": "📧 Email Pengirim", "value": req.email, "inline": True},
+            {"name": "💬 Isi Pesan", "value": req.message, "inline": False},
+        ],
+        "footer": {"text": "Stellochron Portfolio AI Gateway • Web Notification"},
+        "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            resp = await client.post(
+                DISCORD_WEBHOOK_URL,
+                json={
+                    "username": "RaflyLabs Portfolio Bot",
+                    "avatar_url": "https://raflylabs.com/favicon.ico",
+                    "embeds": [embed]
+                },
+            )
+        if resp.status_code not in (200, 204):
+            return JSONResponse(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                content={"error": f"Gagal mengirim pesan ke Discord ({resp.status_code})."}
+            )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            content={"error": f"Terjadi kesalahan saat terhubung ke Discord: {e}"}
+        )
+
+    return {"status": "success", "message": "Pesan Anda telah berhasil terkirim langsung ke Discord Rafly!"}
 
 
 app.include_router(router)
