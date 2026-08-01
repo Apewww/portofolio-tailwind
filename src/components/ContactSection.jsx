@@ -3,11 +3,18 @@ import { motion } from 'framer-motion';
 
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
 
+const categories = [
+  "💼 Tawaran Proyek",
+  "🤝 Kolaborasi",
+  "🐛 Report Bug / Feedback",
+  "☕ Tanya-tanya"
+];
+
 export default function ContactSection() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: 'Tawaran Proyek / Inquiry',
+    subject: '💼 Tawaran Proyek',
     message: ''
   });
   const [status, setStatus] = useState({ loading: false, success: null, message: '' });
@@ -43,7 +50,7 @@ export default function ContactSection() {
         success: true,
         message: '🎉 Terima kasih! Pesan Anda telah berhasil terkirim secara instan ke channel Discord Rafly.'
       });
-      setFormData({ name: '', email: '', subject: 'Tawaran Proyek / Inquiry', message: '' });
+      setFormData({ name: '', email: '', subject: '💼 Tawaran Proyek', message: '' });
     } catch (err) {
       setStatus({
         loading: false,
@@ -86,12 +93,13 @@ export default function ContactSection() {
         {/* Status Notification Banner */}
         {status.message && (
           <div
-            className={`mb-6 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${status.success === true
-              ? 'bg-green-300 text-black border-black'
-              : status.success === false
+            className={`mb-6 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${
+              status.success === true
+                ? 'bg-green-300 text-black border-black'
+                : status.success === false
                 ? 'bg-red-300 text-black border-black'
                 : 'bg-nb-cyan text-black'
-              }`}
+            }`}
           >
             {status.message}
           </div>
@@ -113,6 +121,7 @@ export default function ContactSection() {
                 className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold"
               />
             </div>
+
             <div>
               <label className="block text-xs font-black uppercase mb-1.5 text-black tracking-wider">
                 Email Kontak <span className="text-nb-pink">*</span>
@@ -127,18 +136,23 @@ export default function ContactSection() {
                 className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold"
               />
             </div>
+
             <div>
               <label className="block text-xs font-black uppercase mb-1.5 text-black tracking-wider">
-                Subjek Pesan
+                Kategori Pesan <span className="text-nb-pink">*</span>
               </label>
-              <input
-                type="text"
+              <select
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                placeholder="Tawaran Proyek / Inquiry"
-                className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] placeholder:text-gray-400 placeholder:font-semibold"
-              />
+                className="w-full px-4 py-3.5 border-3 border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream focus:bg-white focus:outline-none focus:ring-2 focus:ring-nb-pink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] focus:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-pointer text-black"
+              >
+                {categories.map((cat, idx) => (
+                  <option key={idx} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
