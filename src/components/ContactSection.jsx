@@ -30,11 +30,10 @@ function CustomDropdown({ options, selected, onSelect }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black flex items-center justify-between transition-all duration-200 cursor-pointer ${
-          isOpen
-            ? 'bg-white border-nb-pink translate-x-[3px] translate-y-[3px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
-            : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-        }`}
+        className={`w-full px-4 py-3.5 border-[3px] border-black rounded-2xl text-xs sm:text-sm font-bold bg-nb-cream text-black flex items-center justify-between transition-all duration-200 cursor-pointer ${isOpen
+          ? 'bg-white border-nb-pink translate-x-[3px] translate-y-[3px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
+          : 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+          }`}
       >
         <span className="truncate">{selected}</span>
         <span className={`transition-transform duration-200 text-xs font-black ml-2 ${isOpen ? 'rotate-180 text-nb-pink' : 'text-black'}`}>
@@ -54,11 +53,10 @@ function CustomDropdown({ options, selected, onSelect }) {
                   onSelect(option);
                   setIsOpen(false);
                 }}
-                className={`px-3.5 py-2 text-xs font-black cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${
-                  isSelected
-                    ? 'bg-nb-pink text-black'
-                    : 'bg-white text-black hover:bg-nb-yellow'
-                }`}
+                className={`px-3.5 py-2 text-xs font-black cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${isSelected
+                  ? 'bg-nb-pink text-black'
+                  : 'bg-white text-black hover:bg-nb-yellow'
+                  }`}
               >
                 <span>{option}</span>
                 {isSelected && (
@@ -186,11 +184,10 @@ export default function ContactSection() {
 
         {!status.loading && status.message && (
           <div
-            className={`mb-8 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
-              status.success === true
-                ? 'bg-green-300 text-black border-black'
-                : 'bg-red-300 text-black border-black'
-            }`}
+            className={`mb-8 p-4 rounded-2xl border-3 border-black font-black text-xs sm:text-sm text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${status.success === true
+              ? 'bg-green-300 text-black border-black'
+              : 'bg-red-300 text-black border-black'
+              }`}
           >
             {status.message}
           </div>
@@ -284,8 +281,7 @@ export default function ContactSection() {
               </>
             ) : (
               <>
-                <span>Kirim Pesan Ke Discord</span>
-                <span className="text-base">🚀</span>
+                <span>Kirim Pesan</span>
               </>
             )}
           </button>

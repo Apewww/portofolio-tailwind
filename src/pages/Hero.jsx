@@ -58,11 +58,12 @@ export default function Hero() {
                     {/* Integrated Main Graphic (Blob + Person) */}
                     <div className="relative z-10 flex justify-center items-end h-[22rem] sm:h-[30rem] md:h-[38rem] lg:h-[44rem] xl:h-[48rem]">
                         <img
-                            src="/assets/img/final_me.png"
+                            src="/assets/img/final_me.webp"
+                            fetchpriority="high"
                             className="w-auto h-full object-contain mix-blend-multiply"
                             alt="Rafly Anggara"
                             onError={(e) => {
-                                e.target.src = "/assets/img/me_final.png";
+                                e.target.src = "/assets/img/me_final.webp";
                             }}
                         />
                     </div>

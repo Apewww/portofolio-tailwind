@@ -7,35 +7,35 @@ const certificates = [
         issuer: "Meta / Coursera",
         link: "https://coursera.org/verify/UTJ9Y0Q04F0E",
         category: "Pemrograman",
-        image: "/assets/img/Certif_HTML and CSS.png"
+        image: "/assets/img/Certif_HTML and CSS.webp"
     },
     {
         title: "Introduction Frontend Systems",
         issuer: "Meta / Coursera",
         link: "https://coursera.org/verify/R3HXJABQVHH2",
         category: "Pemrograman",
-        image: "/assets/img/Certif_Intro Frontend Development.png"
+        image: "/assets/img/Certif_Intro Frontend Development.webp"
     },
     {
         title: "Javascript Core Logic",
         issuer: "Meta / Coursera",
         link: "https://coursera.org/verify/Z654TDKKZJK2",
         category: "Pemrograman",
-        image: "/assets/img/Certif_Programming Javascript.png"
+        image: "/assets/img/Certif_Programming Javascript.webp"
     },
     {
         title: "Python Engineering",
         issuer: "Meta / Coursera",
         link: "https://coursera.org/verify/6IIWE8U7861R",
         category: "Pemrograman",
-        image: "/assets/img/Certif_Programming Python.png"
+        image: "/assets/img/Certif_Programming Python.webp"
     },
     {
         title: "Version Control Workflow",
         issuer: "Meta / Coursera",
         link: "https://coursera.org/verify/PI22FH6PPXS7",
         category: "Operasional",
-        image: "/assets/img/Certif_Version Control.png"
+        image: "/assets/img/Certif_Version Control.webp"
     }
 ];
 

@@ -4,21 +4,21 @@ const SocialSidebar = () => {
   const socials = [
     {
       name: 'GitHub',
-      iconUrl: '/assets/img/github.png',
+      iconUrl: '/assets/img/github.webp',
       url: 'https://github.com/Apewww',
       color: 'bg-white',
       hoverColor: 'hover:bg-nb-yellow'
     },
     {
       name: 'LinkedIn',
-      iconUrl: '/assets/img/linkedin.png',
+      iconUrl: '/assets/img/linkedin.webp',
       url: 'https://linkedin.com/in/rafly-anggara',
       color: 'bg-white',
       hoverColor: 'hover:bg-nb-cyan'
     },
     {
       name: 'Discord',
-      iconUrl: '/assets/img/discord.png',
+      iconUrl: '/assets/img/discord.webp',
       url: 'https://discord.com/users/695513585639620629',
       color: 'bg-white',
       hoverColor: 'hover:bg-nb-pink'

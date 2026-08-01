@@ -5,7 +5,7 @@ const projects = [
     {
         title: "Natacell Portal",
         description: "Portal etalase online toko ATK, pulsa/PPOB, jasa fotocopy & service komputer, dilengkapi bank soal SD-SMA untuk menarik trafik organik dari Google.",
-        image: "/assets/img/natacellportal.png",
+        image: "/assets/img/natacellportal.webp",
         url: "https://natacell.my.id",
         github: "https://github.com/Apewww/natacell-portal",
         tags: ["Laravel", "Filament", "TailwindCSS", "SEO"],
@@ -14,7 +14,7 @@ const projects = [
     {
         title: "AI Gateway",
         description: "Gateway AI berbasis web. Gateway terpusat untuk chatbot LLM via OpenRouter.",
-        image: "/assets/img/aigateway.png",
+        image: "/assets/img/aigateway.webp",
         url: "https://chat.raflylabs.com/",
         github: "https://github.com/Apewww/AI-Assistant-Gateway",
         tags: ["NextJS", "FastAPI", "Uvicorn", "LLM", "Openrouter", "Python", "AI"],
@@ -23,7 +23,7 @@ const projects = [
     {
         title: "Syncra",
         description: "Platform streaming audio web dengan integrasi AI chatbot untuk kontrol pemutar musik.",
-        image: "/assets/img/syncra.png",
+        image: "/assets/img/syncra.webp",
         url: "https://syncra.raflylabs.com/",
         github: "https://github.com/Apewww/-",
         tags: ["React", "FastAPI", "YT-DLP", "Python"],
@@ -32,7 +32,7 @@ const projects = [
     {
         title: "Natahost",
         description: "Web Penjualan Hosting dan Domain dengan Payment Gateway Terintegrasi.",
-        image: "/assets/img/natahost.png",
+        image: "/assets/img/natahost.webp",
         url: "https://natahost.raflylabs.com/",
         github: "https://github.com/Apewww/natahosts",
         tags: ["React", "Laravel", "Payment Gateway"],
@@ -41,7 +41,7 @@ const projects = [
     {
         title: "MyFinance Note",
         description: "Sistem keuangan pribadi yang fokus pada pencatatan data andal dengan konkurensi tinggi.",
-        image: "/assets/img/myfinance_note.png",
+        image: "/assets/img/myfinance_note.webp",
         url: "https://myfinance-note.vercel.app/",
         github: "https://github.com/Apewww/myfinance-note",
         tags: ["React", "Supabase"],
@@ -50,7 +50,7 @@ const projects = [
     {
         title: "CuacaKita",
         description: "Implementasi meteorologi menggunakan integrasi API modern dan framework Flask.",
-        image: "/assets/img/cuacakita.png",
+        image: "/assets/img/cuacakita.webp",
         url: "https://cuacakita.raflylabs.com/",
         github: "https://github.com/Apewww/cuacakita",
         tags: ["Flask", "PWA", "Python"],
@@ -59,7 +59,7 @@ const projects = [
     {
         title: "Asset Management",
         description: "Sistem manajemen aset perusahaan yang menekankan efisiensi dan integritas struktural.",
-        image: "/assets/img/asset_management.png",
+        image: "/assets/img/asset_management.webp",
         url: "https://github.com/Apewww/asset-management",
         github: "https://github.com/Apewww/asset-management",
         tags: ["React", "Flask", "Python"],
@@ -68,7 +68,7 @@ const projects = [
     {
         title: "Algorithm SAW",
         description: "Implementasi pendukung keputusan yang dioptimalkan menggunakan logika matematika terstruktur.",
-        image: "/assets/img/project_1.png",
+        image: "/assets/img/project_1.webp",
         url: "https://github.com/Apewww/saw-calculation",
         github: "https://github.com/Apewww/saw-calculation",
         tags: ["Python", "Logic"],
@@ -92,7 +92,7 @@ const ProjectItem = ({ project, index }) => {
         >
             <div className="relative aspect-video overflow-hidden border-b-2 border-black bg-black">
                 <img
-                    src={project.image || "/assets/img/project_1.png"}
+                    src={project.image || "/assets/img/project_1.webp"}
                     alt={project.title || "Project"}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
                     onError={(e) => (e.target.style.display = 'none')}
