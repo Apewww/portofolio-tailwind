@@ -12,8 +12,8 @@ export default function Hero() {
                 transition={{ duration: 0.6 }}
             >
                 <h1 className="text-4xl sm:text-5xl md:text-5xl font-black mb-6 sm:mb-8 leading-[1.1] tracking-tighter text-black relative">
-                    Saya seorang <span className="relative">Backend Engineer <span className="absolute -top-6 -right-12 text-4xl">✴?</span></span> <br />
-                    berfokus pada <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Skalabilitas</span> dan <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Otomasi</span>
+                    <span className="block text-nb-pink [-webkit-text-stroke:2px_black]">Rafly Anggara Putra</span>
+                    <span className="block">Backend Engineer <span className="relative">✴</span> berfokus pada <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Skalabilitas</span> dan <span className="text-nb-pink [-webkit-text-stroke:2px_black] underline decoration-nb-yellow decoration-8 underline-offset-8">Otomasi</span></span>
                 </h1>
 
                 <p className="text-base sm:text-lg md:text-xl font-bold mb-8 sm:mb-12 max-w-xl leading-snug text-black opacity-80">
