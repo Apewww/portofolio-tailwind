@@ -50,6 +50,23 @@ python -m venv .venv
 Ingest ke ChromaDB otomatis saat pertama kali `/chat` dipanggil (sekali saja; hasil
 tersimpan permanen di `CHROMA_DIR`).
 
+### 3a. Knowledge base & re-ingest
+
+Konten RAG ada di folder `backend/kb/*.md` (identity, skills, projects, ecosystem,
+academic-projects, experience) — edit langsung file `.md`-nya, tanpa menyentuh kode.
+
+Setelah mengubah konten KB, jalankan re-ingest (butuh embedding server aktif):
+
+```
+cd backend
+.venv\Scripts\python vectorstore.py --reingest
+```
+
+Atau set `FORCE_REINGEST=1` lalu restart service. Sejak versi cosine, ingest otomatis
+mendeteksi index ChromaDB lama (space `l2`) dan rebuild ke `cosine` — jarak hasil
+pencarian kini bermakna (rentang 0–2) sehingga filter `max_distance` berfungsi
+dengan benar.
+
 ### 3b. Jalankan sebagai service Windows (NSSM)
 
 Pastikan `nssm.exe` ada di `PATH` (unduh dari https://nssm.cc), lalu dari **prompt
