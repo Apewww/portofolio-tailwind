@@ -23,7 +23,7 @@ if root_env_path.exists():
 from vectorstore import ingest, search  # noqa: E402
 
 GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 CHAT_API_KEY = os.environ.get("CHAT_API_KEY") or os.environ.get("PORTFOLIO_API_KEY", "")
 RATE_LIMIT_SETTING = os.environ.get("RATE_LIMIT_PER_MINUTE", "10/minute")
@@ -140,17 +140,21 @@ async def chat(
             content={"error": "GROQ_API_KEY tidak diset. Tambahkan ke file .env."}
         )
 
+    # RAG Search dengan fallback ke in-memory KB jika embedding server offline
+    context = ""
     try:
         _ensure_ingested()
+        retrieved = search(req.message, k=3, max_distance=0.95)
+        docs = retrieved.get("documents", [[]])[0] or []
+        context = "\n\n---\n\n".join(docs)
     except Exception as e:
-        return JSONResponse(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            content={"error": f"Vector store belum siap: {e}"}
-        )
-
-    retrieved = search(req.message, k=3, max_distance=0.95)
-    docs = retrieved.get("documents", [[]])[0] or []
-    context = "\n\n---\n\n".join(docs)
+        print(f"WARN: RAG search gagal/offline ({e}), menggunakan fallback Knowledge Base in-memory.")
+        try:
+            from kb import KB
+            # Ambil seluruh ringkasan KB sebagai fallback
+            context = "\n\n---\n\n".join([f"### {k.upper()}\n{v}" for k, v in KB.items()])
+        except Exception:
+            context = ""
 
     system_prompt = (
         f"{BASE_SYSTEM_PROMPT}\n\nKONTEKS DATA PORTOFOLIO RAFLY:\n{context}"
@@ -162,27 +166,41 @@ async def chat(
     messages.extend(req.history or [])
     messages.append({"role": "user", "content": req.message})
 
-    async with httpx.AsyncClient(timeout=60) as client:
-        resp = await client.post(
-            f"{GROQ_BASE_URL}/chat/completions",
-            headers={"Authorization": f"Bearer {GROQ_API_KEY}"},
-            json={
-                "model": GROQ_MODEL,
-                "messages": messages,
-                "stream": False,
-                "temperature": 0.2,
-                "max_tokens": 512,
-            },
-        )
-    if resp.status_code != 200:
-        detail = resp.json().get("error", {}).get("message", resp.text[:300])
-        return JSONResponse(
-            status_code=status.HTTP_502_BAD_GATEWAY,
-            content={"error": f"Groq Gateway ({resp.status_code}): {detail}"}
-        )
+    try:
+        async with httpx.AsyncClient(timeout=45) as client:
+            resp = await client.post(
+                f"{GROQ_BASE_URL}/chat/completions",
+                headers={"Authorization": f"Bearer {GROQ_API_KEY}"},
+                json={
+                    "model": GROQ_MODEL,
+                    "messages": messages,
+                    "stream": False,
+                    "temperature": 0.2,
+                    "max_tokens": 512,
+                },
+            )
+        if resp.status_code != 200:
+            try:
+                detail = resp.json().get("error", {}).get("message", resp.text[:300])
+            except Exception:
+                detail = resp.text[:300]
+            return JSONResponse(
+                status_code=status.HTTP_502_BAD_GATEWAY,
+                content={"error": f"LLM Gateway ({resp.status_code}): {detail}"}
+            )
 
-    reply = resp.json()["choices"][0]["message"]["content"]
-    return {"reply": reply}
+        reply = resp.json()["choices"][0]["message"]["content"]
+        return {"reply": reply}
+    except httpx.TimeoutException:
+        return JSONResponse(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            content={"error": "LLM Gateway timeout. Silakan coba beberapa saat lagi."}
+        )
+    except Exception as e:
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={"error": f"Terjadi kesalahan pemrosesan AI: {str(e)}"}
+        )
 
 
 @router.post("/contact")

@@ -2,7 +2,7 @@
 
 FastAPI backend untuk widget AI di portofolio. RAG memakai ChromaDB dengan embedding
 `nomic-embed-text` via **llama.cpp server**, lalu jawaban di-generate Groq
-(`llama-3.3-70b-versatile`).
+(`openai/gpt-oss-120b`).
 
 ## Setup
 
@@ -28,7 +28,7 @@ curl http://localhost:8015/v1/embeddings -H "Content-Type: application/json" -d 
 
 ```
 GROQ_API_KEY=...
-GROQ_MODEL=llama-3.3-70b-versatile
+GROQ_MODEL=openai/gpt-oss-120b
 EMBED_BASE_URL=http://localhost:8015
 EMBED_MODEL=nomic-embed-text
 EMBED_API_KEY=            # opsional, isi jika llama server pakai --api-key

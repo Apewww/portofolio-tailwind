@@ -29,7 +29,7 @@ class LlamaServerEmbeddingFunction(EmbeddingFunction):
     fallback ke endpoint native /embedding untuk build lama."""
 
     def __call__(self, input: Documents) -> Embeddings:
-        with httpx.Client(timeout=120) as client:
+        with httpx.Client(timeout=5.0) as client:
             return [self._embed_one(client, t) for t in input]
 
     def _embed_one(self, client, text):

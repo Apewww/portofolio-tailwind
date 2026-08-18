@@ -294,7 +294,14 @@ export default function AIChatBubble() {
         };
       }
 
-      const data = await response.json();
+      let data = {};
+      try {
+        data = await response.json();
+      } catch (jsonErr) {
+        if (!response.ok) {
+          throw new Error(`Server Gateway Error (${response.status}). Backend AI sedang tidak dapat dijangkau.`);
+        }
+      }
 
       if (!response.ok || data.error) {
         throw new Error(data.error || `HTTP error! Status: ${response.status}`);
