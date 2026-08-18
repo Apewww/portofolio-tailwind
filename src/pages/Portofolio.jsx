@@ -3,6 +3,15 @@ import { motion } from "framer-motion";
 
 const projects = [
     {
+        title: "Scribd Tool",
+        description: "Web tool & CLI document extractor untuk bypass proteksi Scribd, render lokal 2x Retina, dan konversi ke searchable PDF & teks.",
+        image: "/assets/img/scribdtool.webp",
+        url: "https://scribd.raflylabs.com",
+        github: "https://github.com/Apewww/scribd-tool",
+        tags: ["Flask", "Playwright", "Python", "PyMuPDF", "CLI"],
+        demo: true,
+    },
+    {
         title: "Natacell Portal",
         description: "Portal etalase online toko ATK, pulsa/PPOB, jasa fotocopy & service komputer, dilengkapi bank soal SD-SMA untuk menarik trafik organik dari Google.",
         image: "/assets/img/natacellportal.webp",
@@ -69,7 +78,7 @@ const projects = [
     }
 ];
 
-const allTags = ["Semua", "Python", "FastAPI", "React", "Laravel", "AI", "Flask", "PWA", "Supabase"];
+const allTags = ["Semua", "Python", "Playwright", "Flask", "FastAPI", "React", "Laravel", "AI", "PWA", "Supabase"];
 
 const ProjectItem = ({ project, index }) => {
     if (!project) return null;

@@ -1,5 +1,14 @@
 # Portfolio Projects
 
+## Scribd Tool
+**URL:** https://scribd.raflylabs.com
+**GitHub:** https://github.com/Apewww/scribd-tool
+**Status:** Demo aktif
+
+Web-based & CLI document extractor untuk mengekstrak dokumen Scribd secara penuh, render lokal 2x Retina scale, dan konversi ke searchable PDF serta teks plain. Menggunakan Playwright Chromium headless untuk bypass proteksi Scribd, in-memory job manager multithreaded (Waitress & ThreadPoolExecutor), dan PyMuPDF/Pillow untuk sintesis PDF presisi.
+- **Tags:** Flask, Playwright, Python, PyMuPDF, CLI
+- **Fitur:** Local DOM rendering (2x Retina), bypass Cloudflare/Fastly challenge, dual interface (Web UI & CLI), thread-safe multithreaded queue, ekspor PDF & TXT.
+
 ## Natacell Portal
 **URL:** https://natacell.my.id
 **Status:** Demo aktif — kode sumber privat
