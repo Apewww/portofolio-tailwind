@@ -29,6 +29,15 @@ CHAT_API_KEY = os.environ.get("CHAT_API_KEY") or os.environ.get("PORTFOLIO_API_K
 RATE_LIMIT_SETTING = os.environ.get("RATE_LIMIT_PER_MINUTE", "10/minute")
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
 
+# CORS + browser-origin allowlist. Browser requests without an API key are
+# only accepted when their Origin header matches this list. Non-browser
+# callers (curl, server-to-server) must present a valid API key instead.
+ALLOWED_ORIGINS = [
+    o.strip().rstrip("/")
+    for o in os.environ.get("ALLOWED_ORIGINS", "https://raflylabs.com").split(",")
+    if o.strip()
+]
+
 _ingested = False
 
 BASE_SYSTEM_PROMPT = """Anda adalah Stellochron, asisten AI resmi untuk website portofolio Rafly Anggara Putra (raflylabs.com).
@@ -54,7 +63,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o.strip()],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -88,6 +97,16 @@ def verify_api_key(x_api_key: str | None = None, authorization: str | None = Non
             return True
 
     return False
+
+
+def _origin_allowed(request: Request) -> bool:
+    """True for trusted browser origins (Origin header in allowlist).
+
+    Requests without an Origin header (curl, scripts, server-to-server) are
+    treated as non-browser and must authenticate with an API key instead.
+    """
+    origin = (request.headers.get("origin") or "").rstrip("/")
+    return bool(origin and origin in ALLOWED_ORIGINS)
 
 
 class ChatRequest(BaseModel):
@@ -128,7 +147,7 @@ async def chat(
     x_api_key: str | None = Header(None, alias="X-API-Key"),
     authorization: str | None = Header(None)
 ):
-    if not verify_api_key(x_api_key, authorization):
+    if not _origin_allowed(request) and not verify_api_key(x_api_key, authorization):
         return JSONResponse(
             status_code=status.HTTP_401_UNAUTHORIZED,
             content={"error": "Akses ditolak: API Key tidak valid atau tidak ditemukan."}

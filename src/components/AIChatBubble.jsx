@@ -266,13 +266,11 @@ export default function AIChatBubble() {
       .slice(-10)
       .map(m => ({ role: m.sender === 'user' ? 'user' : 'assistant', content: m.text }));
 
-    const apiKey = process.env.REACT_APP_CHAT_API_KEY || process.env.REACT_APP_API_KEY || '';
-
+    // NOTE: no API key is sent from the browser. The gateway authorizes
+    // browser requests via Origin allowlist; keys (if configured) are only
+    // accepted for non-browser/internal callers.
     try {
       const headers = { "Content-Type": "application/json" };
-      if (apiKey) {
-        headers["X-API-Key"] = apiKey;
-      }
 
       const response = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
