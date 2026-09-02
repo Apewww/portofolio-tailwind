@@ -202,10 +202,14 @@ async def chat(
         )
 
     # RAG Search dengan fallback ke in-memory KB jika embedding server offline
+    # Ambil lebih banyak chunk (k=6 dari total 26) agar query spesifik
+    # (pendidikan, skills, detail proyek) tidak terlewat hanya karena tidak
+    # berada di peringkat top-3 embedding. Context tetap ringkas karena tiap
+    # chunk terbatas per heading.
     context = ""
     try:
         _ensure_ingested()
-        retrieved = search(req.message, k=3, max_distance=0.95)
+        retrieved = search(req.message, k=6, max_distance=0.95)
         docs = retrieved.get("documents", [[]])[0] or []
         context = "\n\n---\n\n".join(docs)
     except Exception as e:
