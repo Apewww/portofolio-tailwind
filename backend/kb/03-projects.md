@@ -20,11 +20,13 @@ Portal etalase online toko ATK, pulsa/PPOB, jasa fotocopy & service komputer. Di
 ## AI Gateway
 **URL:** https://chat.raflylabs.com
 **GitHub:** https://github.com/Apewww/AI-Assistant-Gateway
+**Status:** Publik (1 star)
 
-Gateway AI terpusat berbasis web yang menghubungkan model LLM (via OpenRouter) dengan beberapa platform frontend melalui satu API endpoint. Setiap request membawa `session_id` (kontinuitas percakapan) dan `source_platform` (AI menyesuaikan peran per platform).
-- **Tags:** NextJS, FastAPI, Uvicorn, LLM, OpenRouter, Python
-- **Fitur:** function calling (get_weather, play_audio, get_portfolio), session management dengan Redis, rate limiting, mode AI (isolated/open)
-- **Frontend:** Next.js Chat Panel
+Gateway AI terpusat berbasis web yang menghubungkan model LLM (via OpenRouter) dengan beberapa platform frontend (portofolio, weather, audio stream) melalui satu API endpoint. Setiap request membawa `session_id` (kontinuitas percakapan) dan `source_platform` (AI menyesuaikan peran per platform). AI bisa memanggil fungsi backend (get_weather, play_audio, get_portfolio) dan respons berisi teks biasa atau **action trigger** yang dieksekusi frontend (misal memutar lagu).
+- **Tags:** NextJS, FastAPI, Uvicorn, OpenRouter, Redis, Python
+- **Fitur:** Function Calling (get_current_weather, control_audio_player, get_portfolio_info), session persistence Redis + fallback in-memory, rate limiting 10 req/menit/session, AI Mode `isolated` (portfolio-only, refusals ketat) vs `open` (general-purpose)
+- **Arsitektur modular:** `app/` package berisi config, models (Pydantic), session store, rate_limiter, system_prompts, routes, dan tools (weather/audio)
+- **Frontend:** Next.js Chat Panel dark theme, markdown rendering, session management
 
 ## Syncra
 **URL:** https://syncra.raflylabs.com
@@ -45,18 +47,21 @@ Web penjualan hosting dan domain dengan payment gateway terintegrasi.
 ## MyFinance Note
 **URL:** https://myfinance-note.vercel.app
 **GitHub:** https://github.com/Apewww/myfinance-note
+**Status:** Publik
 
-Sistem keuangan pribadi yang fokus pada pencatatan data andal dengan konkurensi tinggi untuk pemasukan dan pengeluaran.
-- **Tags:** React, TypeScript, Supabase
-- **Fitur:** pencatatan transaksi, laporan keuangan, autentikasi via Supabase
+Personal finance PWA modern untuk pencatatan pemasukan dan pengeluaran, dibangun dengan React + Tailwind + Supabase.
+- **Tags:** React, TypeScript, Supabase, TailwindCSS, Vite
+- **Fitur:** PWA installable dgn offline support, real-time sync via Supabase, glassmorphism + Framer Motion animations + dark mode, financial analytics (trend charts, category breakdown), format Rupiah otomatis, full auth (login/register) dengan Supabase Auth & RLS
 
 ## CuacaKita
 **URL:** https://cuacakita.raflylabs.com
 **GitHub:** https://github.com/Apewww/CuacaKita
+**Status:** Publik
 
-Aplikasi prakiraan cuaca kota-kota di Indonesia menggunakan integrasi API modern dan framework Flask, dengan dukungan PWA agar bisa dipasang di perangkat.
-- **Tags:** Flask, PWA, Python
-- **Fitur:** prakiraan cuaca per kota, installable PWA, terintegrasi AI chatbot melalui gateway
+Aplikasi widget prakiraan cuaca modern untuk kota-kota Indonesia, antarmuka bersih & responsif dengan tema gelap/terang. Dinamis search tanpa reload, dukungan PWA installable.
+- **Tags:** Flask, Python, WeatherAPI, TailwindCSS, PWA
+- **Fitur:** premium UI glassmorphism + tipografi Inter, dynamic city search, dark/light mode otomatis & manual (tersimpan di browser), responsive mobile & desktop
+- **Produksi:** Windows Service via Waitress (WSGI) + NSSM untuk stabilitas tinggi
 
 ## Asset Management
 **Status:** Repo privat (tidak ada link publik)
