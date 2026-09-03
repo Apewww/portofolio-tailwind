@@ -1,6 +1,13 @@
 import React from "react";
 import { motion } from 'framer-motion';
 
+const colorClass = {
+    "nb-cyan": "bg-nb-cyan",
+    "nb-pink": "bg-nb-pink",
+    "nb-yellow": "bg-nb-yellow",
+    "nb-lime": "bg-nb-lime",
+};
+
 export default function Education() {
     const educationData = [
         {
@@ -23,7 +30,7 @@ export default function Education() {
         <div id="education" className="mt-48">
             <div className="flex flex-col items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
                 <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
-                    Pendidikan <span className="text-4xl text-nb-pink">✴?</span>
+                    Pendidikan <span className="text-4xl text-nb-pink">✴</span>
                 </h2>
                 <div className="w-8 h-2 bg-black rounded-full" />
             </div>
@@ -38,7 +45,7 @@ export default function Education() {
                         viewport={{ once: true }}
                         transition={{ delay: index * 0.1 }}
                     >
-                        <div className={`absolute left-0 top-1 w-8 h-8 rounded-none border-2 border-black bg-${item.color} shadow-nb z-10`} />
+                        <div className={`absolute left-0 top-1 w-8 h-8 rounded-none border-2 border-black ${colorClass[item.color] || "bg-black"} shadow-nb z-10`} />
                         <div className="nb-card p-4 bg-white border-2">
                             <span className="text-[10px] font-black uppercase bg-black text-white px-2 py-0.5 mb-2 inline-block">
                                 {item.period}

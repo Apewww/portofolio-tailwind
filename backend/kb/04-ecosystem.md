@@ -12,5 +12,8 @@ Ekosistem layanan online milik Rafly Anggara Putra (RaflyLabs):
 | **Syncra** | https://syncra.raflylabs.com | Platform streaming audio |
 | **Natahost** | https://natahost.raflylabs.com | Penjualan hosting & domain |
 | **CuacaKita** | https://cuacakita.raflylabs.com | Prakiraan cuaca kota Indonesia |
-| **API RaflyLabs** | https://api.raflylabs.com | REST API publik (dokumentasi di /docs) |
-| **Natacell Portal** | https://natacell.my.id | Etalase toko ATK & jasa |
+|| **API RaflyLabs** | https://api.raflylabs.com | REST API publik (dokumentasi di /docs) |
+|| **Natacell Portal** | https://natacell.my.id | Etalase toko ATK & jasa |
+|| **Nata Soal** | https://natasoal.my.id | Bank soal & materi pelajaran gratis SD-SMA |
+|| **MyFinance Note** | https://myfinance-note.vercel.app | Pencatatan keuangan pribadi (PWA) |
+|| **9Router** | (internal) | AI model router/rotator lintas provider untuk optimasi & failover saat rate limit |

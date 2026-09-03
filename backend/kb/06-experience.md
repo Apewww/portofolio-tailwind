@@ -3,12 +3,14 @@
 ## Pengalaman Kerja
 
 ### Backend Engineer - RaflyLabs (2023 - Sekarang)
-- Mengembangkan dan memelihara AI chatbot gateway dengan FastAPI dan Python (terhubung ke OpenRouter)
-- Membangun sistem RAG untuk dokumentasi portofolio pribadi (ChromaDB + embedding model lokal)
-- Mengembangkan platform streaming audio Syncra (backend API, admin panel, MCP server)
-- Membangun MCP (Model Context Protocol) server untuk monitoring layanan
-- Integrasi berbagai external API (OpenRouter, cuaca, audio streaming, YT-DLP)
-- Deployment dan manajemen infrastruktur server (Windows Server, Nginx, reverse proxy)
+- Mengembangkan dan memelihara AI chatbot gateway dengan FastAPI dan Python (terhubung ke OpenRouter & Groq)
+- Membangun sistem RAG untuk dokumentasi portofolio pribadi (ChromaDB + embedding model lokal llama.cpp/nomic-embed-text)
+- Mengembangkan platform streaming audio Syncra (backend API production di api.raflylabs.com, admin panel, MCP server)
+- Membangun MCP (Model Context Protocol) server untuk monitoring layanan (Sentry/status, health check, otomasi)
+- Integrasi berbagai external API (OpenRouter, Groq, cuaca, audio streaming, YT-DLP, Discord webhook)
+- Deployment dan manajemen infrastruktur server (Windows Server, Nginx, reverse proxy, Waitress/NSSM)
+- Otomasi & scraping data (PDDikti edu lookup dengan bypass anti-bot, BGN radar menu, ICM scraping)
+- Mengelola model router/rotator (9Router) untuk optimasi biaya & failover antar provider LLM saat rate limit
 
 ## Pendidikan
 

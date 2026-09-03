@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "https://api.raflylabs.com/api/ai").replace(/\/+$/, '');
 
 const categories = [
   "💼 Tawaran Proyek",

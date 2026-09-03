@@ -15,7 +15,7 @@ import {
   faUpRightAndDownLeftFromCenter
 } from '@fortawesome/free-solid-svg-icons';
 
-const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "https://api.raflylabs.com/api/ai").replace(/\/+$/, '');
 
 const MarkdownComponents = {
   // Paragraf

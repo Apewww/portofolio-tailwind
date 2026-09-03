@@ -1,6 +1,13 @@
 import React from "react";
 import { motion } from 'framer-motion';
 
+const colorClass = {
+    "nb-yellow": "bg-nb-yellow",
+    "nb-pink": "bg-nb-pink",
+    "nb-cyan": "bg-nb-cyan",
+    "nb-lime": "bg-nb-lime",
+};
+
 export default function Skills() {
     const services = [
         {
@@ -34,7 +41,7 @@ export default function Skills() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.1 }}
                 >
-                    <div className={`w-16 h-16 bg-${service.color} border-2 border-black rounded-xl mb-6 flex items-center justify-center shadow-nb group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all`}>
+                    <div className={`w-16 h-16 ${colorClass[service.color] || "bg-black"} border-2 border-black rounded-xl mb-6 flex items-center justify-center shadow-nb group-hover:translate-x-1 group-hover:translate-y-1 group-hover:shadow-none transition-all`}>
                         <img
                             src={`https://cdn.simpleicons.org/${service.icon}/000000`}
                             className="w-8 h-8"

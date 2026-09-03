@@ -10,13 +10,14 @@ Merancang alur sistem, logika server, dan struktur database yang rapi serta efis
 
 ### DevOps & Infrastruktur
 Membantu proses deployment, setup server, dan mengelola lingkungan aplikasi agar berjalan lancar.
-- **Tools:** Docker, CI/CD, Nginx, Windows Server, Manajemen Server
-- **LLM Ops:** llama.cpp (embedding & inference lokal), OpenRouter API
+- **Tools:** Docker, CI/CD, Nginx, Windows Server, Manajemen Server, Waitress (WSGI), NSSM, reverse proxy
+- **LLM Ops:** llama.cpp (embedding & inference lokal), OpenRouter API, Groq API, model router/rotator (9Router) untuk optimasi & failover saat rate limit
+- **Otomasi:** script deployment, environment management, monitoring layanan via MCP, scheduled jobs / cron
 
 ### Pengembangan API
 Membuat REST API yang stabil, aman, dan mudah diintegrasikan menggunakan FastAPI atau Node.js.
-- **Metode:** RESTful API, Autentikasi API Key, Rate Limiting, WebSocket
-- **AI Engineering:** RAG (Retrieval-Augmented Generation), Vector Database (ChromaDB), Function Calling, MCP (Model Context Protocol)
+- **Metode:** RESTful API, Autentikasi API Key, Rate Limiting, WebSocket, JWT auth
+- **AI Engineering:** RAG (Retrieval-Augmented Generation), Vector Database (ChromaDB), Function Calling, MCP (Model Context Protocol), fine-tuning & prompting
 
 ## Technology Stack
 
