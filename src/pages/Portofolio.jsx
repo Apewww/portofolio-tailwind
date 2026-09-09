@@ -3,6 +3,15 @@ import { motion } from "framer-motion";
 
 const projects = [
     {
+        title: "SnatchVid",
+        description: "Web tool & CLI local media utility untuk unduh video YouTube, TikTok, dan Instagram secara instan dengan auto-merge DASH ffmpeg & impersonation engine.",
+        image: "/assets/img/snatchvid.webp",
+        url: "https://snatchvid.raflylabs.com",
+        github: "https://github.com/Apewww/SnatchVid",
+        tags: ["FastAPI", "Python", "YT-DLP", "CLI"],
+        demo: true,
+    },
+    {
         title: "Scribd Tool",
         description: "Web tool & CLI document extractor untuk bypass proteksi Scribd, render lokal 2x Retina, dan konversi ke searchable PDF & teks.",
         image: "/assets/img/scribdtool.webp",
@@ -78,7 +87,7 @@ const projects = [
     }
 ];
 
-const allTags = ["Semua", "Python", "Playwright", "Flask", "FastAPI", "React", "Laravel", "AI", "PWA", "Supabase"];
+const allTags = ["Semua", "Python", "Playwright", "Flask", "FastAPI", "React", "Laravel", "AI", "PWA", "Supabase", "CLI"];
 
 const ProjectItem = ({ project, index }) => {
     if (!project) return null;

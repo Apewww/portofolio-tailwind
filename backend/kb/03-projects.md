@@ -1,5 +1,19 @@
 # Portfolio Projects
 
+## SnatchVid
+**URL:** https://snatchvid.raflylabs.com
+**GitHub:** https://github.com/Apewww/SnatchVid
+**Status:** Demo aktif
+
+Local-first media utility & CLI tool berkecepatan tinggi untuk inspeksi metadata dan pengunduhan video dari YouTube, TikTok, dan Instagram secara bersih tanpa iklan pihak ketiga, pelacakan, atau cloud lock-in. Menggunakan backend FastAPI, shared engine yt-dlp dengan optimasi khusus per platform, serta dual-interface (Web UI clean minimalist & CLI).
+- **Tags:** FastAPI, Python, YT-DLP, CLI, JavaScript
+- **Fitur:**
+  - **YouTube:** Format DASH (video+audio terpisah) dengan auto-merge via ffmpeg, pemilihan resolusi multi-kualitas (360p–1080p).
+  - **TikTok:** Browser impersonation via curl_cffi + extractor args tanpa watermark untuk resolusi 720p.
+  - **Instagram:** Ekstraksi video Reels & Feed.
+  - **Dual Interface:** Frontend web demo modern (single-page reactive UI) & CLI Python interaktif / batch downloader.
+  - **Privacy & Storage:** Pemrosesan media on-the-fly dengan direktori temporer dan auto-cleanup berkala (zero permanent storage).
+
 ## Scribd Tool
 **URL:** https://scribd.raflylabs.com
 **GitHub:** https://github.com/Apewww/scribd-tool

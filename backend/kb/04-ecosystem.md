@@ -8,6 +8,7 @@ Ekosistem layanan online milik Rafly Anggara Putra (RaflyLabs):
 |---|---|---|
 | **Website Portofolio** | https://raflylabs.com | Website portofolio pribadi |
 | **Scribd Tool** | https://scribd.raflylabs.com | Ekstraktor & konverter dokumen Scribd ke PDF/Teks |
+| **SnatchVid** | https://snatchvid.raflylabs.com | Local media utility & downloader YouTube, TikTok, Instagram |
 | **AI Gateway / Chat** | https://chat.raflylabs.com | Gateway chatbot AI terpusat |
 | **Syncra** | https://syncra.raflylabs.com | Platform streaming audio |
 | **Natahost** | https://natahost.raflylabs.com | Penjualan hosting & domain |
