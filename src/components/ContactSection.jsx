@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "https://api.raflylabs.com/api/ai").replace(/\/+$/, '');
@@ -17,8 +17,20 @@ export default function ContactSection() {
     subject: 'Tawaran Proyek',
     message: ''
   });
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const [status, setStatus] = useState({ loading: false, success: null, message: '' });
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, []);
 
   const copyEmail = () => {
     navigator.clipboard.writeText("contact@raflylabs.com");
@@ -253,30 +265,63 @@ export default function ContactSection() {
               />
             </div>
 
-            {/* Field: Kategori / Subjek */}
-            <div className="flex flex-col gap-1.5">
+            {/* Field: Kategori / Subjek Custom Dropdown */}
+            <div className="flex flex-col gap-1.5 relative">
               <label className="text-xs font-extrabold uppercase tracking-wider text-black flex items-center justify-between">
                 <span>Topik / Kategori</span>
                 <span className="text-[10px] text-slate-500 font-bold uppercase">Pilih</span>
               </label>
-              <div className="relative">
-                <select
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`${inputStyle} appearance-none cursor-pointer pr-10`}
+              <div className="relative w-full" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className={`w-full px-4 py-3 border-2 border-black rounded-xl text-sm font-semibold bg-nb-cream text-black flex items-center justify-between cursor-pointer transition-all duration-200 select-none ${
+                    isDropdownOpen
+                      ? 'bg-white border-nb-pink translate-x-[2px] translate-y-[2px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
+                      : 'shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                  }`}
                 >
-                  {categories.map((cat, idx) => (
-                    <option key={idx} value={cat} className="bg-white text-black font-semibold">
-                      {cat}
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-black">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <span className="font-extrabold truncate">{formData.subject}</span>
+                  <svg
+                    className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 text-black ${
+                      isDropdownOpen ? 'rotate-180 text-nb-pink' : ''
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
                   </svg>
-                </div>
+                </button>
+
+                {isDropdownOpen && (
+                  <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-white border-2 border-black rounded-xl shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] overflow-hidden py-1">
+                    {categories.map((cat, idx) => {
+                      const isSelected = formData.subject === cat;
+                      return (
+                        <div
+                          key={idx}
+                          onClick={() => {
+                            setFormData(prev => ({ ...prev, subject: cat }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`px-4 py-2.5 text-xs sm:text-sm font-extrabold cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${
+                            isSelected
+                              ? 'bg-nb-pink text-black'
+                              : 'bg-white text-black hover:bg-nb-yellow'
+                          }`}
+                        >
+                          <span>{cat}</span>
+                          {isSelected && (
+                            <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
 
