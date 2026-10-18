@@ -115,7 +115,7 @@ export default function AIChatBubble() {
         const parsed = JSON.parse(saved);
         if (parsed.width && parsed.height) return parsed;
       }
-    } catch (e) {}
+    } catch (e) { }
     return { width: 360, height: 480 };
   });
 
@@ -217,7 +217,7 @@ export default function AIChatBubble() {
       setSize((currentSize) => {
         try {
           localStorage.setItem('chatbot_size_web_porto', JSON.stringify(currentSize));
-        } catch (err) {}
+        } catch (err) { }
         return currentSize;
       });
     };
@@ -338,9 +338,8 @@ export default function AIChatBubble() {
             maxWidth: 'calc(100vw - 24px)',
             maxHeight: 'calc(100vh - 40px)'
           }}
-          className={`relative bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl flex flex-col overflow-hidden transition-all duration-75 ${
-            isResizing ? 'select-none border-nb-pink' : ''
-          }`}
+          className={`relative bg-white border-[3px] border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] rounded-3xl flex flex-col overflow-hidden transition-all duration-75 ${isResizing ? 'select-none border-nb-pink' : ''
+            }`}
         >
           {/* Top-Right Corner Drag Handle */}
           <div
@@ -472,10 +471,10 @@ export default function AIChatBubble() {
           {/* Quick Suggestion Chips */}
           <div className="px-3 py-1.5 bg-nb-cream/80 border-t border-black/20 flex gap-1.5 overflow-x-auto chat-scrollbar flex-shrink-0">
             {[
-              { label: '💻 Proyek AI Gateway', query: 'Apa itu proyek AI Gateway dan teknologinya?' },
-              { label: '⚡ Skill Backend', query: 'Apa saja skill backend dan tech stack Rafly?' },
-              { label: '📩 Hubungi Rafly', query: 'Bagaimana cara menghubungi atau berkontak dengan Rafly?' },
-              { label: '🎓 Pendidikan', query: 'Di mana latar belakang pendidikan dan jurusan Rafly?' },
+              { label: 'Proyek AI Gateway', query: 'Apa itu proyek AI Gateway dan teknologinya?' },
+              { label: 'Skill Backend', query: 'Apa saja skill backend dan tech stack Rafly?' },
+              { label: 'Kontak & Email', query: 'Bagaimana cara menghubungi atau berkontak dengan Rafly?' },
+              { label: 'Pendidikan', query: 'Di mana latar belakang pendidikan dan jurusan Rafly?' },
             ].map((chip, idx) => (
               <button
                 key={idx}

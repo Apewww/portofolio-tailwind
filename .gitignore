@@ -27,3 +27,7 @@ yarn-error.log*
 backend/.venv/
 backend/chroma_db/
 __pycache__/
+
+# agent artifacts
+.agents/
+skills-lock.json

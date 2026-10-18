@@ -1,4 +1,5 @@
 import datetime
+import json
 import os
 from pathlib import Path
 
@@ -22,9 +23,10 @@ if root_env_path.exists():
 
 from vectorstore import ingest, search  # noqa: E402
 
-GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL", "https://api.groq.com/openai/v1")
-GROQ_MODEL = os.environ.get("GROQ_MODEL", "openai/gpt-oss-120b")
+GROQ_BASE_URL = os.environ.get("GROQ_BASE_URL", "https://9router.raflylabs.com/v1").rstrip("/")
+GROQ_MODEL = os.environ.get("GROQ_MODEL", "Groq")
 GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
+LLM_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "1024"))
 CHAT_API_KEY = os.environ.get("CHAT_API_KEY") or os.environ.get("PORTFOLIO_API_KEY", "")
 RATE_LIMIT_SETTING = os.environ.get("RATE_LIMIT_PER_MINUTE", "10/minute")
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL", "")
@@ -82,6 +84,17 @@ def _ensure_ingested():
     if not _ingested:
         ingest()
         _ingested = True
+
+
+def _parse_llm_json(resp: httpx.Response) -> dict:
+    """Parse JSON response from LLM gateway safely, handling trailing SSE tokens (e.g. data: [DONE])."""
+    try:
+        return resp.json()
+    except Exception:
+        text = resp.text.strip()
+        if "data: [DONE]" in text:
+            text = text.split("data: [DONE]")[0].strip()
+        return json.loads(text)
 
 
 def verify_api_key(x_api_key: str | None = None, authorization: str | None = None) -> bool:
@@ -254,12 +267,12 @@ async def chat(
                     "messages": messages,
                     "stream": False,
                     "temperature": 0.2,
-                    "max_tokens": 512,
+                    "max_tokens": LLM_MAX_TOKENS,
                 },
             )
         if resp.status_code != 200:
             try:
-                detail = resp.json().get("error", {}).get("message", resp.text[:300])
+                detail = _parse_llm_json(resp).get("error", {}).get("message", resp.text[:300])
             except Exception:
                 detail = resp.text[:300]
             return JSONResponse(
@@ -267,7 +280,9 @@ async def chat(
                 content={"error": f"LLM Gateway ({resp.status_code}): {detail}"}
             )
 
-        reply = resp.json()["choices"][0]["message"]["content"]
+        data = _parse_llm_json(resp)
+        choice_msg = data.get("choices", [{}])[0].get("message", {})
+        reply = (choice_msg.get("content") or choice_msg.get("reasoning") or "").strip()
         return {"reply": reply}
     except httpx.TimeoutException:
         return JSONResponse(

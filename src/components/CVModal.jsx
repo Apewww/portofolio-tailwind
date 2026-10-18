@@ -65,11 +65,15 @@ export default function CVModal({ isOpen, onClose }) {
             exit={{ opacity: 0, y: 40 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* ── Header ── */}
+            {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b-4 border-black bg-nb-cream flex-shrink-0">
               {/* Left: label */}
               <div className="flex items-center gap-2.5">
-                <span className="text-lg">📄</span>
+                <div className="w-8 h-8 rounded-lg bg-nb-yellow border-2 border-black flex items-center justify-center flex-shrink-0">
+                  <svg className="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
                 <div>
                   <p className="font-black text-xs uppercase tracking-widest leading-none">Curriculum Vitae</p>
                   <p className="text-[10px] text-black/50 font-semibold mt-0.5">Rafly Anggara Putra</p>
@@ -90,7 +94,7 @@ export default function CVModal({ isOpen, onClose }) {
                   <IconExternalLink />
                 </a>
 
-                {/* Download — satu-satunya tombol download */}
+                {/* Download action button */}
                 <a
                   href={CV_PATH}
                   download="CV_RaflyAnggaraPutra.pdf"
@@ -117,7 +121,7 @@ export default function CVModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            {/* ── PDF Viewer — maksimalkan area ── */}
+            {/* PDF Viewer */}
             <div className="flex-1 overflow-hidden bg-gray-200">
               <iframe
                 src={`${CV_PATH}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`}
@@ -127,7 +131,7 @@ export default function CVModal({ isOpen, onClose }) {
               />
             </div>
 
-            {/* ── Hint bar — tipis, subtle ── */}
+            {/* Hint bar */}
             <div className="flex items-center justify-between px-4 py-1.5 border-t-2 border-black/10 bg-nb-cream flex-shrink-0">
               <span className="text-[10px] text-black/40 font-semibold">
                 Tekan <kbd className="font-black bg-white border border-black/20 rounded px-1">Esc</kbd> atau klik di luar untuk menutup

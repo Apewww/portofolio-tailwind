@@ -2,9 +2,10 @@ import { React, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './pages/Hero';
 import Skills from './pages/Skills';
-import TechMarquee from './components/TechMarquee';
+import TechStackSection from './components/TechStackSection';
 import SocialSidebar from './components/SocialSidebar';
 import Portofolio from './pages/Portofolio';
+import GithubSection from './pages/GithubSection';
 import Education from './pages/Education';
 import Certificates from './pages/Certificates';
 import ContactSection from './components/ContactSection';
@@ -17,15 +18,18 @@ function App() {
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      if (window.pageYOffset > 300) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setShowButton(window.pageYOffset > 300);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -51,31 +55,34 @@ function App() {
       <main className="relative pt-20 sm:pt-24 pb-12 px-4 sm:px-6 md:px-12 max-w-[1400px] mx-auto z-10">
         <Hero />
 
-        <div id="skills" className="mt-24 sm:mt-32 md:mt-48">
-          <div className="flex items-center justify-center gap-4 mb-12 sm:mb-16 md:mb-20">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-black uppercase flex items-center gap-4">
-              Experience & Skills <span className="text-4xl text-nb-pink">✴</span>
+        <div id="skills" className="mt-16 sm:mt-24 md:mt-28">
+          <div className="flex flex-col items-center justify-center gap-3 mb-10 sm:mb-14 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight">
+              Keahlian & Fokus Teknis
             </h2>
+            <div className="h-1.5 w-16 bg-nb-pink border border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <Skills />
           </div>
 
-          {/* Tech Marquee below skills - Full Width Breakout */}
-          <div className="relative mt-16 sm:mt-24 md:mt-32 overflow-hidden" style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw' }}>
-            <TechMarquee />
-          </div>
+          {/* Categorized Tech Stack Section */}
+          <TechStackSection />
         </div>
 
-        <div id="education" className="mt-24 sm:mt-32 md:mt-48">
+        <div id="education" className="mt-16 sm:mt-24 md:mt-28">
           <Education />
         </div>
 
-        <div id="portofolio" className="mt-24 sm:mt-32 md:mt-48">
+        <div id="portofolio" className="mt-16 sm:mt-24 md:mt-28">
           <Portofolio />
         </div>
 
-        <div id="certificates" className="mt-24 sm:mt-32 md:mt-48">
+        <div id="github" className="mt-16 sm:mt-24 md:mt-28">
+          <GithubSection />
+        </div>
+
+        <div id="certificates" className="mt-16 sm:mt-24 md:mt-28">
           <Certificates />
         </div>
 

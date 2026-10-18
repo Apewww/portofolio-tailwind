@@ -25,10 +25,10 @@ curl http://localhost:8015/v1/embeddings -H "Content-Type: application/json" -d 
 > jalankan dengan `--api-key <key>` dan set `EMBED_API_KEY` di `.env`.
 
 ### 2. Environment (`.env` di root repo)
-
-```
-GROQ_API_KEY=...
-GROQ_MODEL=openai/gpt-oss-120b
+```env
+GROQ_BASE_URL=https://9router.raflylabs.com/v1
+GROQ_API_KEY=sk-...
+GROQ_MODEL=Groq
 EMBED_BASE_URL=http://localhost:8015
 EMBED_MODEL=nomic-embed-text
 EMBED_API_KEY=            # opsional, isi jika llama server pakai --api-key

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "http://localhost:8000").replace(/\/+$/, '');
+const BACKEND_URL = (process.env.REACT_APP_BACKEND_URL || "https://api.raflylabs.com/api/ai").replace(/\/+$/, '');
 
 export default function SystemStatusWidget() {
   const [systemStatus, setSystemStatus] = useState({

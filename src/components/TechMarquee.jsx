@@ -5,7 +5,7 @@ const techs = [
   { name: 'Python', color: 'bg-nb-yellow', icon: 'python' },
   { name: 'JavaScript', color: 'bg-nb-cyan', icon: 'javascript' },
   { name: 'Java', color: 'bg-nb-white', icon: 'openjdk' },
-  { name: 'C#', color: 'bg-nb-pink', icon: 'csharp' },
+  { name: 'C#', color: 'bg-nb-pink', icon: 'dotnet' },
   { name: 'FastAPI', color: 'bg-nb-cyan', icon: 'fastapi' },
   { name: 'Flask', color: 'bg-nb-white', icon: 'flask' },
   { name: 'React', color: 'bg-nb-pink', icon: 'react' },

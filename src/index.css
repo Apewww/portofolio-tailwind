@@ -18,27 +18,48 @@
   .nb-border {
     @apply border-[3px] border-black;
   }
+
   .nb-shadow {
-    @apply shadow-[6px_6px_0px_0px_rgba(0,0,0,1)];
+    box-shadow: 6px 6px 0px 0px #000;
   }
+
   .nb-card {
-    @apply nb-border nb-shadow bg-white p-8 rounded-3xl transition-all duration-200 h-full flex flex-col;
+    @apply nb-border bg-white p-6 sm:p-8 rounded-3xl transition-all duration-200 h-full flex flex-col;
+    box-shadow: 6px 6px 0px 0px #000;
   }
+
   .nb-card:hover {
-    @apply shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] translate-x-[3px] translate-y-[3px];
+    box-shadow: 3px 3px 0px 0px #000;
+    transform: translate(3px, 3px);
   }
+
   .nb-button {
-    @apply nb-border nb-shadow px-8 py-3 rounded-xl font-black uppercase tracking-tight transition-all duration-200 active:shadow-none active:translate-x-[4px] active:translate-y-[4px] inline-block;
+    @apply nb-border px-6 py-3 rounded-xl font-extrabold uppercase tracking-tight transition-all duration-200 inline-flex items-center justify-center gap-2 cursor-pointer text-center select-none leading-none whitespace-nowrap;
+    box-shadow: 4px 4px 0px 0px #000;
   }
+
+  .nb-button:hover {
+    box-shadow: 2px 2px 0px 0px #000;
+    transform: translate(2px, 2px);
+  }
+
+  .nb-button:active {
+    box-shadow: none;
+    transform: translate(4px, 4px);
+  }
+
   .nb-button-primary {
     @apply nb-button bg-nb-pink text-black hover:bg-nb-yellow;
   }
+
   .nb-button-secondary {
     @apply nb-button bg-white text-black hover:bg-nb-pink;
   }
+
   .tech-badge {
     @apply px-3 py-1 bg-accent border-2 border-black text-black text-xs font-black uppercase tracking-wider;
   }
+
   .bento-grid {
     @apply grid grid-cols-1 md:grid-cols-12 gap-8;
   }
@@ -46,15 +67,18 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
 }
 
 /* Neubrutalism Scrollbar */
 ::-webkit-scrollbar {
   width: 12px;
 }
+
 ::-webkit-scrollbar-track {
   @apply bg-white border-l-2 border-black;
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-primary border-2 border-black hover:bg-secondary;
 }
@@ -64,20 +88,24 @@ html {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
+
 .chat-scrollbar::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
+
 .chat-scrollbar::-webkit-scrollbar-track {
   background: transparent;
   border-left: none;
 }
+
 .chat-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.18);
   border: none;
   border-radius: 9999px;
   transition: background-color 0.2s ease;
 }
+
 .chat-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(0, 0, 0, 0.4);
 }
@@ -90,9 +118,15 @@ html {
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
+
 .animate-marquee {
   animation: marquee 20s linear infinite;
 }

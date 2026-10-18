@@ -10,27 +10,28 @@ export default function Navbar() {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const yOffset = -96;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
     setMenuOpen(false);
   };
 
-  const handleScroll = () => {
-    if (window.scrollY > 20) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -44,7 +45,9 @@ export default function Navbar() {
     { label: 'Keahlian', id: 'skills' },
     { label: 'Pendidikan', id: 'education' },
     { label: 'Proyek', id: 'portofolio' },
+    { label: 'GitHub', id: 'github' },
     { label: 'Sertifikat', id: 'certificates' },
+    { label: 'Kontak', id: 'contact' },
   ];
 
   return (
@@ -60,19 +63,19 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8 xl:gap-12 font-bold uppercase text-xs tracking-widest">
+          <div className="hidden lg:flex items-center gap-7 xl:gap-9 font-bold uppercase text-xs tracking-wider">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={(e) => handleClick(e, link.id)}
-                className="hover:text-nb-pink transition-colors"
+                className="hover:text-nb-pink transition-colors cursor-pointer"
               >
                 {link.label}
               </button>
             ))}
             <button
               onClick={() => setCvOpen(true)}
-              className="nb-button bg-nb-pink py-2 px-6 text-[10px] rounded-lg"
+              className="nb-button bg-nb-pink hover:bg-nb-yellow py-2 px-5 text-xs font-extrabold tracking-wider rounded-xl cursor-pointer"
             >
               VIEW CV
             </button>
