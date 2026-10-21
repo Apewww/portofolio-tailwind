@@ -174,7 +174,7 @@ export default function ContactSection() {
               <div>
                 <p className="text-xs font-black uppercase text-slate-500 tracking-wider">Lokasi</p>
                 <p className="text-sm font-bold text-black">Cimahi / Bandung, Jawa Barat</p>
-                <p className="text-xs text-slate-600 font-medium">Tersedia untuk Remote & On-site</p>
+                <p className="text-xs text-slate-600 font-medium">Bersedia untuk Remote</p>
               </div>
             </div>
 
@@ -186,8 +186,8 @@ export default function ContactSection() {
               </div>
               <div>
                 <p className="text-xs font-black uppercase text-slate-500 tracking-wider">Waktu Respon</p>
-                <p className="text-sm font-bold text-black">&lt; 24 Jam Kerja</p>
-                <p className="text-xs text-slate-600 font-medium">Senin - Jumat (09:00 - 18:00 WIB)</p>
+                <p className="text-sm font-bold text-black">&lt; 24 Jam</p>
+                <p className="text-xs text-slate-600 font-medium">Senin - Sabtu (09:00 - 18:00 WIB)</p>
               </div>
             </div>
           </div>
@@ -213,13 +213,12 @@ export default function ContactSection() {
           {/* Status Alert Banner */}
           {status.message && (
             <div
-              className={`mb-6 p-4 rounded-xl border-2 border-black font-bold text-xs sm:text-sm shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] ${
-                status.success === true
-                  ? 'bg-green-300 text-black'
-                  : status.loading
+              className={`mb-6 p-4 rounded-xl border-2 border-black font-bold text-xs sm:text-sm shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] ${status.success === true
+                ? 'bg-green-300 text-black'
+                : status.loading
                   ? 'bg-nb-yellow text-black animate-pulse'
                   : 'bg-red-300 text-black'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-2">
                 {status.loading && (
@@ -275,17 +274,15 @@ export default function ContactSection() {
                 <button
                   type="button"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className={`w-full px-4 py-3 border-2 border-black rounded-xl text-sm font-semibold bg-nb-cream text-black flex items-center justify-between cursor-pointer transition-all duration-200 select-none ${
-                    isDropdownOpen
-                      ? 'bg-white border-nb-pink translate-x-[2px] translate-y-[2px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
-                      : 'shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                  }`}
+                  className={`w-full px-4 py-3 border-2 border-black rounded-xl text-sm font-semibold bg-nb-cream text-black flex items-center justify-between cursor-pointer transition-all duration-200 select-none ${isDropdownOpen
+                    ? 'bg-white border-nb-pink translate-x-[2px] translate-y-[2px] shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]'
+                    : 'shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                    }`}
                 >
                   <span className="font-extrabold truncate">{formData.subject}</span>
                   <svg
-                    className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 text-black ${
-                      isDropdownOpen ? 'rotate-180 text-nb-pink' : ''
-                    }`}
+                    className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 text-black ${isDropdownOpen ? 'rotate-180 text-nb-pink' : ''
+                      }`}
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -305,11 +302,10 @@ export default function ContactSection() {
                             setFormData(prev => ({ ...prev, subject: cat }));
                             setIsDropdownOpen(false);
                           }}
-                          className={`px-4 py-2.5 text-xs sm:text-sm font-extrabold cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${
-                            isSelected
-                              ? 'bg-nb-pink text-black'
-                              : 'bg-white text-black hover:bg-nb-yellow'
-                          }`}
+                          className={`px-4 py-2.5 text-xs sm:text-sm font-extrabold cursor-pointer flex items-center justify-between border-b border-black/10 last:border-b-0 transition-colors ${isSelected
+                            ? 'bg-nb-pink text-black'
+                            : 'bg-white text-black hover:bg-nb-yellow'
+                            }`}
                         >
                           <span>{cat}</span>
                           {isSelected && (
