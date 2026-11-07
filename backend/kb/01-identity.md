@@ -12,7 +12,7 @@
 | **Lokasi** | Bandung, Indonesia |
 | **Website** | https://raflylabs.com |
 | **GitHub** | https://github.com/Apewww |
-| **LinkedIn** | https://linkedin.com/in/rafly-anggara |
+| **LinkedIn** | https://www.linkedin.com/in/rafly-anggara-putra/ |
 
 ## Bio Singkat
 

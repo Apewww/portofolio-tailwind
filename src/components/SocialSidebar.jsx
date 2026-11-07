@@ -12,7 +12,7 @@ const SocialSidebar = () => {
     {
       name: 'LinkedIn',
       iconUrl: '/assets/img/linkedin.webp',
-      url: 'https://linkedin.com/in/rafly-anggara',
+      url: 'https://www.linkedin.com/in/rafly-anggara-putra/',
       color: 'bg-white',
       hoverColor: 'hover:bg-nb-cyan'
     },
