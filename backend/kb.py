@@ -31,17 +31,31 @@ KB = _load_kb()
 def chunk_kb():
     chunks = []
     for key, text in KB.items():
+        # Ambil H1 dokumen sebagai konteks induk utama jika ada
+        doc_title = ""
+        for line in text.split("\n"):
+            if line.startswith("# "):
+                doc_title = line.replace("# ", "").strip()
+                break
+
         lines = text.split("\n")
         cur = []
+        cur_heading = ""
         for line in lines:
             if re.match(r"^#{2,3} ", line) and cur:
                 t = "\n".join(cur).strip()
                 if len(t) > 30:
-                    chunks.append({"key": key, "text": t})
+                    # Tambahkan awalan konteks dokumen agar chunk mandiri
+                    prefix = f"[{doc_title} > {cur_heading}]\n" if (doc_title and cur_heading) else ""
+                    chunks.append({"key": key, "text": f"{prefix}{t}"})
                 cur = [line]
+                cur_heading = line.lstrip("#").strip()
             else:
+                if not cur_heading and re.match(r"^#{2,3} ", line):
+                    cur_heading = line.lstrip("#").strip()
                 cur.append(line)
         t = "\n".join(cur).strip()
         if len(t) > 30:
-            chunks.append({"key": key, "text": t})
+            prefix = f"[{doc_title} > {cur_heading}]\n" if (doc_title and cur_heading) else ""
+            chunks.append({"key": key, "text": f"{prefix}{t}"})
     return chunks
