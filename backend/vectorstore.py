@@ -17,11 +17,19 @@ if not os.path.isabs(CHROMA_DIR):
 
 COLLECTION_NAME = "kb_docs"
 # Chroma/HNSW memakai "space" untuk mengukur kemiripan vektor.
-# l2 (default) menghasilkan jarak yang nilainya tidak terbatas, sehingga
-# filter max_distance pada search() tidak bermakna. cosine menghasilkan
-# jarak dalam rentang [0, 2] dan lebih cocok untuk semantic search.
 HNSW_SPACE = "cosine"
 MAX_DISTANCE = 0.95  # batas jarak cosine (0 = identik, 2 = berlawanan)
+
+
+def get_embedding_function():
+    # Jika EMBED_BASE_URL lokal/remote tersedia, pakai endpoint llama.cpp / nomic
+    # Jika tidak diset atau server eksternal mati, gunakan built-in ONNXMiniLM_L6_V2 (all-MiniLM-L6-v2)
+    # yang 100% lokal, cepat, mandiri tanpa ketergantungan server embedding terpisah.
+    use_builtin = os.environ.get("EMBED_BUILTIN", "true").lower() in ("1", "true", "yes")
+    if use_builtin:
+        from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
+        return ONNXMiniLM_L6_V2()
+    return LlamaServerEmbeddingFunction()
 
 
 class LlamaServerEmbeddingFunction(EmbeddingFunction):
@@ -58,18 +66,16 @@ def get_collection(recreate: bool = False):
             client.delete_collection(COLLECTION_NAME)
         except Exception:
             pass
+    ef = get_embedding_function()
     try:
         return client.get_or_create_collection(
             COLLECTION_NAME,
             metadata={"hnsw:space": HNSW_SPACE},
-            embedding_function=LlamaServerEmbeddingFunction(),
+            embedding_function=ef,
         )
     except ValueError:
-        # Collection lama dibuat tanpa embedding function custom (konflik nama EF).
-        # Ambil apa adanya lalu pasang embedding function secara manual agar
-        # query embedding tetap berfungsi.
         col = client.get_or_create_collection(COLLECTION_NAME)
-        col._embedding_function = LlamaServerEmbeddingFunction()
+        col._embedding_function = ef
         return col
 
 
