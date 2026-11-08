@@ -109,18 +109,56 @@ def ingest(force: bool = False):
     print(f"[ingest] OK: {len(chunks)} chunk ter-index ke {CHROMA_DIR} (space={HNSW_SPACE})")
 
 
-def search(query, k=3, max_distance=MAX_DISTANCE):
+def search(query, k=5, max_distance=MAX_DISTANCE):
     collection = get_collection()
-    res = collection.query(query_texts=[query], n_results=k)
+    # 1. Semantic search via vector query
+    res = collection.query(query_texts=[query], n_results=k * 2)
     docs = res.get("documents", [[]])[0] or []
     distances = res.get("distances", [[]])[0] or []
 
-    if distances and max_distance is not None:
-        filtered_docs = []
-        for doc, dist in zip(docs, distances):
-            if dist <= max_distance:
-                filtered_docs.append(doc)
-        res["documents"] = [filtered_docs]
+    # 2. Keyword/Lexical boost (Hybrid retrieval ringan):
+    # Ekstrak token kata kunci penting (> 3 karakter) dari query untuk mencocokkan dokumen eksak
+    # seperti nama proyek spesifik (RatingLy, StitchLab, Proxmox, SvcPanel, Unjani, dll.)
+    raw_tokens = [w.lower().strip("?,.!") for w in query.split() if len(w.strip("?,.!")) >= 3]
+    # Abaikan stop words umum bahasa Indonesia / Inggris
+    stop_words = {"apakah", "bagaimana", "siapa", "dimana", "ceritakan", "tentang", "milik", "rafly", "apew", "yang", "dan", "dari", "untuk", "what", "how", "tell", "about"}
+    keywords = [t for t in raw_tokens if t not in stop_words]
+
+    scored_docs = []
+    seen_texts = set()
+
+    # Ambil semua dokumen yang lolos filter jarak
+    for doc, dist in zip(docs, distances):
+        if max_distance is not None and dist > max_distance:
+            continue
+        # Skor awal: 1.0 - (dist / 2.0)
+        score = 1.0 - (dist / 2.0)
+        doc_lower = doc.lower()
+        for kw in keywords:
+            if kw in doc_lower:
+                score += 0.5  # Boost signifikan jika memuat keyword eksak
+        scored_docs.append((score, doc))
+        seen_texts.add(doc)
+
+    # Jika ada keyword spesifik, cek juga seluruh chunk apakah ada exact match yang terlewat oleh semantik
+    if keywords:
+        all_data = collection.get()
+        all_docs = all_data.get("documents", []) or []
+        for d in all_docs:
+            if d in seen_texts:
+                continue
+            d_lower = d.lower()
+            matches = sum(1 for kw in keywords if kw in d_lower)
+            if matches > 0:
+                score = 0.5 + (0.3 * matches)
+                scored_docs.append((score, d))
+                seen_texts.add(d)
+
+    # Urutkan berdasarkan skor tertinggi (hybrid semantic + exact match)
+    scored_docs.sort(key=lambda x: x[0], reverse=True)
+    final_docs = [doc for _, doc in scored_docs[:k]]
+
+    res["documents"] = [final_docs]
     return res
 
 
